@@ -17,7 +17,6 @@ int main(int argc, char* argv[])
 	int tempInt;
 	int x = 0;
 	int a = 0;
-	//oiu
 
 	XMLRdr XMLDoc("raid.xml");
 
