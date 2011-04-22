@@ -1,0 +1,9 @@
+C:\Users\Adrian\Persona-EPGP\Attendance\bin\Debug\Attendance.exe
+C:\Users\Adrian\Persona-EPGP\Attendance\bin\Debug\Attendance.pdb
+C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.Properties.Resources.resources
+C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.exe
+C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.pdb
+C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.EPGP.resources

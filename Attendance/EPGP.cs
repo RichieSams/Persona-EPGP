@@ -9,11 +9,16 @@ using System.Windows.Forms;
 
 namespace Attendance
 {
-    public partial class Form1 : Form
+    public partial class EPGP : Form
     {
-        public Form1()
+        public EPGP()
         {
             InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
