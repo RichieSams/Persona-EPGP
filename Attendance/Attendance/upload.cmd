@@ -1,1 +1,0 @@
-java -jar "C:\Users\Adrian\Downloads\Test\google-docs-upload-1.4.6.jar" "C:\Users\Adrian\Downloads\Test\filesToBeUploaded" --username adastley@gmail.com --password dogsareawesome --replace-all
