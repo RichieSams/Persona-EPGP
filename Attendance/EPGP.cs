@@ -14,6 +14,7 @@ namespace Attendance
     {
         private String user_id = "persona_admin";
         private String password = "ilike333";
+        private Boolean overlayToggle = false;
 
         public guildManagement()
         {
@@ -47,6 +48,27 @@ namespace Attendance
 
             connection.Close();
 
+        }
+
+        overlay overlayForm = new overlay();
+
+        private void overlayButton_Click(object sender, EventArgs e)
+        {
+            
+            if (!overlayToggle)
+            {
+                if (overlayForm == null)
+                {
+                    //overlay overlayForm = new overlay();
+                }
+                overlayForm.Show();
+                overlayToggle = true;
+            }
+            else
+            {
+                overlayForm.Hide();
+                overlayToggle = false;
+            }
         }
 
     }

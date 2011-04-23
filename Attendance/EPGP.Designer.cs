@@ -35,6 +35,7 @@
             this.fiveEPbutton = new System.Windows.Forms.Button();
             this.EPGPspreadsheet = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.overlayButton = new System.Windows.Forms.Button();
             this.tabArea.SuspendLayout();
             this.EPGPtab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.EPGPspreadsheet)).BeginInit();
@@ -52,6 +53,7 @@
             // 
             // EPGPtab
             // 
+            this.EPGPtab.Controls.Add(this.overlayButton);
             this.EPGPtab.Controls.Add(this.attendanceButton);
             this.EPGPtab.Controls.Add(this.tenEPbutton);
             this.EPGPtab.Controls.Add(this.fiveEPbutton);
@@ -66,7 +68,7 @@
             // 
             // attendanceButton
             // 
-            this.attendanceButton.Location = new System.Drawing.Point(607, 88);
+            this.attendanceButton.Location = new System.Drawing.Point(586, 350);
             this.attendanceButton.Name = "attendanceButton";
             this.attendanceButton.Size = new System.Drawing.Size(97, 33);
             this.attendanceButton.TabIndex = 4;
@@ -75,7 +77,7 @@
             // 
             // tenEPbutton
             // 
-            this.tenEPbutton.Location = new System.Drawing.Point(607, 49);
+            this.tenEPbutton.Location = new System.Drawing.Point(586, 311);
             this.tenEPbutton.Name = "tenEPbutton";
             this.tenEPbutton.Size = new System.Drawing.Size(97, 33);
             this.tenEPbutton.TabIndex = 3;
@@ -84,7 +86,7 @@
             // 
             // fiveEPbutton
             // 
-            this.fiveEPbutton.Location = new System.Drawing.Point(607, 10);
+            this.fiveEPbutton.Location = new System.Drawing.Point(586, 272);
             this.fiveEPbutton.Name = "fiveEPbutton";
             this.fiveEPbutton.Size = new System.Drawing.Size(97, 33);
             this.fiveEPbutton.TabIndex = 2;
@@ -113,6 +115,16 @@
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // overlayButton
+            // 
+            this.overlayButton.Location = new System.Drawing.Point(549, 25);
+            this.overlayButton.Name = "overlayButton";
+            this.overlayButton.Size = new System.Drawing.Size(167, 81);
+            this.overlayButton.TabIndex = 5;
+            this.overlayButton.Text = "Toggle Overlay";
+            this.overlayButton.UseVisualStyleBackColor = true;
+            this.overlayButton.Click += new System.EventHandler(this.overlayButton_Click);
+            // 
             // guildManagement
             // 
             this.AllowDrop = true;
@@ -139,6 +151,7 @@
         private System.Windows.Forms.Button fiveEPbutton;
         private System.Windows.Forms.DataGridView EPGPspreadsheet;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Button overlayButton;
 
     }
 }
