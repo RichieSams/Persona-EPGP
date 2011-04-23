@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace Attendance
 {
-    public partial class EPGP : Form
+    public partial class guildManagement : Form
     {
-        public EPGP()
+        public guildManagement()
         {
             InitializeComponent();
         }

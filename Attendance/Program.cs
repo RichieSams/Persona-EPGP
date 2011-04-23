@@ -15,7 +15,7 @@ namespace Attendance
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new EPGP());
+            Application.Run(new guildManagement());
         }
     }
 }

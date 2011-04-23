@@ -6,4 +6,4 @@ C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\GenerateResource.read.1.tl
 C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.exe
 C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.pdb
-C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.EPGP.resources
+C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.guildManagement.resources
