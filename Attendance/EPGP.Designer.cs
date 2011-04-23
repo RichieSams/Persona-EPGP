@@ -94,10 +94,12 @@
             // 
             // EPGPspreadsheet
             // 
+            this.EPGPspreadsheet.AllowUserToAddRows = false;
             this.EPGPspreadsheet.AllowUserToOrderColumns = true;
             this.EPGPspreadsheet.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.EPGPspreadsheet.Location = new System.Drawing.Point(8, 10);
             this.EPGPspreadsheet.Name = "EPGPspreadsheet";
+            this.EPGPspreadsheet.RowHeadersVisible = false;
             this.EPGPspreadsheet.Size = new System.Drawing.Size(489, 573);
             this.EPGPspreadsheet.TabIndex = 1;
             // 
