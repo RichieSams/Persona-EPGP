@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 namespace Attendance
 {
@@ -16,8 +17,7 @@ namespace Attendance
             InitializeComponent();
         }
 
-        System.Data.SqlClient.SqlConnection con;
-        DataSet ds1;
+        
 
         private void fiveEPbutton_Click(object sender, EventArgs e)
         {
@@ -26,16 +26,14 @@ namespace Attendance
 
         private void guildManagement_Load(object sender, EventArgs e)
         {
-            con = new System.Data.SqlClient.SqlConnection();
-            ds1 = new DataSet();
-            con.ConnectionString = " ";  //need to find what to use for the connection string
+            string MyConString = "server=personaguild.com; User Id=persona_admin; database=persona_EPGP; Password=ilike333";
+            MySqlConnection connection = new MySqlConnection(MyConString);
+            MySqlCommand command = connection.CreateCommand();
+            MySqlDataReader Reader;
 
-            con.Open();
-
-
-            con.Close();
-
-
+            connection.Open();
+           
+            connection.Close();
         }
     }
 }
