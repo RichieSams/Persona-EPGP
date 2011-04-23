@@ -28,7 +28,7 @@ namespace Attendance
         {
             con = new System.Data.SqlClient.SqlConnection();
             ds1 = new DataSet();
-            con.ConnectionString = " ";
+            con.ConnectionString = " ";  //need to find what to use for the connection string
 
             con.Open();
 
