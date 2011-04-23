@@ -32,14 +32,14 @@
             this.EPGPtab = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.EPGPspreadsheet = new System.Windows.Forms.DataGridView();
+            this.fiveEPbutton = new System.Windows.Forms.Button();
+            this.tenEPbutton = new System.Windows.Forms.Button();
+            this.attendanceButton = new System.Windows.Forms.Button();
             this.name_column = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EP_column = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GP_column = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PR_column = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.present_column = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fiveEPbutton = new System.Windows.Forms.Button();
-            this.tenEPbutton = new System.Windows.Forms.Button();
-            this.attendanceButton = new System.Windows.Forms.Button();
             this.tabArea.SuspendLayout();
             this.EPGPtab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.EPGPspreadsheet)).BeginInit();
@@ -89,45 +89,14 @@
             this.GP_column,
             this.PR_column,
             this.present_column});
-            this.EPGPspreadsheet.Location = new System.Drawing.Point(35, 8);
+            this.EPGPspreadsheet.Location = new System.Drawing.Point(69, 10);
             this.EPGPspreadsheet.Name = "EPGPspreadsheet";
-            this.EPGPspreadsheet.Size = new System.Drawing.Size(543, 573);
+            this.EPGPspreadsheet.Size = new System.Drawing.Size(489, 573);
             this.EPGPspreadsheet.TabIndex = 1;
-            // 
-            // name_column
-            // 
-            this.name_column.HeaderText = "Name";
-            this.name_column.Name = "name_column";
-            this.name_column.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.name_column.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            // 
-            // EP_column
-            // 
-            this.EP_column.HeaderText = "EP";
-            this.EP_column.Name = "EP_column";
-            this.EP_column.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            // 
-            // GP_column
-            // 
-            this.GP_column.HeaderText = "GP";
-            this.GP_column.Name = "GP_column";
-            this.GP_column.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            // 
-            // PR_column
-            // 
-            this.PR_column.HeaderText = "PR";
-            this.PR_column.Name = "PR_column";
-            this.PR_column.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            // 
-            // present_column
-            // 
-            this.present_column.HeaderText = "Present";
-            this.present_column.Name = "present_column";
-            this.present_column.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             // 
             // fiveEPbutton
             // 
-            this.fiveEPbutton.Location = new System.Drawing.Point(618, 8);
+            this.fiveEPbutton.Location = new System.Drawing.Point(607, 10);
             this.fiveEPbutton.Name = "fiveEPbutton";
             this.fiveEPbutton.Size = new System.Drawing.Size(97, 33);
             this.fiveEPbutton.TabIndex = 2;
@@ -136,7 +105,7 @@
             // 
             // tenEPbutton
             // 
-            this.tenEPbutton.Location = new System.Drawing.Point(618, 47);
+            this.tenEPbutton.Location = new System.Drawing.Point(607, 49);
             this.tenEPbutton.Name = "tenEPbutton";
             this.tenEPbutton.Size = new System.Drawing.Size(97, 33);
             this.tenEPbutton.TabIndex = 3;
@@ -145,12 +114,47 @@
             // 
             // attendanceButton
             // 
-            this.attendanceButton.Location = new System.Drawing.Point(618, 86);
+            this.attendanceButton.Location = new System.Drawing.Point(607, 88);
             this.attendanceButton.Name = "attendanceButton";
             this.attendanceButton.Size = new System.Drawing.Size(97, 33);
             this.attendanceButton.TabIndex = 4;
             this.attendanceButton.Text = "Attendance";
             this.attendanceButton.UseVisualStyleBackColor = true;
+            // 
+            // name_column
+            // 
+            this.name_column.HeaderText = "Name";
+            this.name_column.Name = "name_column";
+            this.name_column.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.name_column.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.name_column.Width = 120;
+            // 
+            // EP_column
+            // 
+            this.EP_column.HeaderText = "EP";
+            this.EP_column.Name = "EP_column";
+            this.EP_column.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.EP_column.Width = 75;
+            // 
+            // GP_column
+            // 
+            this.GP_column.HeaderText = "GP";
+            this.GP_column.Name = "GP_column";
+            this.GP_column.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.GP_column.Width = 75;
+            // 
+            // PR_column
+            // 
+            this.PR_column.HeaderText = "PR";
+            this.PR_column.Name = "PR_column";
+            this.PR_column.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.PR_column.Width = 75;
+            // 
+            // present_column
+            // 
+            this.present_column.HeaderText = "Present";
+            this.present_column.Name = "present_column";
+            this.present_column.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             // 
             // guildManagement
             // 
@@ -177,12 +181,12 @@
         private System.Windows.Forms.Button tenEPbutton;
         private System.Windows.Forms.Button fiveEPbutton;
         private System.Windows.Forms.DataGridView EPGPspreadsheet;
+        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.DataGridViewTextBoxColumn name_column;
         private System.Windows.Forms.DataGridViewTextBoxColumn EP_column;
         private System.Windows.Forms.DataGridViewTextBoxColumn GP_column;
         private System.Windows.Forms.DataGridViewTextBoxColumn PR_column;
         private System.Windows.Forms.DataGridViewTextBoxColumn present_column;
-        private System.Windows.Forms.TabPage tabPage2;
 
     }
 }
