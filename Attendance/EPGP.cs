@@ -16,8 +16,25 @@ namespace Attendance
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        System.Data.SqlClient.SqlConnection con;
+        DataSet ds1;
+
+        private void fiveEPbutton_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void guildManagement_Load(object sender, EventArgs e)
+        {
+            con = new System.Data.SqlClient.SqlConnection();
+            ds1 = new DataSet();
+            con.ConnectionString = " ";
+
+            con.Open();
+
+
+            con.Close();
+
 
         }
     }
