@@ -42,6 +42,7 @@ namespace Attendance
             adapter.Fill(table);
             BindingSource bs = new BindingSource();
             bs.DataSource = table;
+            table.Columns.Add("Present?", typeof(Boolean));
             this.EPGPspreadsheet.DataSource = bs;
 
             connection.Close();
