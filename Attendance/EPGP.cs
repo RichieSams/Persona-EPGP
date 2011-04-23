@@ -15,13 +15,17 @@ namespace Attendance
         private String user_id = "persona_admin";
         private String password = "ilike333";
         private Boolean overlayToggle = false;
+        private Boolean overlayBorder = true;
+
+        protected override bool ShowWithoutActivation
+        {
+            get { return true; }
+        }
 
         public guildManagement()
         {
             InitializeComponent();
         }
-
-        
 
         private void fiveEPbutton_Click(object sender, EventArgs e)
         {
@@ -57,10 +61,6 @@ namespace Attendance
             
             if (!overlayToggle)
             {
-                if (overlayForm == null)
-                {
-                    //overlay overlayForm = new overlay();
-                }
                 overlayForm.Show();
                 overlayToggle = true;
             }
@@ -70,6 +70,26 @@ namespace Attendance
                 overlayToggle = false;
             }
         }
+
+
+        private void overlayButton_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (overlayBorder)
+                {
+                    overlayForm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+                    overlayBorder = false;
+                }
+                else
+                {
+                    overlayForm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+                    overlayBorder = true;
+                }
+            }
+
+        }
+
 
     }
 }

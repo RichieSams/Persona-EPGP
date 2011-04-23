@@ -125,6 +125,8 @@
             this.overlayButton.Text = "Toggle Overlay";
             this.overlayButton.UseVisualStyleBackColor = true;
             this.overlayButton.Click += new System.EventHandler(this.overlayButton_Click);
+            this.overlayButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.overlayButton_MouseUp);
+
             // 
             // guildManagement
             // 

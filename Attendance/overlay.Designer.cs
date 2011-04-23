@@ -35,17 +35,19 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(275, 210);
+            this.ClientSize = new System.Drawing.Size(284, 184);
+            this.ControlBox = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            //this.FormBorderStyle = FormBorderStyle.None;  //This wont work for some reason.
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(300, 200);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(300, 200);
             this.Name = "overlay";
             this.ShowInTaskbar = false;
-            this.Text = "overlay";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.TopMost = true;
             this.ResumeLayout(false);
-
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
         }
 
         #endregion
