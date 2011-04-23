@@ -34,11 +34,6 @@
             this.tenEPbutton = new System.Windows.Forms.Button();
             this.fiveEPbutton = new System.Windows.Forms.Button();
             this.EPGPspreadsheet = new System.Windows.Forms.DataGridView();
-            this.name_column = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EP_column = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GP_column = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PR_column = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.present_column = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabArea.SuspendLayout();
             this.EPGPtab.SuspendLayout();
@@ -101,51 +96,10 @@
             // 
             this.EPGPspreadsheet.AllowUserToOrderColumns = true;
             this.EPGPspreadsheet.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.EPGPspreadsheet.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.name_column,
-            this.EP_column,
-            this.GP_column,
-            this.PR_column,
-            this.present_column});
-            this.EPGPspreadsheet.Location = new System.Drawing.Point(69, 10);
+            this.EPGPspreadsheet.Location = new System.Drawing.Point(8, 10);
             this.EPGPspreadsheet.Name = "EPGPspreadsheet";
             this.EPGPspreadsheet.Size = new System.Drawing.Size(489, 573);
             this.EPGPspreadsheet.TabIndex = 1;
-            // 
-            // name_column
-            // 
-            this.name_column.HeaderText = "Name";
-            this.name_column.Name = "name_column";
-            this.name_column.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.name_column.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.name_column.Width = 120;
-            // 
-            // EP_column
-            // 
-            this.EP_column.HeaderText = "EP";
-            this.EP_column.Name = "EP_column";
-            this.EP_column.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.EP_column.Width = 75;
-            // 
-            // GP_column
-            // 
-            this.GP_column.HeaderText = "GP";
-            this.GP_column.Name = "GP_column";
-            this.GP_column.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.GP_column.Width = 75;
-            // 
-            // PR_column
-            // 
-            this.PR_column.HeaderText = "PR";
-            this.PR_column.Name = "PR_column";
-            this.PR_column.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.PR_column.Width = 75;
-            // 
-            // present_column
-            // 
-            this.present_column.HeaderText = "Present";
-            this.present_column.Name = "present_column";
-            this.present_column.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             // 
             // tabPage2
             // 
@@ -183,11 +137,6 @@
         private System.Windows.Forms.Button fiveEPbutton;
         private System.Windows.Forms.DataGridView EPGPspreadsheet;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn name_column;
-        private System.Windows.Forms.DataGridViewTextBoxColumn EP_column;
-        private System.Windows.Forms.DataGridViewTextBoxColumn GP_column;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PR_column;
-        private System.Windows.Forms.DataGridViewTextBoxColumn present_column;
 
     }
 }

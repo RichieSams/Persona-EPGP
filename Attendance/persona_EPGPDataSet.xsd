@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="persona_EPGPDataSet" targetNamespace="http://tempuri.org/persona_EPGPDataSet.xsd" xmlns:mstns="http://tempuri.org/persona_EPGPDataSet.xsd" xmlns="http://tempuri.org/persona_EPGPDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="persona_EPGPConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="persona_EPGPConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Attendance.Properties.Settings.GlobalReference.Default.persona_EPGPConnectionString" Provider="MySql.Data.MySqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="EPGPTableAdapter" GeneratorDataComponentClassName="EPGPTableAdapter" Name="EPGP" UserDataComponentName="EPGPTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="persona_EPGPConnectionString (Settings)" DbObjectName="persona_EPGP.EPGP" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT `name`, `ep`, `gp` FROM `EPGP`</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="name" DataSetColumn="name" />
+              <Mapping SourceColumn="ep" DataSetColumn="ep" />
+              <Mapping SourceColumn="gp" DataSetColumn="gp" />
+            </Mappings>
+            <Sources>
+              <DbSource ConnectionRef="persona_EPGPConnectionString (Settings)" DbObjectName="persona_EPGP.EPGP" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillBy" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillBy" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="FillBy">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT `name`, `ep`, `gp` FROM `EPGP`</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </Sources>
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="persona_EPGPDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="persona_EPGPDataSet" msprop:Generator_UserDSName="persona_EPGPDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="EPGP" msprop:Generator_TableClassName="EPGPDataTable" msprop:Generator_TableVarName="tableEPGP" msprop:Generator_TablePropName="EPGP" msprop:Generator_RowDeletingName="EPGPRowDeleting" msprop:Generator_UserTableName="EPGP" msprop:Generator_RowChangingName="EPGPRowChanging" msprop:Generator_RowEvHandlerName="EPGPRowChangeEventHandler" msprop:Generator_RowDeletedName="EPGPRowDeleted" msprop:Generator_RowEvArgName="EPGPRowChangeEvent" msprop:Generator_RowChangedName="EPGPRowChanged" msprop:Generator_RowClassName="EPGPRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="name" msprop:Generator_ColumnVarNameInTable="columnname" msprop:Generator_ColumnPropNameInRow="name" msprop:Generator_ColumnPropNameInTable="nameColumn" msprop:Generator_UserColumnName="name">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ep" msprop:Generator_ColumnVarNameInTable="columnep" msprop:Generator_ColumnPropNameInRow="ep" msprop:Generator_ColumnPropNameInTable="epColumn" msprop:Generator_UserColumnName="ep" type="xs:double" />
+              <xs:element name="gp" msprop:Generator_ColumnVarNameInTable="columngp" msprop:Generator_ColumnPropNameInRow="gp" msprop:Generator_ColumnPropNameInTable="gpColumn" msprop:Generator_UserColumnName="gp" type="xs:double" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1">
+      <xs:selector xpath=".//mstns:EPGP" />
+      <xs:field xpath="mstns:name" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

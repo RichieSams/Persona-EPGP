@@ -12,6 +12,9 @@ namespace Attendance
 {
     public partial class guildManagement : Form
     {
+        private String user_id = "persona_admin";
+        private String password = "ilike333";
+
         public guildManagement()
         {
             InitializeComponent();
@@ -26,14 +29,24 @@ namespace Attendance
 
         private void guildManagement_Load(object sender, EventArgs e)
         {
-            string MyConString = "server=personaguild.com; User Id=persona_admin; database=persona_EPGP; Password=ilike333";
+            string MyConString = "server=personaguild.com; User Id="+user_id+"; database=persona_EPGP; Password="+password;
             MySqlConnection connection = new MySqlConnection(MyConString);
             MySqlCommand command = connection.CreateCommand();
-            MySqlDataReader Reader;
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
 
             connection.Open();
-           
+
+            command.CommandText = "select * from EPGP";
+            adapter.SelectCommand = command;
+            DataTable table = new DataTable();
+            adapter.Fill(table);
+            BindingSource bs = new BindingSource();
+            bs.DataSource = table;
+            this.EPGPspreadsheet.DataSource = bs;
+
             connection.Close();
+
         }
+
     }
 }

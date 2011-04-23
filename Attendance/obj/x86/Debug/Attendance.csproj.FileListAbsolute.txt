@@ -7,3 +7,12 @@ C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\GenerateResource.write.1.t
 C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.exe
 C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.pdb
 C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.guildManagement.resources
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.exe
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.pdb
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\bin\Debug\Attendance.exe
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\bin\Debug\Attendance.pdb
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.guildManagement.resources
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.Properties.Resources.resources
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\obj\x86\Debug\GenerateResource.write.1.tlog
