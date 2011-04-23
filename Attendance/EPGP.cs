@@ -36,7 +36,7 @@ namespace Attendance
 
             connection.Open();
 
-            command.CommandText = "select * from EPGP";
+            command.CommandText = "select name as Name, ep as EP, gp as GP, ep/gp as PR from EPGP Order by PR desc";
             adapter.SelectCommand = command;
             DataTable table = new DataTable();
             adapter.Fill(table);
