@@ -31,6 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(guildManagement));
             this.tabArea = new System.Windows.Forms.TabControl();
             this.mainTab = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lbl_GPminTitle = new System.Windows.Forms.Label();
+            this.lbl_decayValue = new System.Windows.Forms.Label();
             this.lbl_decayTitle = new System.Windows.Forms.Label();
             this.lbl_EPgainsValues = new System.Windows.Forms.Label();
             this.lbl_EPgainsNames = new System.Windows.Forms.Label();
@@ -48,9 +51,6 @@
             this.lbl_pass = new System.Windows.Forms.Label();
             this.lbl_name = new System.Windows.Forms.Label();
             this.loginButton = new System.Windows.Forms.Button();
-            this.lbl_decayValue = new System.Windows.Forms.Label();
-            this.lbl_GPminTitle = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.tabArea.SuspendLayout();
             this.mainTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.EPGPspreadsheet)).BeginInit();
@@ -90,15 +90,42 @@
             this.mainTab.Text = "Main";
             this.mainTab.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(665, 350);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(31, 13);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "5 GP";
+            // 
+            // lbl_GPminTitle
+            // 
+            this.lbl_GPminTitle.AutoSize = true;
+            this.lbl_GPminTitle.Location = new System.Drawing.Point(646, 333);
+            this.lbl_GPminTitle.Name = "lbl_GPminTitle";
+            this.lbl_GPminTitle.Size = new System.Drawing.Size(69, 13);
+            this.lbl_GPminTitle.TabIndex = 14;
+            this.lbl_GPminTitle.Text = "GP Minimum:";
+            // 
+            // lbl_decayValue
+            // 
+            this.lbl_decayValue.AutoSize = true;
+            this.lbl_decayValue.Location = new System.Drawing.Point(525, 350);
+            this.lbl_decayValue.Name = "lbl_decayValue";
+            this.lbl_decayValue.Size = new System.Drawing.Size(94, 13);
+            this.lbl_decayValue.TabIndex = 13;
+            this.lbl_decayValue.Text = "7% every Tuesday";
+            // 
             // lbl_decayTitle
-            //
+            // 
             this.lbl_decayTitle.AutoSize = true;
+            this.lbl_decayTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_decayTitle.Location = new System.Drawing.Point(533, 333);
             this.lbl_decayTitle.Name = "lbl_decayTitle";
-            this.lbl_decayTitle.Size = new System.Drawing.Size(78, 13);
+            this.lbl_decayTitle.Size = new System.Drawing.Size(90, 13);
             this.lbl_decayTitle.TabIndex = 12;
             this.lbl_decayTitle.Text = "EP/GP Decay:";
-            this.lbl_decayTitle.Font boldFont = new Font(lbl_decayTitle.Font, FontStyle.Bold);////////////////////////////////////////////////////////////
             // 
             // lbl_EPgainsValues
             // 
@@ -249,33 +276,6 @@
             this.loginButton.TabIndex = 3;
             this.loginButton.Text = "Login";
             this.loginButton.UseVisualStyleBackColor = true;
-            // 
-            // lbl_decayValue
-            // 
-            this.lbl_decayValue.AutoSize = true;
-            this.lbl_decayValue.Location = new System.Drawing.Point(525, 350);
-            this.lbl_decayValue.Name = "lbl_decayValue";
-            this.lbl_decayValue.Size = new System.Drawing.Size(94, 13);
-            this.lbl_decayValue.TabIndex = 13;
-            this.lbl_decayValue.Text = "7% every Tuesday";
-            // 
-            // lbl_GPminTitle
-            // 
-            this.lbl_GPminTitle.AutoSize = true;
-            this.lbl_GPminTitle.Location = new System.Drawing.Point(646, 333);
-            this.lbl_GPminTitle.Name = "lbl_GPminTitle";
-            this.lbl_GPminTitle.Size = new System.Drawing.Size(69, 13);
-            this.lbl_GPminTitle.TabIndex = 14;
-            this.lbl_GPminTitle.Text = "GP Minimum:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(665, 350);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(31, 13);
-            this.label1.TabIndex = 15;
-            this.label1.Text = "5 GP";
             // 
             // guildManagement
             // 
