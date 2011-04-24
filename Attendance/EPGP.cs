@@ -47,7 +47,7 @@ namespace Attendance
 
             connection.Open();
 
-            command.CommandText = "select name as Name, ep as EP, gp as GP, ep/gp as PR, present as Present, standby as Standby from EPGP Order by Present DESC, Standby DESC, PR DESC";
+            command.CommandText = "SELECT name as Name, ep as EP, gp as GP, ep/gp as PR, present as Present, standby as Standby FROM EPGP ORDER BY Present DESC, Standby DESC, PR DESC";
             adapter.SelectCommand = command;
             DataTable table = new DataTable();
             adapter.Fill(table);
@@ -64,36 +64,54 @@ namespace Attendance
             EPGPspreadsheet.Columns["Name"].ReadOnly = true;
             EPGPspreadsheet.Columns["PR"].ReadOnly = true;
             table.ColumnChanged += Column_Changed;
+            
         }
 
-        private static void Column_Changed(object sender, DataColumnChangeEventArgs e)
+        private void Column_Changed(object sender, DataColumnChangeEventArgs e)
         {
-            #region UI Change
             // Get Name
             String name = (String)e.Row["Name"];
             // Check to see which column is being changed
             if (e.Column.ColumnName.Equals("EP") || e.Column.ColumnName.Equals("GP"))
             {
+                DataTable table = e.Column.Table;
+                table.ColumnChanged -= Column_Changed;
                 e.Row["PR"] = (Double)e.Row["EP"] / (Double)e.Row["GP"];
+                resortTable(e.Column.Table);
             }
-            if (e.Column.ColumnName.Equals("Present"))
+            else if (e.Column.ColumnName.Equals("Present"))
             {
+                DataTable table = e.Column.Table;
+                table.ColumnChanged -= Column_Changed;
                 if ((Boolean)e.Row["Present"] == true)
                 {
                     if ((Boolean)e.Row["Present"] == true) e.Row["Standby"] = false;
                 }
+                resortTable(e.Column.Table);
             }
-            if (e.Column.ColumnName.Equals("Standby"))
+            else if (e.Column.ColumnName.Equals("Standby"))
             {
+                DataTable table = e.Column.Table;
+                table.ColumnChanged -= Column_Changed;
                 if ((Boolean)e.Row["Standby"] == true)
                 {
                     if ((Boolean)e.Row["Standby"] == true) e.Row["Present"] = false;
                 }
+                resortTable(e.Column.Table);
             }
-            #endregion
-            #region SQL Change
+        }
 
-            #endregion
+        private void resortTable(DataTable dt)
+        {
+            DataTable table = new DataTable();
+            DataRow[] data = (from r in dt.AsEnumerable()
+                              orderby r["Present"] descending, r["Standby"] descending, r["PR"] descending
+                              select r).ToArray();
+            table = data.CopyToDataTable();
+            BindingSource bs = new BindingSource();
+            bs.DataSource = table;
+            this.EPGPspreadsheet.DataSource = bs;
+            table.ColumnChanged += Column_Changed;
         }
 
         overlay overlayForm = new overlay();
