@@ -17,3 +17,4 @@ C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\obj
 C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.overlay.resources
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.overlay.resources
