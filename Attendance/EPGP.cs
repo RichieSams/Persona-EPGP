@@ -48,6 +48,7 @@ namespace Attendance
             BindingSource bs = new BindingSource();
             bs.DataSource = table;
             this.EPGPspreadsheet.DataSource = bs;
+            EPGPspreadsheet.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             connection.Close();
 
