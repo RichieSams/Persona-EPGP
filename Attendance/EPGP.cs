@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -64,6 +64,7 @@ namespace Attendance
             EPGPspreadsheet.Columns["Name"].ReadOnly = true;
             EPGPspreadsheet.Columns["PR"].ReadOnly = true;
             table.ColumnChanged += Column_Changed;
+            
         }
 
         private void Column_Changed(object sender, DataColumnChangeEventArgs e)
@@ -73,35 +74,27 @@ namespace Attendance
             // Check to see which column is being changed
             if (e.Column.ColumnName.Equals("EP") || e.Column.ColumnName.Equals("GP"))
             {
-                // EP or GP was changed so we have to update PR
                 DataTable table = e.Column.Table;
-                // Remove the event since we are going to make a change and we don't want that change triggering the event again
                 table.ColumnChanged -= Column_Changed;
                 e.Row["PR"] = (Double)e.Row["EP"] / (Double)e.Row["GP"];
                 resortTable(e.Column.Table);
             }
             else if (e.Column.ColumnName.Equals("Present"))
             {
-                // Present was changed
                 DataTable table = e.Column.Table;
-                // Remove the event since we are going to make a change and we don't want that change triggering the event again
                 table.ColumnChanged -= Column_Changed;
                 if ((Boolean)e.Row["Present"] == true)
                 {
-                    // Present was checked so make sure standby is false
                     if ((Boolean)e.Row["Present"] == true) e.Row["Standby"] = false;
                 }
                 resortTable(e.Column.Table);
             }
             else if (e.Column.ColumnName.Equals("Standby"))
             {
-                // Standby was changed
                 DataTable table = e.Column.Table;
-                // Remove the event since we are going to make a change and we don't want that change triggering the event again
                 table.ColumnChanged -= Column_Changed;
                 if ((Boolean)e.Row["Standby"] == true)
                 {
-                    // Standby was checked so make sure present is false 
                     if ((Boolean)e.Row["Standby"] == true) e.Row["Present"] = false;
                 }
                 resortTable(e.Column.Table);
@@ -118,7 +111,6 @@ namespace Attendance
             BindingSource bs = new BindingSource();
             bs.DataSource = table;
             this.EPGPspreadsheet.DataSource = bs;
-            // Add the ColumnChange event to the new DataTable
             table.ColumnChanged += Column_Changed;
         }
 
@@ -139,7 +131,6 @@ namespace Attendance
             }
             this.Focus();
         }
-
 
         private void overlayButton_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
@@ -187,17 +178,14 @@ namespace Attendance
                 {
                     if (reader.Name == "Name")
                     {
-                        // We know next element is going to be the actual name
-                        this.lbl_test.Text = reader.Value;
-                        raidArray[tempInt] = reader.Value;
-                        tempInt++;
+                        if (reader.Read())
+                        {
+                            this.lbl_test.Text = reader.Value;
+                            raidArray[tempInt] = reader.Value;
+                        }
                     }
                 }
             }
-            //for (int i = 0; i < tempInt; i++)
-            //{
-                //this.lbl_test.Text = "Hi";
-            //}
         }
     }
 }
