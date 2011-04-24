@@ -91,6 +91,21 @@ namespace Attendance
 
         }
 
+        private void loginName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                loginFunction();
+            }
+        }
+
+
+
+
+        private void loginFunction()
+        {
+
+        }
 
     }
 }
