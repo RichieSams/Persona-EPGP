@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(guildManagement));
             this.tabArea = new System.Windows.Forms.TabControl();
             this.mainTab = new System.Windows.Forms.TabPage();
-            this.lbl_test = new System.Windows.Forms.Label();
             this.lbl_GPminValue = new System.Windows.Forms.Label();
             this.lbl_GPminTitle = new System.Windows.Forms.Label();
             this.lbl_decayValue = new System.Windows.Forms.Label();
@@ -68,7 +67,6 @@
             // 
             // mainTab
             // 
-            this.mainTab.Controls.Add(this.lbl_test);
             this.mainTab.Controls.Add(this.lbl_GPminValue);
             this.mainTab.Controls.Add(this.lbl_GPminTitle);
             this.mainTab.Controls.Add(this.lbl_decayValue);
@@ -91,14 +89,6 @@
             this.mainTab.TabIndex = 0;
             this.mainTab.Text = "Main";
             this.mainTab.UseVisualStyleBackColor = true;
-            // 
-            // lbl_test
-            // 
-            this.lbl_test.AutoSize = true;
-            this.lbl_test.Location = new System.Drawing.Point(567, 384);
-            this.lbl_test.Name = "lbl_test";
-            this.lbl_test.Size = new System.Drawing.Size(0, 13);
-            this.lbl_test.TabIndex = 16;
             // 
             // lbl_GPminValue
             // 
@@ -340,7 +330,6 @@
         private System.Windows.Forms.Label lbl_GPminValue;
         private System.Windows.Forms.Label lbl_GPminTitle;
         private System.Windows.Forms.Label lbl_decayValue;
-        private System.Windows.Forms.Label lbl_test;
 
     }
 }

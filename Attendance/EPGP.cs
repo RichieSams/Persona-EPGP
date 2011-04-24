@@ -180,12 +180,12 @@ namespace Attendance
                     {
                         if (reader.Read())
                         {
-                            this.lbl_test.Text = reader.Value;
-                            raidArray[tempInt] = reader.Value;
+                            raidArray[tempInt++] = reader.Value;
                         }
                     }
                 }
             }
         }
     }
+
 }
