@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using System.Xml;
 
 namespace Attendance
 {
@@ -148,6 +149,28 @@ namespace Attendance
 
         }
 
+        private void attendanceButton_Click(object sender, EventArgs e)
+        {
+            string[] raidArray = new string[20];
+            XmlTextReader reader = new XmlTextReader("raid.xml");
+            int tempInt = 0;
 
+            while (reader.Read())
+            {
+                if (reader.NodeType == XmlNodeType.Element)
+                {
+                    if (reader.Name == "Name")
+                    {
+                        this.lbl_test.Text = reader.Value;
+                        raidArray[tempInt] = reader.Value;
+                        tempInt++;
+                    }
+                }
+            }
+            //for (int i = 0; i < tempInt; i++)
+            //{
+                //this.lbl_test.Text = "Hi";
+            //}
+        }
     }
 }

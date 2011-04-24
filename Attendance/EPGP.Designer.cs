@@ -31,7 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(guildManagement));
             this.tabArea = new System.Windows.Forms.TabControl();
             this.mainTab = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbl_test = new System.Windows.Forms.Label();
+            this.lbl_GPminValue = new System.Windows.Forms.Label();
             this.lbl_GPminTitle = new System.Windows.Forms.Label();
             this.lbl_decayValue = new System.Windows.Forms.Label();
             this.lbl_decayTitle = new System.Windows.Forms.Label();
@@ -67,7 +68,8 @@
             // 
             // mainTab
             // 
-            this.mainTab.Controls.Add(this.label1);
+            this.mainTab.Controls.Add(this.lbl_test);
+            this.mainTab.Controls.Add(this.lbl_GPminValue);
             this.mainTab.Controls.Add(this.lbl_GPminTitle);
             this.mainTab.Controls.Add(this.lbl_decayValue);
             this.mainTab.Controls.Add(this.lbl_decayTitle);
@@ -90,28 +92,37 @@
             this.mainTab.Text = "Main";
             this.mainTab.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // lbl_test
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(665, 350);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(31, 13);
-            this.label1.TabIndex = 15;
-            this.label1.Text = "5 GP";
+            this.lbl_test.AutoSize = true;
+            this.lbl_test.Location = new System.Drawing.Point(567, 384);
+            this.lbl_test.Name = "lbl_test";
+            this.lbl_test.Size = new System.Drawing.Size(0, 13);
+            this.lbl_test.TabIndex = 16;
+            // 
+            // lbl_GPminValue
+            // 
+            this.lbl_GPminValue.AutoSize = true;
+            this.lbl_GPminValue.Location = new System.Drawing.Point(665, 349);
+            this.lbl_GPminValue.Name = "lbl_GPminValue";
+            this.lbl_GPminValue.Size = new System.Drawing.Size(31, 13);
+            this.lbl_GPminValue.TabIndex = 15;
+            this.lbl_GPminValue.Text = "5 GP";
             // 
             // lbl_GPminTitle
             // 
             this.lbl_GPminTitle.AutoSize = true;
-            this.lbl_GPminTitle.Location = new System.Drawing.Point(646, 333);
+            this.lbl_GPminTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_GPminTitle.Location = new System.Drawing.Point(646, 332);
             this.lbl_GPminTitle.Name = "lbl_GPminTitle";
-            this.lbl_GPminTitle.Size = new System.Drawing.Size(69, 13);
+            this.lbl_GPminTitle.Size = new System.Drawing.Size(80, 13);
             this.lbl_GPminTitle.TabIndex = 14;
             this.lbl_GPminTitle.Text = "GP Minimum:";
             // 
             // lbl_decayValue
             // 
             this.lbl_decayValue.AutoSize = true;
-            this.lbl_decayValue.Location = new System.Drawing.Point(525, 350);
+            this.lbl_decayValue.Location = new System.Drawing.Point(525, 349);
             this.lbl_decayValue.Name = "lbl_decayValue";
             this.lbl_decayValue.Size = new System.Drawing.Size(94, 13);
             this.lbl_decayValue.TabIndex = 13;
@@ -121,7 +132,7 @@
             // 
             this.lbl_decayTitle.AutoSize = true;
             this.lbl_decayTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_decayTitle.Location = new System.Drawing.Point(533, 333);
+            this.lbl_decayTitle.Location = new System.Drawing.Point(533, 332);
             this.lbl_decayTitle.Name = "lbl_decayTitle";
             this.lbl_decayTitle.Size = new System.Drawing.Size(90, 13);
             this.lbl_decayTitle.TabIndex = 12;
@@ -148,9 +159,10 @@
             // lbl_EPgainsTitle
             // 
             this.lbl_EPgainsTitle.AutoSize = true;
+            this.lbl_EPgainsTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_EPgainsTitle.Location = new System.Drawing.Point(597, 235);
             this.lbl_EPgainsTitle.Name = "lbl_EPgainsTitle";
-            this.lbl_EPgainsTitle.Size = new System.Drawing.Size(54, 13);
+            this.lbl_EPgainsTitle.Size = new System.Drawing.Size(63, 13);
             this.lbl_EPgainsTitle.TabIndex = 9;
             this.lbl_EPgainsTitle.Text = "EP Gains:";
             // 
@@ -176,9 +188,10 @@
             // lbl_itemCostTitle
             // 
             this.lbl_itemCostTitle.AutoSize = true;
+            this.lbl_itemCostTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_itemCostTitle.Location = new System.Drawing.Point(595, 67);
             this.lbl_itemCostTitle.Name = "lbl_itemCostTitle";
-            this.lbl_itemCostTitle.Size = new System.Drawing.Size(59, 13);
+            this.lbl_itemCostTitle.Size = new System.Drawing.Size(70, 13);
             this.lbl_itemCostTitle.TabIndex = 6;
             this.lbl_itemCostTitle.Text = "Item Costs:";
             // 
@@ -201,6 +214,7 @@
             this.attendanceButton.TabIndex = 6;
             this.attendanceButton.Text = "Attendance";
             this.attendanceButton.UseVisualStyleBackColor = true;
+            this.attendanceButton.Click += new System.EventHandler(this.attendanceButton_Click);
             // 
             // tenEPbutton
             // 
@@ -323,9 +337,10 @@
         private System.Windows.Forms.Label lbl_EPgainsTitle;
         private System.Windows.Forms.Label lbl_decayTitle;
         private System.Windows.Forms.Label lbl_EPgainsValues;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbl_GPminValue;
         private System.Windows.Forms.Label lbl_GPminTitle;
         private System.Windows.Forms.Label lbl_decayValue;
+        private System.Windows.Forms.Label lbl_test;
 
     }
 }
