@@ -51,6 +51,8 @@
             this.lbl_pass = new System.Windows.Forms.Label();
             this.lbl_name = new System.Windows.Forms.Label();
             this.loginButton = new System.Windows.Forms.Button();
+            this.lbl_leftClickText = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.tabArea.SuspendLayout();
             this.mainTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.EPGPspreadsheet)).BeginInit();
@@ -67,6 +69,8 @@
             // 
             // mainTab
             // 
+            this.mainTab.Controls.Add(this.label1);
+            this.mainTab.Controls.Add(this.lbl_leftClickText);
             this.mainTab.Controls.Add(this.lbl_GPminValue);
             this.mainTab.Controls.Add(this.lbl_GPminTitle);
             this.mainTab.Controls.Add(this.lbl_decayValue);
@@ -187,7 +191,7 @@
             // 
             // overlayButton
             // 
-            this.overlayButton.Location = new System.Drawing.Point(561, 10);
+            this.overlayButton.Location = new System.Drawing.Point(504, 10);
             this.overlayButton.Name = "overlayButton";
             this.overlayButton.Size = new System.Drawing.Size(127, 35);
             this.overlayButton.TabIndex = 6;
@@ -281,6 +285,26 @@
             this.loginButton.Text = "Login";
             this.loginButton.UseVisualStyleBackColor = true;
             // 
+            // lbl_leftClickText
+            // 
+            this.lbl_leftClickText.AutoSize = true;
+            this.lbl_leftClickText.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_leftClickText.Location = new System.Drawing.Point(634, 11);
+            this.lbl_leftClickText.Name = "lbl_leftClickText";
+            this.lbl_leftClickText.Size = new System.Drawing.Size(109, 12);
+            this.lbl_leftClickText.TabIndex = 16;
+            this.lbl_leftClickText.Text = "Left click: Toggle window";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(634, 30);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(108, 12);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "Right click: Toggle border";
+            // 
             // guildManagement
             // 
             this.AllowDrop = true;
@@ -330,6 +354,8 @@
         private System.Windows.Forms.Label lbl_GPminValue;
         private System.Windows.Forms.Label lbl_GPminTitle;
         private System.Windows.Forms.Label lbl_decayValue;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbl_leftClickText;
 
     }
 }
