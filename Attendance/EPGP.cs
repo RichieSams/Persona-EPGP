@@ -132,7 +132,6 @@ namespace Attendance
             this.Focus();
         }
 
-
         private void overlayButton_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -179,16 +178,14 @@ namespace Attendance
                 {
                     if (reader.Name == "Name")
                     {
-                        this.lbl_test.Text = reader.Value;
-                        raidArray[tempInt] = reader.Value;
-                        tempInt++;
+                        if (reader.Read())
+                        {
+                            this.lbl_test.Text = reader.Value;
+                            raidArray[tempInt] = reader.Value;
+                        }
                     }
                 }
             }
-            //for (int i = 0; i < tempInt; i++)
-            //{
-                //this.lbl_test.Text = "Hi";
-            //}
         }
     }
 }
