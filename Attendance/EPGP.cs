@@ -17,6 +17,11 @@ namespace Attendance
         private Boolean overlayToggle = false;
         private Boolean overlayBorder = true;
 
+        // DECAY
+        // "UPDATE EPGP SET ep=ep*0.93, gp=GREATEST(5.0, gp*0.93)"
+        // private double minGP = 5.0;
+        // "UPDATE EPGP SET ep=ep*0.93, gp=GREATEST("+minGP+", gp*0.93)"
+
         protected override bool ShowWithoutActivation
         {
             get { return true; }
@@ -48,10 +53,46 @@ namespace Attendance
             BindingSource bs = new BindingSource();
             bs.DataSource = table;
             this.EPGPspreadsheet.DataSource = bs;
-            EPGPspreadsheet.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             connection.Close();
 
+            // Formats columns to fit
+            EPGPspreadsheet.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Change things about editing a table
+            EPGPspreadsheet.Columns["Name"].ReadOnly = true;
+            EPGPspreadsheet.Columns["PR"].ReadOnly = true;
+            table.ColumnChanged += Column_Changed;
+        }
+
+        private static void Column_Changed(object sender, DataColumnChangeEventArgs e)
+        {
+            #region UI Change
+            // Get Name
+            String name = (String)e.Row["Name"];
+            // Check to see which column is being changed
+            if (e.Column.ColumnName.Equals("EP") || e.Column.ColumnName.Equals("GP"))
+            {
+                e.Row["PR"] = (Double)e.Row["EP"] / (Double)e.Row["GP"];
+            }
+            if (e.Column.ColumnName.Equals("Present"))
+            {
+                if ((Boolean)e.Row["Present"] == true)
+                {
+                    if ((Boolean)e.Row["Present"] == true) e.Row["Standby"] = false;
+                }
+            }
+            if (e.Column.ColumnName.Equals("Standby"))
+            {
+                if ((Boolean)e.Row["Standby"] == true)
+                {
+                    if ((Boolean)e.Row["Standby"] == true) e.Row["Present"] = false;
+                }
+            }
+            #endregion
+            #region SQL Change
+
+            #endregion
         }
 
         overlay overlayForm = new overlay();
