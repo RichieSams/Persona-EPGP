@@ -69,6 +69,7 @@ namespace Attendance
                 overlayForm.Hide();
                 overlayToggle = false;
             }
+            this.Focus();
         }
 
 
