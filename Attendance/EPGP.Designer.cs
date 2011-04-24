@@ -31,12 +31,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(guildManagement));
             this.tabArea = new System.Windows.Forms.TabControl();
             this.EPGPtab = new System.Windows.Forms.TabPage();
+            this.overlayButton = new System.Windows.Forms.Button();
             this.attendanceButton = new System.Windows.Forms.Button();
             this.tenEPbutton = new System.Windows.Forms.Button();
             this.fiveEPbutton = new System.Windows.Forms.Button();
             this.EPGPspreadsheet = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.overlayButton = new System.Windows.Forms.Button();
             this.tabArea.SuspendLayout();
             this.EPGPtab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.EPGPspreadsheet)).BeginInit();
@@ -44,8 +44,8 @@
             // 
             // tabArea
             // 
-            this.tabArea.Controls.Add(this.EPGPtab);
             this.tabArea.Controls.Add(this.tabPage2);
+            this.tabArea.Controls.Add(this.EPGPtab);
             this.tabArea.Location = new System.Drawing.Point(0, 0);
             this.tabArea.Name = "tabArea";
             this.tabArea.SelectedIndex = 0;
@@ -66,6 +66,17 @@
             this.EPGPtab.TabIndex = 0;
             this.EPGPtab.Text = "EPGP";
             this.EPGPtab.UseVisualStyleBackColor = true;
+            // 
+            // overlayButton
+            // 
+            this.overlayButton.Location = new System.Drawing.Point(549, 25);
+            this.overlayButton.Name = "overlayButton";
+            this.overlayButton.Size = new System.Drawing.Size(167, 81);
+            this.overlayButton.TabIndex = 5;
+            this.overlayButton.Text = "Toggle Overlay";
+            this.overlayButton.UseVisualStyleBackColor = true;
+            this.overlayButton.Click += new System.EventHandler(this.overlayButton_Click);
+            this.overlayButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.overlayButton_MouseUp);
             // 
             // attendanceButton
             // 
@@ -115,18 +126,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // overlayButton
-            // 
-            this.overlayButton.Location = new System.Drawing.Point(549, 25);
-            this.overlayButton.Name = "overlayButton";
-            this.overlayButton.Size = new System.Drawing.Size(167, 81);
-            this.overlayButton.TabIndex = 5;
-            this.overlayButton.Text = "Toggle Overlay";
-            this.overlayButton.UseVisualStyleBackColor = true;
-            this.overlayButton.Click += new System.EventHandler(this.overlayButton_Click);
-            this.overlayButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.overlayButton_MouseUp);
-
             // 
             // guildManagement
             // 
