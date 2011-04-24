@@ -61,7 +61,7 @@ namespace Attendance
             
             if (!overlayToggle)
             {
-                overlayForm.Show(); //need to find a way to make the overlay steal focus
+                overlayForm.Show(); //need to find a way to make the overlay not steal focus
                 overlayToggle = true;
             }
             else
