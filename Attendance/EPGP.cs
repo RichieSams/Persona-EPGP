@@ -41,7 +41,7 @@ namespace Attendance
 
             connection.Open();
 
-            command.CommandText = "select name as Name, ep as EP, gp as GP, ep/gp as PR, present as Present, standby as Standby from EPGP Order by PR DESC, Present DESC, Standby DESC";
+            command.CommandText = "select name as Name, ep as EP, gp as GP, ep/gp as PR, present as Present, standby as Standby from EPGP Order by Present DESC, Standby DESC, PR DESC";
             adapter.SelectCommand = command;
             DataTable table = new DataTable();
             adapter.Fill(table);
