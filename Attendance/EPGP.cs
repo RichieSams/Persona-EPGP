@@ -13,8 +13,8 @@ namespace Attendance
 {
     public partial class guildManagement : Form
     {
-        private String user_id = "persona_admin";
-        private String password = "ilike333";
+        private String general_user_id = "persona_admin";
+        private String general_password = "ilike333";
         private Boolean overlayToggle = false;
         private Boolean overlayBorder = true;
 
@@ -57,7 +57,7 @@ namespace Attendance
 
         private void guildManagement_Load(object sender, EventArgs e)
         {
-            string MyConString = "server=personaguild.com; User Id=" + user_id + "; database=persona_EPGP; Password=" + password;
+            string MyConString = "server=personaguild.com; User Id=" + general_user_id + "; database=persona_EPGP; Password=" + general_password;
             connection = new MySqlConnection(MyConString);
 
             updateTable();
@@ -303,12 +303,31 @@ namespace Attendance
 
         private void loginFunction()
         {
-            fiveEPbutton.Show();
-            tenEPbutton.Show();
-            attendanceButton.Show();
-            EPGPspreadsheet.ReadOnly = false;
-            EPGPspreadsheet.Columns["Name"].ReadOnly = true;
-            EPGPspreadsheet.Columns["PR"].ReadOnly = true;
+            try
+            {
+                //try to connect to SQL with login info
+                string login_name = txt_name.Text;
+                string login_pass = txt_pass.Text;
+                string MyConString = "server=personaguild.com; User Id=" + login_name + "; database=persona_EPGP; Password=" + login_pass;
+                connection = new MySqlConnection(MyConString);
+                //if successful, show admin buttons and unlock table
+                fiveEPbutton.Show();
+                tenEPbutton.Show();
+                attendanceButton.Show();
+                EPGPspreadsheet.ReadOnly = false;
+                EPGPspreadsheet.Columns["Name"].ReadOnly = true;
+                EPGPspreadsheet.Columns["PR"].ReadOnly = true;
+            }
+            catch (MySqlException ex)
+            {
+                //Show popup that login failed
+                MessageBox.Show("Login failed");
+            }
+            finally
+            {
+                txt_name.Text = "";
+                txt_pass.Text = "";
+            }
         }
 
         private void attendanceButton_Click(object sender, EventArgs e)
@@ -331,7 +350,7 @@ namespace Attendance
                 }
             }
 
-            // Change SQL
+            // Update SQL
             try
             {
                 if (connection.State == ConnectionState.Closed) connection.Open();
