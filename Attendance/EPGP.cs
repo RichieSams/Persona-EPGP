@@ -20,10 +20,7 @@ namespace Attendance
 
         private MySqlConnection connection;
 
-        // DECAY
-        // "UPDATE EPGP SET ep=ep*0.93, gp=GREATEST(5.0, gp*0.93)"
         private double minGP = 5.0;
-        // "UPDATE EPGP SET ep=ep*0.93, gp=GREATEST("+minGP+", gp*0.93)"
 
         protected override bool ShowWithoutActivation
         {
@@ -33,15 +30,29 @@ namespace Attendance
         public guildManagement()
         {
             InitializeComponent();
-
-            
-
-            
         }
 
         private void fiveEPbutton_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (connection.State == ConnectionState.Closed) connection.Open();
 
+                MySqlCommand command = null;
+
+                command = new MySqlCommand("UPDATE EPGP SET ep=ep+5 WHERE present=1 OR standby=1", connection);
+                command.ExecuteNonQuery();
+
+                updateTable();
+            }
+            catch (MySqlException ex)
+            {
+                // Didn't work
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open) connection.Close();
+            }
         }
 
         private void guildManagement_Load(object sender, EventArgs e)
