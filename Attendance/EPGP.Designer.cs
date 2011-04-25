@@ -222,31 +222,34 @@
             // 
             // attendanceButton
             // 
-            this.attendanceButton.Location = new System.Drawing.Point(514, 526);
+            this.attendanceButton.Location = new System.Drawing.Point(574, 508);
             this.attendanceButton.Name = "attendanceButton";
             this.attendanceButton.Size = new System.Drawing.Size(97, 33);
             this.attendanceButton.TabIndex = 6;
             this.attendanceButton.Text = "Attendance";
             this.attendanceButton.UseVisualStyleBackColor = true;
+            this.attendanceButton.Visible = false;
             this.attendanceButton.Click += new System.EventHandler(this.attendanceButton_Click);
             // 
             // tenEPbutton
             // 
-            this.tenEPbutton.Location = new System.Drawing.Point(514, 487);
+            this.tenEPbutton.Location = new System.Drawing.Point(574, 469);
             this.tenEPbutton.Name = "tenEPbutton";
             this.tenEPbutton.Size = new System.Drawing.Size(97, 33);
             this.tenEPbutton.TabIndex = 6;
             this.tenEPbutton.Text = "+ 10 EP";
             this.tenEPbutton.UseVisualStyleBackColor = true;
+            this.tenEPbutton.Visible = false;
             // 
             // fiveEPbutton
             // 
-            this.fiveEPbutton.Location = new System.Drawing.Point(514, 448);
+            this.fiveEPbutton.Location = new System.Drawing.Point(574, 430);
             this.fiveEPbutton.Name = "fiveEPbutton";
             this.fiveEPbutton.Size = new System.Drawing.Size(97, 33);
             this.fiveEPbutton.TabIndex = 6;
             this.fiveEPbutton.Text = "+5 EP";
             this.fiveEPbutton.UseVisualStyleBackColor = true;
+            this.fiveEPbutton.Visible = false;
             this.fiveEPbutton.Click += new System.EventHandler(this.fiveEPbutton_Click);
             // 
             // EPGPspreadsheet
@@ -269,7 +272,6 @@
             this.txt_name.Name = "txt_name";
             this.txt_name.Size = new System.Drawing.Size(105, 20);
             this.txt_name.TabIndex = 1;
-            this.txt_name.KeyDown += new System.Windows.Forms.KeyEventHandler(this.loginName_KeyDown);
             // 
             // txt_pass
             // 
@@ -279,6 +281,7 @@
             this.txt_pass.Size = new System.Drawing.Size(105, 20);
             this.txt_pass.TabIndex = 2;
             this.txt_pass.UseSystemPasswordChar = true;
+            this.txt_pass.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_pass_KeyDown);
             // 
             // lbl_pass
             // 
@@ -306,6 +309,7 @@
             this.loginButton.TabIndex = 3;
             this.loginButton.Text = "Login";
             this.loginButton.UseVisualStyleBackColor = true;
+            this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
             // 
             // guildManagement
             // 
