@@ -338,6 +338,5 @@ namespace Attendance
                 if (connection.State == ConnectionState.Open) connection.Close();
             }
         }
-
     }
 }
