@@ -58,13 +58,17 @@ namespace Attendance
             EPGPspreadsheet.Columns["Name"].ReadOnly = true;
             EPGPspreadsheet.Columns["PR"].ReadOnly = true;
             // Formatting
-
-            //EPGPspreadsheet.Columns["EP"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.l
+            EPGPspreadsheet.Columns["EP"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             EPGPspreadsheet.Columns["EP"].DefaultCellStyle.Format = "0.00";
+            EPGPspreadsheet.Columns["EP"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            EPGPspreadsheet.Columns["GP"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             EPGPspreadsheet.Columns["GP"].DefaultCellStyle.Format = "0.00";
-            EPGPspreadsheet.Columns["GP"].DefaultCellStyle.Format = "0.00";
+            EPGPspreadsheet.Columns["GP"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            EPGPspreadsheet.Columns["PR"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             EPGPspreadsheet.Columns["PR"].DefaultCellStyle.Format = "0.00";
-            EPGPspreadsheet.Columns["PR"].DefaultCellStyle.Format = "0.00";
+            EPGPspreadsheet.Columns["PR"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            EPGPspreadsheet.Columns["Present"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            EPGPspreadsheet.Columns["Standby"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             
         }
 
