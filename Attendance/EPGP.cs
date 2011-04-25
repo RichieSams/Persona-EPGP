@@ -18,9 +18,11 @@ namespace Attendance
         private Boolean overlayToggle = false;
         private Boolean overlayBorder = true;
 
+        private MySqlConnection connection;
+
         // DECAY
         // "UPDATE EPGP SET ep=ep*0.93, gp=GREATEST(5.0, gp*0.93)"
-        // private double minGP = 5.0;
+        private double minGP = 5.0;
         // "UPDATE EPGP SET ep=ep*0.93, gp=GREATEST("+minGP+", gp*0.93)"
 
         protected override bool ShowWithoutActivation
@@ -31,6 +33,10 @@ namespace Attendance
         public guildManagement()
         {
             InitializeComponent();
+
+            
+
+            
         }
 
         private void fiveEPbutton_Click(object sender, EventArgs e)
@@ -40,22 +46,10 @@ namespace Attendance
 
         private void guildManagement_Load(object sender, EventArgs e)
         {
-            string MyConString = "server=personaguild.com; User Id="+user_id+"; database=persona_EPGP; Password="+password;
-            MySqlConnection connection = new MySqlConnection(MyConString);
-            MySqlCommand command = connection.CreateCommand();
-            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            string MyConString = "server=personaguild.com; User Id=" + user_id + "; database=persona_EPGP; Password=" + password;
+            connection = new MySqlConnection(MyConString);
 
-            connection.Open();
-
-            command.CommandText = "SELECT name as Name, ep as EP, gp as GP, ep/gp as PR, present as Present, standby as Standby FROM EPGP ORDER BY Present DESC, Standby DESC, PR DESC";
-            adapter.SelectCommand = command;
-            DataTable table = new DataTable();
-            adapter.Fill(table);
-            BindingSource bs = new BindingSource();
-            bs.DataSource = table;
-            this.EPGPspreadsheet.DataSource = bs;
-
-            connection.Close();
+            updateTable();
 
             // Formats columns to fit
             EPGPspreadsheet.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -63,8 +57,35 @@ namespace Attendance
             // Change things about editing a table
             EPGPspreadsheet.Columns["Name"].ReadOnly = true;
             EPGPspreadsheet.Columns["PR"].ReadOnly = true;
-            table.ColumnChanged += Column_Changed;
             
+        }
+
+        private void updateTable()
+        {
+            try
+            {
+                if (connection.State == ConnectionState.Closed) connection.Open();
+
+                MySqlCommand command = connection.CreateCommand();
+                MySqlDataAdapter adapter = new MySqlDataAdapter();
+
+                command.CommandText = "SELECT name as Name, ep as EP, gp as GP, ep/gp as PR, present as Present, standby as Standby FROM EPGP ORDER BY Present DESC, Standby DESC, PR DESC";
+                adapter.SelectCommand = command;
+                DataTable table = new DataTable();
+                adapter.Fill(table);
+                BindingSource bs = new BindingSource();
+                bs.DataSource = table;
+                this.EPGPspreadsheet.DataSource = bs;
+                table.ColumnChanged += Column_Changed;
+            }
+            catch (MySqlException ex)
+            {
+                // Didn't work
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open) connection.Close();
+            }
         }
 
         private void Column_Changed(object sender, DataColumnChangeEventArgs e)
@@ -74,10 +95,34 @@ namespace Attendance
             // Check to see which column is being changed
             if (e.Column.ColumnName.Equals("EP") || e.Column.ColumnName.Equals("GP"))
             {
+                if (e.Column.ColumnName.Equals("GP"))
+                    e.Row["GP"] = Math.Max((double)e.Row["GP"], minGP);
                 DataTable table = e.Column.Table;
                 table.ColumnChanged -= Column_Changed;
                 e.Row["PR"] = (Double)e.Row["EP"] / (Double)e.Row["GP"];
                 resortTable(e.Column.Table);
+                // SQL
+                try
+                {
+                    if (connection.State == ConnectionState.Closed) connection.Open();
+
+                    MySqlCommand command = null;
+                    
+                    if (e.Column.ColumnName.Equals("EP"))
+                        command = new MySqlCommand("UPDATE EPGP SET ep=" + e.Row["EP"] + " WHERE name='" + name + "'", connection);
+                    if (e.Column.ColumnName.Equals("GP"))
+                        command = new MySqlCommand("UPDATE EPGP SET ep=" + e.Row["GP"] + " WHERE name='" + name + "'", connection);
+                    if (command != null) 
+                        command.ExecuteNonQuery();
+                }
+                catch (MySqlException ex)
+                {
+                    // Didn't work
+                }
+                finally
+                {
+                    if (connection.State == ConnectionState.Open) connection.Close();
+                }
             }
             else if (e.Column.ColumnName.Equals("Present"))
             {
@@ -88,6 +133,24 @@ namespace Attendance
                     if ((Boolean)e.Row["Present"] == true) e.Row["Standby"] = false;
                 }
                 resortTable(e.Column.Table);
+                // SQL
+                try
+                {
+                    if (connection.State == ConnectionState.Closed) connection.Open();
+
+                    MySqlCommand command = new MySqlCommand("UPDATE EPGP SET present=" + ((bool)e.Row["Present"] ? 1 : 0) + "," +
+                                                                            "standby=" + ((bool)e.Row["Standby"] ? 1 : 0) +
+                                                            " WHERE name='" + name+"'", connection);
+                    command.ExecuteNonQuery();
+                }
+                catch (MySqlException ex)
+                {
+                    // Didn't work
+                }
+                finally
+                {
+                    if (connection.State == ConnectionState.Open) connection.Close();
+                }
             }
             else if (e.Column.ColumnName.Equals("Standby"))
             {
@@ -98,6 +161,24 @@ namespace Attendance
                     if ((Boolean)e.Row["Standby"] == true) e.Row["Present"] = false;
                 }
                 resortTable(e.Column.Table);
+                // SQL
+                try
+                {
+                    if (connection.State == ConnectionState.Closed) connection.Open();
+
+                    MySqlCommand command = new MySqlCommand("UPDATE EPGP SET present=" + ((bool)e.Row["Present"] ? 1 : 0) + "," +
+                                                                            "standby=" + ((bool)e.Row["Standby"] ? 1 : 0) +
+                                                            " WHERE name='" + name + "'", connection);
+                    command.ExecuteNonQuery();
+                }
+                catch (MySqlException ex)
+                {
+                    // Didn't work
+                }
+                finally
+                {
+                    if (connection.State == ConnectionState.Open) connection.Close();
+                }
             }
         }
 
@@ -184,6 +265,35 @@ namespace Attendance
                         }
                     }
                 }
+            }
+
+            // Change SQL
+            try
+            {
+                if (connection.State == ConnectionState.Closed) connection.Open();
+
+                MySqlCommand command = connection.CreateCommand();
+                MySqlTransaction trans = connection.BeginTransaction();
+
+                command.Connection = connection;
+                command.Transaction = trans;
+
+                foreach (String s in raidArray)
+                {
+                    command.CommandText = "INSERT INTO EPGP (`name`, `present`) VALUES ('" + s + "', 1) ON DUPLICATE KEY UPDATE present=1,standby=0";
+                    command.ExecuteNonQuery();
+                }
+                trans.Commit();
+
+                updateTable();
+            }
+            catch (MySqlException ex)
+            {
+                // Didn't work
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open) connection.Close();
             }
         }
     }
