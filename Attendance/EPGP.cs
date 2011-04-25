@@ -95,10 +95,10 @@ namespace Attendance
             // Check to see which column is being changed
             if (e.Column.ColumnName.Equals("EP") || e.Column.ColumnName.Equals("GP"))
             {
-                if (e.Column.ColumnName.Equals("GP"))
-                    e.Row["GP"] = Math.Max((double)e.Row["GP"], minGP);
                 DataTable table = e.Column.Table;
                 table.ColumnChanged -= Column_Changed;
+                if (e.Column.ColumnName.Equals("GP"))
+                    e.Row["GP"] = Math.Max((double)e.Row["GP"], minGP);
                 e.Row["PR"] = (Double)e.Row["EP"] / (Double)e.Row["GP"];
                 resortTable(e.Column.Table);
                 // SQL
