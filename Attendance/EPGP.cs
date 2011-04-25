@@ -70,6 +70,15 @@ namespace Attendance
             EPGPspreadsheet.Columns["Present"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             EPGPspreadsheet.Columns["Standby"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             
+            // Select whole row
+            EPGPspreadsheet.CellClick += Cell_Clicked;
+
+        }
+
+
+        private void Cell_Clicked(object sender, DataGridViewCellEventArgs e )
+        {
+            EPGPspreadsheet.Rows[e.RowIndex].Selected = true;
         }
 
         private void updateTable()
