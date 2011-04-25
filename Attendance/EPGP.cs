@@ -248,6 +248,7 @@ namespace Attendance
         {
             if (e.KeyCode == Keys.Enter)
             {
+                e.Handled = true;
                 loginFunction();
             }
         }
