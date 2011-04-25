@@ -266,6 +266,8 @@ namespace Attendance
                 string login_pass = txt_pass.Text;
                 string MyConString = "server=personaguild.com; User Id=" + login_name + "; database=persona_EPGP; Password=" + login_pass;
                 connection = new MySqlConnection(MyConString);
+                connection.Open();
+                // Grab lock
                 //if successful, show admin buttons and unlock table
                 fiveEPbutton.Show();
                 tenEPbutton.Show();
