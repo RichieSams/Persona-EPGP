@@ -57,6 +57,14 @@ namespace Attendance
             // Change things about editing a table
             EPGPspreadsheet.Columns["Name"].ReadOnly = true;
             EPGPspreadsheet.Columns["PR"].ReadOnly = true;
+            // Formatting
+
+            //EPGPspreadsheet.Columns["EP"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.l
+            EPGPspreadsheet.Columns["EP"].DefaultCellStyle.Format = "0.00";
+            EPGPspreadsheet.Columns["GP"].DefaultCellStyle.Format = "0.00";
+            EPGPspreadsheet.Columns["GP"].DefaultCellStyle.Format = "0.00";
+            EPGPspreadsheet.Columns["PR"].DefaultCellStyle.Format = "0.00";
+            EPGPspreadsheet.Columns["PR"].DefaultCellStyle.Format = "0.00";
             
         }
 
@@ -199,9 +207,9 @@ namespace Attendance
 
         private void overlayButton_Click(object sender, EventArgs e)
         {
-            
-            if (!overlayToggle)
+            if (overlayForm.Visible == false)
             {
+                if (overlayForm.IsDisposed) overlayForm = new overlay();
                 overlayForm.Show();
                 overlayToggle = true;
             }
