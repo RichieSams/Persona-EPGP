@@ -53,7 +53,8 @@ namespace Attendance
             //{
             //    if (connection.State == ConnectionState.Open) connection.Close();
             //}
-            //executeSQL("UPDATE EPGP SET ep=ep+5 WHERE present=1 OR standby=1", {});
+            executeSQL("UPDATE EPGP SET ep=ep+5 WHERE present=1 OR standby=1", new object[] {});
+            updateTable();
         }
 
         private void guildManagement_Load(object sender, EventArgs e)
@@ -126,16 +127,14 @@ namespace Attendance
             {
                 if (connection.State == ConnectionState.Closed) connection.Open();
 
-                MySqlCommand command = null;
+                MySqlCommand command = new MySqlCommand(s, connection);
 
-                command.CommandText = s;
                 command.Prepare();
 
-                for (int i = 1; i <= s.Length; i++)
+                for (int i = 1; i <= param.Length; i++)
                 {
-                    command.Parameters.AddWithValue("@" + i, param[i]);
+                    command.Parameters.AddWithValue("@" + i, param[i-1]);
                 }
-                command = new MySqlCommand(s, connection);
                 
                 if (command != null)
                     command.ExecuteNonQuery();
@@ -166,28 +165,11 @@ namespace Attendance
                     e.Row["GP"] = Math.Max((double)e.Row["GP"], minGP);
                 e.Row["PR"] = (Double)e.Row["EP"] / (Double)e.Row["GP"];
                 resortTable(e.Column.Table);
-                // SQL
-                try
-                {
-                    if (connection.State == ConnectionState.Closed) connection.Open();
-
-                    MySqlCommand command = null;
-                    
-                    if (e.Column.ColumnName.Equals("EP"))
-                        command = new MySqlCommand("UPDATE EPGP SET ep=" + e.Row["EP"] + " WHERE name='" + name + "'", connection);
-                    if (e.Column.ColumnName.Equals("GP"))
-                        command = new MySqlCommand("UPDATE EPGP SET ep=" + e.Row["GP"] + " WHERE name='" + name + "'", connection);
-                    if (command != null) 
-                        command.ExecuteNonQuery();
-                }
-                catch (MySqlException ex)
-                {
-                    // Didn't work
-                }
-                finally
-                {
-                    if (connection.State == ConnectionState.Open) connection.Close();
-                }
+                if (e.Column.ColumnName.Equals("EP"))
+                    executeSQL("UPDATE EPGP SET ep=@1 WHERE name=@2", new object[] { (double)e.Row["EP"], name });
+                if (e.Column.ColumnName.Equals("GP"))
+                    executeSQL("UPDATE EPGP SET gp=@1 WHERE name=@2", new object[] { (double)e.Row["GP"], name });
+                
             }
             else if (e.Column.ColumnName.Equals("Present"))
             {
@@ -198,24 +180,7 @@ namespace Attendance
                     if ((Boolean)e.Row["Present"] == true) e.Row["Standby"] = false;
                 }
                 resortTable(e.Column.Table);
-                // SQL
-                try
-                {
-                    if (connection.State == ConnectionState.Closed) connection.Open();
-
-                    MySqlCommand command = new MySqlCommand("UPDATE EPGP SET present=" + ((bool)e.Row["Present"] ? 1 : 0) + "," +
-                                                                            "standby=" + ((bool)e.Row["Standby"] ? 1 : 0) +
-                                                            " WHERE name='" + name+"'", connection);
-                    command.ExecuteNonQuery();
-                }
-                catch (MySqlException ex)
-                {
-                    // Didn't work
-                }
-                finally
-                {
-                    if (connection.State == ConnectionState.Open) connection.Close();
-                }
+                executeSQL("UPDATE EPGP SET present=@1,standby=@2 WHERE name=@3", new object[] { ((bool)e.Row["Present"] ? 1 : 0), ((bool)e.Row["Standby"] ? 1 : 0), name });
             }
             else if (e.Column.ColumnName.Equals("Standby"))
             {
@@ -226,24 +191,7 @@ namespace Attendance
                     if ((Boolean)e.Row["Standby"] == true) e.Row["Present"] = false;
                 }
                 resortTable(e.Column.Table);
-                // SQL
-                try
-                {
-                    if (connection.State == ConnectionState.Closed) connection.Open();
-
-                    MySqlCommand command = new MySqlCommand("UPDATE EPGP SET present=" + ((bool)e.Row["Present"] ? 1 : 0) + "," +
-                                                                            "standby=" + ((bool)e.Row["Standby"] ? 1 : 0) +
-                                                            " WHERE name='" + name + "'", connection);
-                    command.ExecuteNonQuery();
-                }
-                catch (MySqlException ex)
-                {
-                    // Didn't work
-                }
-                finally
-                {
-                    if (connection.State == ConnectionState.Open) connection.Close();
-                }
+                executeSQL("UPDATE EPGP SET present=@1,standby=@2 WHERE name=@3", new object[] {((bool)e.Row["Present"] ? 1 : 0), ((bool)e.Row["Standby"] ? 1 : 0), name});
             }
         }
 
