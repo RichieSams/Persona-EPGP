@@ -306,6 +306,9 @@ namespace Attendance
             fiveEPbutton.Show();
             tenEPbutton.Show();
             attendanceButton.Show();
+            EPGPspreadsheet.ReadOnly = false;
+            EPGPspreadsheet.Columns["Name"].ReadOnly = true;
+            EPGPspreadsheet.Columns["PR"].ReadOnly = true;
         }
 
         private void attendanceButton_Click(object sender, EventArgs e)
