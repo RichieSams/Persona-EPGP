@@ -263,7 +263,7 @@ namespace Attendance
 
         }
 
-        private void loginName_KeyDown(object sender, KeyEventArgs e)
+        private void txt_pass_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -271,12 +271,16 @@ namespace Attendance
             }
         }
 
-
-
+        private void loginButton_Click(object sender, EventArgs e)
+        {
+            loginFunction();
+        }
 
         private void loginFunction()
         {
-
+            fiveEPbutton.Show();
+            tenEPbutton.Show();
+            attendanceButton.Show();
         }
 
         private void attendanceButton_Click(object sender, EventArgs e)
@@ -329,5 +333,4 @@ namespace Attendance
             }
         }
     }
-
 }
