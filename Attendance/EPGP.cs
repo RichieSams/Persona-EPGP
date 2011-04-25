@@ -34,25 +34,26 @@ namespace Attendance
 
         private void fiveEPbutton_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (connection.State == ConnectionState.Closed) connection.Open();
+            //try
+            //{
+            //    if (connection.State == ConnectionState.Closed) connection.Open();
 
-                MySqlCommand command = null;
+            //    MySqlCommand command = null;
 
-                command = new MySqlCommand("UPDATE EPGP SET ep=ep+5 WHERE present=1 OR standby=1", connection);
-                command.ExecuteNonQuery();
+            //    command = new MySqlCommand("UPDATE EPGP SET ep=ep+5 WHERE present=1 OR standby=1", connection);
+            //    command.ExecuteNonQuery();
 
-                updateTable();
-            }
-            catch (MySqlException ex)
-            {
-                // Didn't work
-            }
-            finally
-            {
-                if (connection.State == ConnectionState.Open) connection.Close();
-            }
+            //    updateTable();
+            //}
+            //catch (MySqlException ex)
+            //{
+            //    // Didn't work
+            //}
+            //finally
+            //{
+            //    if (connection.State == ConnectionState.Open) connection.Close();
+            //}
+            //executeSQL("UPDATE EPGP SET ep=ep+5 WHERE present=1 OR standby=1", {});
         }
 
         private void guildManagement_Load(object sender, EventArgs e)
@@ -127,7 +128,14 @@ namespace Attendance
 
                 MySqlCommand command = null;
 
-                //command = new MySqlCommand("UPDATE EPGP SET ep=" + e.Row["EP"] + " WHERE name='" + name + "'", connection);
+                command.CommandText = s;
+                command.Prepare();
+
+                for (int i = 1; i <= s.Length; i++)
+                {
+                    command.Parameters.AddWithValue("@" + i, param[i]);
+                }
+                command = new MySqlCommand(s, connection);
                 
                 if (command != null)
                     command.ExecuteNonQuery();
