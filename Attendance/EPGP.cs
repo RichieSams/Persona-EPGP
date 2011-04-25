@@ -66,8 +66,7 @@ namespace Attendance
             EPGPspreadsheet.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             // Change things about editing a table
-            EPGPspreadsheet.Columns["Name"].ReadOnly = true;
-            EPGPspreadsheet.Columns["PR"].ReadOnly = true;
+            EPGPspreadsheet.ReadOnly = true;
             // Formatting
             EPGPspreadsheet.Columns["EP"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             EPGPspreadsheet.Columns["EP"].DefaultCellStyle.Format = "0.00";
@@ -89,7 +88,7 @@ namespace Attendance
 
         private void Cell_Clicked(object sender, DataGridViewCellEventArgs e )
         {
-            EPGPspreadsheet.Rows[e.RowIndex].Selected = true;
+            EPGPspreadsheet.Rows[e.RowIndex].Cells["Name"].Selected = true;
         }
 
         private void updateTable()
@@ -113,6 +112,32 @@ namespace Attendance
             catch (MySqlException ex)
             {
                 // Didn't work
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open) connection.Close();
+            }
+        }
+
+        private bool executeSQL(String s, object[] param)
+        {
+            try
+            {
+                if (connection.State == ConnectionState.Closed) connection.Open();
+
+                MySqlCommand command = null;
+
+                //command = new MySqlCommand("UPDATE EPGP SET ep=" + e.Row["EP"] + " WHERE name='" + name + "'", connection);
+                
+                if (command != null)
+                    command.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                // Didn't work
+                return false;
             }
             finally
             {
@@ -332,5 +357,6 @@ namespace Attendance
                 if (connection.State == ConnectionState.Open) connection.Close();
             }
         }
+
     }
 }
