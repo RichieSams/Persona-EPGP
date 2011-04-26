@@ -286,6 +286,7 @@ namespace Attendance
             {
                 txt_name.Text = "";
                 txt_pass.Text = "";
+                if (connection.State == ConnectionState.Open) connection.Close();
             }
         }
 
