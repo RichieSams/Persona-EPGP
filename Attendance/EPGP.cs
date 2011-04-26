@@ -265,7 +265,7 @@ namespace Attendance
                 //try to connect to SQL with login info
                 string login_name = txt_name.Text;
                 string login_pass = txt_pass.Text;
-                string MyConString = "server=personaguild.com; User Id=" + login_name + "; database=persona_EPGP; Password=" + login_pass;
+                string MyConString = "server=personaguild.com; User Id=persona_" + login_name + "; database=persona_EPGP; Password=" + login_pass;
                 connection = new MySqlConnection(MyConString);
                 connection.Open();
                 // Grab lock
