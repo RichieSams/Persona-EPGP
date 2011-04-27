@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Xml;
+using System.IO;
 
 namespace Attendance
 {
@@ -210,7 +211,7 @@ namespace Attendance
 
         overlay overlayForm = new overlay();
 
-        private void overlayButton_Click(object sender, EventArgs e)
+        public void overlayButton_Click(object sender, EventArgs e)
         {
             if (overlayForm.Visible == false)
             {
@@ -340,5 +341,64 @@ namespace Attendance
                 if (connection.State == ConnectionState.Open) connection.Close();
             }
         }
+
+        public void overlayTextParser()
+        {
+            
+
+        }
+
+        private void button1_Click(object sender, EventArgs e) // Need to change this function to an event call
+        {
+            using (StreamReader reader = File.OpenText("C:\\Program Files (x86)\\RIFT Game\\log.txt"))
+            {
+                String inputStr;
+                while ((inputStr = reader.ReadLine()) != null)
+                {
+                    // Trim off the time stamp
+                    inputStr = inputStr.Substring(10, inputStr.Length - 10);
+                    // Non-combat lines are ignored
+                    if (inputStr.IndexOf("[") != -1)
+                    {
+                        // Split into name and text
+                        string[] logList = inputStr.Split(':');
+                        // Check for phrase
+                        if (logList[1] == " need")
+                        {
+                            int tempInt = 0;
+                            string tempString = string.Empty;
+                            // Trim off [raid] and the brackets around the name
+                            logList[0] = logList[0].Substring(8, logList[0].Length - 9); //change to 7 and 8 when actually using [raid] and not [guild]
+                            // Cycle through the names on the spreadsheet
+                            while (tempInt < EPGPspreadsheet.RowCount)
+                            {
+                                tempString = EPGPspreadsheet.Rows[tempInt].Cells["Name"].Value.ToString();
+                                if (tempString == logList[0])
+                                {
+                                    // If the label is empty, enter in the text
+                                    if (overlayForm.lbl_overlayName.Text == null)
+                                    {
+                                        overlayForm.lbl_overlayName.Text = logList[0];
+                                        overlayForm.lbl_overlayPR.Text = EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString();
+                                    }
+                                    // Otherwise, append a newline and the text to the end of the string
+                                    else
+                                    {
+                                        overlayForm.lbl_overlayName.Text += "\n" + logList[0];
+                                        overlayForm.lbl_overlayPR.Text += "\n" + EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString();
+                                    }
+                                }
+                                tempInt++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
+
     }
 }

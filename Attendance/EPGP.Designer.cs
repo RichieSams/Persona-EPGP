@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(guildManagement));
             this.tabArea = new System.Windows.Forms.TabControl();
             this.mainTab = new System.Windows.Forms.TabPage();
+            this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.lbl_leftClickText = new System.Windows.Forms.Label();
             this.lbl_GPminValue = new System.Windows.Forms.Label();
@@ -69,6 +70,7 @@
             // 
             // mainTab
             // 
+            this.mainTab.Controls.Add(this.button1);
             this.mainTab.Controls.Add(this.label1);
             this.mainTab.Controls.Add(this.lbl_leftClickText);
             this.mainTab.Controls.Add(this.lbl_GPminValue);
@@ -93,6 +95,16 @@
             this.mainTab.TabIndex = 0;
             this.mainTab.Text = "Main";
             this.mainTab.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(567, 384);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(104, 24);
+            this.button1.TabIndex = 18;
+            this.button1.Text = "parser test";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label1
             // 
@@ -362,6 +374,7 @@
         private System.Windows.Forms.Label lbl_decayValue;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lbl_leftClickText;
+        private System.Windows.Forms.Button button1;
 
     }
 }
