@@ -36,37 +36,38 @@
             // lbl_overlayName
             // 
             this.lbl_overlayName.AutoSize = true;
-            this.lbl_overlayName.Location = new System.Drawing.Point(42, 25);
+            this.lbl_overlayName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_overlayName.Location = new System.Drawing.Point(27, 18);
             this.lbl_overlayName.Name = "lbl_overlayName";
-            this.lbl_overlayName.Size = new System.Drawing.Size(34, 13);
+            this.lbl_overlayName.Size = new System.Drawing.Size(98, 17);
             this.lbl_overlayName.TabIndex = 0;
-            this.lbl_overlayName.Text = "testify";
+            this.lbl_overlayName.Text = "Blazzinsouljah";
             // 
             // lbl_overlayPR
             // 
             this.lbl_overlayPR.AutoSize = true;
-            this.lbl_overlayPR.Location = new System.Drawing.Point(134, 30);
+            this.lbl_overlayPR.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_overlayPR.Location = new System.Drawing.Point(133, 18);
             this.lbl_overlayPR.Name = "lbl_overlayPR";
-            this.lbl_overlayPR.Size = new System.Drawing.Size(58, 13);
+            this.lbl_overlayPR.Size = new System.Drawing.Size(44, 17);
             this.lbl_overlayPR.TabIndex = 1;
-            this.lbl_overlayPR.Text = "testy value";
+            this.lbl_overlayPR.Text = "21.65";
             // 
             // overlay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(294, 172);
+            this.BackColor = System.Drawing.Color.Black;
+            this.ClientSize = new System.Drawing.Size(219, 172);
             this.Controls.Add(this.lbl_overlayPR);
             this.Controls.Add(this.lbl_overlayName);
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(300, 200);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(300, 200);
             this.Name = "overlay";
+            this.Opacity = 0.5D;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.TopMost = true;
