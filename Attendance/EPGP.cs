@@ -18,6 +18,7 @@ namespace Attendance
         private String general_password = "ilike333";
         private Boolean overlayToggle = false;
         private Boolean overlayBorder = true;
+        private string currentZone = string.Empty;
 
         private MySqlConnection connection;
 
@@ -63,13 +64,15 @@ namespace Attendance
             string MyConString = "server=personaguild.com; User Id=" + general_user_id + "; database=persona_EPGP; Password=" + general_password;
             connection = new MySqlConnection(MyConString);
 
+            // Fill the table for the first time
             updateTable();
 
             // Formats columns to fit
             EPGPspreadsheet.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // Change things about editing a table
+            // Lock the table to editing
             EPGPspreadsheet.ReadOnly = true;
+
             // Formatting
             EPGPspreadsheet.Columns["EP"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             EPGPspreadsheet.Columns["EP"].DefaultCellStyle.Format = "0.00";
@@ -83,11 +86,28 @@ namespace Attendance
             EPGPspreadsheet.Columns["Present"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             EPGPspreadsheet.Columns["Standby"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             
-            // Select whole row
+            // Highlight name on cell click
             EPGPspreadsheet.CellClick += Cell_Clicked;
 
-        }
+            // Watch for change in log.txt file
+            FileSystemWatcher logWatcher = new FileSystemWatcher();
+            logWatcher.Path = "C:\\Program Files (x86)\\RIFT Game";
+            logWatcher.Filter = "Log.txt";
+            logWatcher.Changed += new FileSystemEventHandler(textLogParser);
+            logWatcher.Created += new FileSystemEventHandler(textLogParser);
+            logWatcher.EnableRaisingEvents = true;
 
+            // Watch for a change in combatlog.txt
+            FileSystemWatcher combatWatcher = new FileSystemWatcher();
+            combatWatcher.Path = "C:\\Program Files (x86)\\RIFT Game";
+            combatWatcher.Filter = "CombatLog.txt";
+            combatWatcher.Changed += new FileSystemEventHandler(combatLogParser);
+            combatWatcher.Created += new FileSystemEventHandler(combatLogParser);
+            combatWatcher.EnableRaisingEvents = true;
+
+            // Find zone
+            zoneParser();
+        }
 
         private void Cell_Clicked(object sender, DataGridViewCellEventArgs e )
         {
@@ -137,8 +157,7 @@ namespace Attendance
                     command.Parameters.AddWithValue("@" + i, param[i-1]);
                 }
                 
-                if (command != null)
-                    command.ExecuteNonQuery();
+                if (command != null) command.ExecuteNonQuery();
 
                 return true;
             }
@@ -342,63 +361,92 @@ namespace Attendance
             }
         }
 
-        public void overlayTextParser()
+        
+        // need to find a way to just get the newest line and the apply just that one line to both sections
+        private void textLogParser(object source, FileSystemEventArgs e) 
         {
-            
-
-        }
-
-        private void button1_Click(object sender, EventArgs e) // Need to change this function to an event call
-        {
-            using (StreamReader reader = File.OpenText("C:\\Program Files (x86)\\RIFT Game\\log.txt"))
+            FileStream fs = new FileStream("C:\\Program Files (x86)\\RIFT Game\\log.txt", FileMode.Open, FileAccess.Read);
+            StreamReader reader = new StreamReader(fs);
+            string linesBlock;
+            // Try to get the last 1024 bytes of data from the file
+            try
             {
-                String inputStr;
-                while ((inputStr = reader.ReadLine()) != null)
+                reader.BaseStream.Seek(-1024, SeekOrigin.End);
+                linesBlock = reader.ReadToEnd();
+            }
+            // If it fails, instead get the entire file
+            catch (IOException)
+            {
+                linesBlock = reader.ReadToEnd();
+            }
+            // Split into lines and get the last line
+            string[] lines = linesBlock.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string lastLine = lines[lines.Length - 1];
+
+            // Extract the zone from the channel name and set it to the current zone
+            string zoneString = lastLine.Substring(10, lastLine.Length - 10);
+            if (zoneString.IndexOf("[1. ") != -1)
+            {
+                currentZone = zoneString.Substring(zoneString.IndexOf("[1. ") + 4, zoneString.IndexOf("]") - zoneString.IndexOf("[") - 4);
+            }
+
+            // Only do overlay text if the user is in a raid zone
+            if ((currentZone == "Greenscale's Blight") || (currentZone == "River of Souls"))
+            {
+                // Trim off the time stamp
+                string overlayString = lastLine.Substring(10, lastLine.Length - 10);
+                // Non-combat lines are ignored
+                if (overlayString.IndexOf("[") != -1)
                 {
-                    // Trim off the time stamp
-                    inputStr = inputStr.Substring(10, inputStr.Length - 10);
-                    // Non-combat lines are ignored
-                    if (inputStr.IndexOf("[") != -1)
+                    // Split into name and text
+                    string[] logList = overlayString.Split(':');
+                    // Check for phrase
+                    if (logList[1] == " need")
                     {
-                        // Split into name and text
-                        string[] logList = inputStr.Split(':');
-                        // Check for phrase
-                        if (logList[1] == " need")
+                        int tempInt = 0;
+                        string tempString = string.Empty;
+                        // Trim off [raid] and the brackets around the name
+                        logList[0] = logList[0].Substring(8, logList[0].Length - 9); //change to 7 and 8 when actually using [raid] and not [guild]
+                        // Cycle through the names on the spreadsheet
+                        while (tempInt < EPGPspreadsheet.RowCount)
                         {
-                            int tempInt = 0;
-                            string tempString = string.Empty;
-                            // Trim off [raid] and the brackets around the name
-                            logList[0] = logList[0].Substring(8, logList[0].Length - 9); //change to 7 and 8 when actually using [raid] and not [guild]
-                            // Cycle through the names on the spreadsheet
-                            while (tempInt < EPGPspreadsheet.RowCount)
+                            tempString = EPGPspreadsheet.Rows[tempInt].Cells["Name"].Value.ToString();
+                            if (tempString == logList[0])
                             {
-                                tempString = EPGPspreadsheet.Rows[tempInt].Cells["Name"].Value.ToString();
-                                if (tempString == logList[0])
+                                // If the label is empty, enter in the text
+                                if (overlayForm.lbl_overlayName.Text == null)
                                 {
-                                    // If the label is empty, enter in the text
-                                    if (overlayForm.lbl_overlayName.Text == null)
-                                    {
-                                        overlayForm.lbl_overlayName.Text = logList[0];
-                                        overlayForm.lbl_overlayPR.Text = EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString();
-                                    }
-                                    // Otherwise, append a newline and the text to the end of the string
-                                    else
-                                    {
-                                        overlayForm.lbl_overlayName.Text += "\n" + logList[0];
-                                        overlayForm.lbl_overlayPR.Text += "\n" + EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString();
-                                    }
+                                    overlayForm.lbl_overlayName.Text = logList[0];
+                                    overlayForm.lbl_overlayPR.Text = EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString();
                                 }
-                                tempInt++;
+                                // Otherwise, append a newline and the text to the end of the string
+                                else
+                                {
+                                    overlayForm.lbl_overlayName.Text += "\n" + logList[0];
+                                    overlayForm.lbl_overlayPR.Text += "\n" + EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString();
+                                }
                             }
+                            tempInt++;
                         }
                     }
                 }
             }
+            fs.Close();
         }
 
+        private void combatLogParser (object source, FileSystemEventArgs e)
+        {
 
+        }
 
+        private void zoneParser()
+        {
+            StreamReader reader = File.OpenText("C:\\Users\\Adrian\\AppData\\Roaming\\RIFT\\recents.cfg");
+            int tempInt = 0;
+            while (tempInt < 10)
+            {
 
-
+            }
+        }
     }
 }
