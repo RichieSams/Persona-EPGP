@@ -19,6 +19,7 @@ namespace Attendance
         private Boolean overlayToggle = false;
         private Boolean overlayBorder = true;
         private string currentZone = string.Empty;
+        private int userIndex = -1;
 
         private MySqlConnection connection;
 
@@ -97,16 +98,8 @@ namespace Attendance
             logWatcher.Created += new FileSystemEventHandler(textLogParser);
             logWatcher.EnableRaisingEvents = true;
 
-            // Watch for a change in combatlog.txt
-            FileSystemWatcher combatWatcher = new FileSystemWatcher();
-            combatWatcher.Path = "C:\\Program Files (x86)\\RIFT Game";
-            combatWatcher.Filter = "CombatLog.txt";
-            combatWatcher.Changed += new FileSystemEventHandler(combatLogParser);
-            combatWatcher.Created += new FileSystemEventHandler(combatLogParser);
-            combatWatcher.EnableRaisingEvents = true;
-
             // Find zone
-            //zoneParser(); //Use if we can figure out those two things mentioned below, otherwise just get the current zone on the first zone change from log file
+            zoneParser();
         }
 
         private void Cell_Clicked(object sender, DataGridViewCellEventArgs e )
@@ -314,7 +307,7 @@ namespace Attendance
         private void attendanceButton_Click(object sender, EventArgs e)
         {
             string[] raidArray = new string[20];
-            XmlTextReader reader = new XmlTextReader("raid.xml");
+            XmlTextReader reader = new XmlTextReader("C:\\Program Files (x86)\\RIFT Game\\raid.xml");
             int tempInt = 0;
 
             while (reader.Read())
@@ -364,39 +357,41 @@ namespace Attendance
         
         private void textLogParser(object source, FileSystemEventArgs e) 
         {
-            FileStream fs = new FileStream("C:\\Program Files (x86)\\RIFT Game\\log.txt", FileMode.Open, FileAccess.Read);
-            StreamReader reader = new StreamReader(fs);
-            string linesBlock;
-            // Try to get the last 1024 bytes of data from the file
-            try
-            {
-                reader.BaseStream.Seek(-1024, SeekOrigin.End);
-                linesBlock = reader.ReadToEnd();
-            }
-            // If it fails, instead get the entire file
-            catch (IOException)
-            {
-                linesBlock = reader.ReadToEnd();
-            }
-            // Split into lines and get the last line
-            string[] lines = linesBlock.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            string lastLine = lines[lines.Length - 1];
-
-            // Extract the zone from the channel name and set it to the current zone
-            string zoneString = lastLine.Substring(10, lastLine.Length - 10);
-            if (zoneString.IndexOf("[1. ") != -1)
-            {
-                currentZone = zoneString.Substring(zoneString.IndexOf("[1. ") + 4, zoneString.IndexOf("]") - zoneString.IndexOf("[") - 4);
-            }
-
             // Only do overlay text if the user is in a raid zone
-            if ((currentZone == "Greenscale's Blight") || (currentZone == "River of Souls") || (currentZone == ""))
+            if ((currentZone == "Greenscale's Blight") || (currentZone == "River of Souls") || (currentZone == "Freemarch"))
             {
-                // Trim off the time stamp
-                string overlayString = lastLine.Substring(10, lastLine.Length - 10);
-                // Non-combat lines are ignored
-                if (overlayString.IndexOf("[") != -1)
+                FileStream fs = new FileStream("C:\\Program Files (x86)\\RIFT Game\\log.txt", FileMode.Open, FileAccess.Read);
+                StreamReader reader = new StreamReader(fs);
+                string linesBlock;
+                // Try to get the last 1024 bytes of data from the file
+                try
                 {
+                    reader.BaseStream.Seek(-1024, SeekOrigin.End);
+                    linesBlock = reader.ReadToEnd();
+                }
+                // If it fails, instead get the entire file
+                catch (IOException)
+                {
+                    linesBlock = reader.ReadToEnd();
+                }
+                fs.Close();
+                reader.Close();
+                // Split into lines and get the last line
+                string[] lines = linesBlock.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                string lastLine = lines[lines.Length - 1];
+
+                // Extract the zone from the channel name and set it to the current zone
+                if (lastLine.IndexOf("[1. ") != -1)
+                {
+                    string zoneString = lastLine.Substring(10, lastLine.Length - 10);
+                    currentZone = zoneString.Substring(zoneString.IndexOf("[1. ") + 4, zoneString.IndexOf("]") - zoneString.IndexOf("[") - 4);
+                }
+
+                // Non-raid speech lines are ignored           /////Idea: create channel for EPGP so the program doesn't have to read raid chatter
+                if (lastLine.IndexOf("[Guild]") != -1) //change to [Raid] for release
+                {
+                    // Trim off the time stamp
+                    string overlayString = lastLine.Substring(10, lastLine.Length - 10);
                     // Split into name and text
                     string[] logList = overlayString.Split(':');
                     // Check for phrase
@@ -405,7 +400,7 @@ namespace Attendance
                         int tempInt = 0;
                         string tempString = string.Empty;
                         // Trim off [raid] and the brackets around the name
-                        logList[0] = logList[0].Substring(8, logList[0].Length - 9); //change to 7 and 8 when actually using [raid] and not [guild]
+                        logList[0] = logList[0].Substring(8, logList[0].Length - 9); //change to 7 and 8 when actually using [Raid] and not [Guild]
                         // Cycle through the names on the spreadsheet
                         while (tempInt < EPGPspreadsheet.RowCount)
                         {
@@ -418,8 +413,16 @@ namespace Attendance
                                     overlayForm.lbl_overlayName.Text = logList[0];
                                     if (logList[1] == " need")
                                     {
-                                        // Format PR to only 2 decimals
-                                        overlayForm.lbl_overlayPR.Text = EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString().Substring(0, EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString().IndexOf('.') + 3);
+                                        // Try to format PR to only 2 decimals
+                                        try
+                                        {
+                                            overlayForm.lbl_overlayPR.Text = EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString().Substring(0, EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString().IndexOf('.') + 3);
+                                        }
+                                        // If it fails, use the whole thing
+                                        catch (ArgumentOutOfRangeException)
+                                        {
+                                            overlayForm.lbl_overlayPR.Text = EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString();
+                                        }
                                     }
                                     if (logList[1] == " greed")
                                     {
@@ -429,11 +432,20 @@ namespace Attendance
                                 // Otherwise, append a newline and the text to the end of the string
                                 else
                                 {
+                                    string test = EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString();
                                     overlayForm.lbl_overlayName.Text += "\n" + logList[0];
                                     if (logList[1] == " need")
                                     {
-                                        // Format PR to only 2 decimals
-                                        overlayForm.lbl_overlayPR.Text += "\n" + EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString().Substring(0, EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString().IndexOf('.') + 3);
+                                        // Try to format PR to only 2 decimals
+                                        try
+                                        {
+                                            overlayForm.lbl_overlayPR.Text += "\n" + EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString().Substring(0, EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString().IndexOf('.') + 3);
+                                        }
+                                        // If it fails, use the whole thing
+                                        catch (ArgumentOutOfRangeException)
+                                        {
+                                            overlayForm.lbl_overlayPR.Text += "\n" + EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString();
+                                        }
                                     }
                                     if (logList[1] == " greed")
                                     {
@@ -445,28 +457,68 @@ namespace Attendance
                         }
                     }
                 }
-            }
-            fs.Close();
+            }  
         }
 
-        private void combatLogParser (object source, FileSystemEventArgs e)
+        private void zoneParser()
         {
+            FileStream fs = File.OpenRead(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\RIFT\\recents.cfg");
+            StreamReader reader = new StreamReader(fs);
+            string linesBlock;
+            linesBlock = reader.ReadToEnd();
+            fs.Close();
+            reader.Close();
+            // Split into lines
+            string[] lines = linesBlock.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            Boolean correctSection = false;
+            string loginTime = " 000000000000000000";
+            string userNumber = "";
+                
+            // Read lines to find the last login section
+            for (int i = 0; i < (lines.Length - 1); i++)
+            {
+                if (lines[i] == "[Realm]")
+                {
+                    correctSection = false;
+                    break;
+                }
 
+                if (correctSection == true)
+                {
+                    string[] tempString = lines[i].Split('=');
+                    if (tempString[1].CompareTo(loginTime) > 0)
+                    {
+                        loginTime = tempString[1];
+                        userNumber = tempString[0];
+                    }
+                }
+
+                if (lines[i] == "[LastLoginTime]") correctSection = true;   
+            }
+
+            // Read lines to find the Description section
+            for (int i = 0; i < (lines.Length - 1); i++)
+            {
+                if (lines[i] == "[LastLoginTime]")
+                {
+                    correctSection = false;
+                    break;
+                }
+
+                if (correctSection == true)
+                {
+                    string[] tempString = lines[i].Split('=');
+                    if (tempString[0] == userNumber)
+                    {
+                        userIndex = i;
+                    }
+                }
+
+                if (lines[i] == "[Description]") correctSection = true;
+
+            }
+            currentZone = lines[userIndex].Substring(lines[userIndex].IndexOf("\t") + 1, lines[userIndex].IndexOf(" (") - lines[userIndex].IndexOf("\t") - 1);
+            overlayForm.lbl_test.Text = currentZone;
         }
-
-        //private void zoneParser()
-        //{
-        //    StreamReader reader = File.OpenText("C:\\Users\\Adrian\\AppData\\Roaming\\RIFT\\recents.cfg"); //Need to figure out how to get this path on the user's computer
-        //    string inputStr;
-        //    while ((inputStr = reader.ReadLine()) != null)
-        //    {
-        //        if (((inputStr.IndexOf('\t')) != -1) && ((inputStr.IndexOf("Aila")) != -1)) //Need to figure out how to get the user's current user name
-        //        {
-        //            inputStr = inputStr.Substring(inputStr.IndexOf('\t') + 1, inputStr.IndexOf(" (") - inputStr.IndexOf('\t') - 1);
-        //            currentZone = inputStr;
-        //        }
-        //    }
-        //    reader.Close();
-        //}
     }
 }
