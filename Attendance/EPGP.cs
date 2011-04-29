@@ -19,7 +19,6 @@ namespace Attendance
         private Boolean overlayToggle = false;
         private Boolean overlayBorder = true;
         private string currentZone = string.Empty;
-        private int userIndex = -1;
 
         private MySqlConnection connection;
 
@@ -465,6 +464,7 @@ namespace Attendance
             FileStream fs = File.OpenRead(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\RIFT\\recents.cfg");
             StreamReader reader = new StreamReader(fs);
             string linesBlock;
+            int userIndex = -1;
             linesBlock = reader.ReadToEnd();
             fs.Close();
             reader.Close();
