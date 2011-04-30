@@ -19,6 +19,7 @@ namespace Attendance
         private Boolean overlayToggle = false;
         private Boolean overlayBorder = true;
         private string currentZone = string.Empty;
+        private Boolean loggedIn = false;
 
         private MySqlConnection connection;
 
@@ -210,9 +211,16 @@ namespace Attendance
         private void resortTable(DataTable dt)
         {
             DataTable table = new DataTable();
-            DataRow[] data = (from r in dt.AsEnumerable()
-                              orderby r["Present"] descending, r["Standby"] descending, r["PR"] descending
-                              select r).ToArray();
+            DataRow[] data;
+            // Auto sort if not logged in
+            if (!loggedIn)
+            {
+                data = (from r in dt.AsEnumerable() orderby r["Present"] descending, r["Standby"] descending, r["PR"] descending select r).ToArray();
+            }
+            else
+            {
+                data = (from r in dt.AsEnumerable() select r).ToArray();
+            }
             table = data.CopyToDataTable();
             BindingSource bs = new BindingSource();
             bs.DataSource = table;
@@ -285,9 +293,13 @@ namespace Attendance
                 fiveEPbutton.Show();
                 tenEPbutton.Show();
                 attendanceButton.Show();
+                lbl_sort.Show();
+                PRsortButton.Show();
+                alphaSortButton.Show();
                 EPGPspreadsheet.ReadOnly = false;
                 EPGPspreadsheet.Columns["Name"].ReadOnly = true;
                 EPGPspreadsheet.Columns["PR"].ReadOnly = true;
+                loggedIn = true;
             }
             catch (MySqlException ex)
             {
@@ -519,6 +531,16 @@ namespace Attendance
             }
             currentZone = lines[userIndex].Substring(lines[userIndex].IndexOf("\t") + 1, lines[userIndex].IndexOf(" (") - lines[userIndex].IndexOf("\t") - 1);
             overlayForm.lbl_test.Text = currentZone;
+        }
+
+        private void PRsortButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void alphaSortButton_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

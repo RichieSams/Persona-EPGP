@@ -31,7 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(guildManagement));
             this.tabArea = new System.Windows.Forms.TabControl();
             this.mainTab = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbl_logReminder = new System.Windows.Forms.Label();
+            this.lbl_rightClickText = new System.Windows.Forms.Label();
             this.lbl_leftClickText = new System.Windows.Forms.Label();
             this.lbl_GPminValue = new System.Windows.Forms.Label();
             this.lbl_GPminTitle = new System.Windows.Forms.Label();
@@ -53,7 +54,9 @@
             this.lbl_pass = new System.Windows.Forms.Label();
             this.lbl_name = new System.Windows.Forms.Label();
             this.loginButton = new System.Windows.Forms.Button();
-            this.lbl_logReminder = new System.Windows.Forms.Label();
+            this.PRsortButton = new System.Windows.Forms.Button();
+            this.alphaSortButton = new System.Windows.Forms.Button();
+            this.lbl_sort = new System.Windows.Forms.Label();
             this.tabArea.SuspendLayout();
             this.mainTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.EPGPspreadsheet)).BeginInit();
@@ -70,8 +73,11 @@
             // 
             // mainTab
             // 
+            this.mainTab.Controls.Add(this.lbl_sort);
+            this.mainTab.Controls.Add(this.alphaSortButton);
+            this.mainTab.Controls.Add(this.PRsortButton);
             this.mainTab.Controls.Add(this.lbl_logReminder);
-            this.mainTab.Controls.Add(this.label1);
+            this.mainTab.Controls.Add(this.lbl_rightClickText);
             this.mainTab.Controls.Add(this.lbl_leftClickText);
             this.mainTab.Controls.Add(this.lbl_GPminValue);
             this.mainTab.Controls.Add(this.lbl_GPminTitle);
@@ -96,15 +102,24 @@
             this.mainTab.Text = "Main";
             this.mainTab.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // lbl_logReminder
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(634, 30);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(108, 12);
-            this.label1.TabIndex = 17;
-            this.label1.Text = "Right click: Toggle border";
+            this.lbl_logReminder.AutoSize = true;
+            this.lbl_logReminder.Location = new System.Drawing.Point(552, 48);
+            this.lbl_logReminder.Name = "lbl_logReminder";
+            this.lbl_logReminder.Size = new System.Drawing.Size(155, 13);
+            this.lbl_logReminder.TabIndex = 18;
+            this.lbl_logReminder.Text = "Remember to type /log in-game";
+            // 
+            // lbl_rightClickText
+            // 
+            this.lbl_rightClickText.AutoSize = true;
+            this.lbl_rightClickText.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_rightClickText.Location = new System.Drawing.Point(634, 30);
+            this.lbl_rightClickText.Name = "lbl_rightClickText";
+            this.lbl_rightClickText.Size = new System.Drawing.Size(108, 12);
+            this.lbl_rightClickText.TabIndex = 17;
+            this.lbl_rightClickText.Text = "Right click: Toggle border";
             // 
             // lbl_leftClickText
             // 
@@ -224,7 +239,7 @@
             // 
             // attendanceButton
             // 
-            this.attendanceButton.Location = new System.Drawing.Point(574, 508);
+            this.attendanceButton.Location = new System.Drawing.Point(519, 508);
             this.attendanceButton.Name = "attendanceButton";
             this.attendanceButton.Size = new System.Drawing.Size(97, 33);
             this.attendanceButton.TabIndex = 6;
@@ -235,7 +250,7 @@
             // 
             // tenEPbutton
             // 
-            this.tenEPbutton.Location = new System.Drawing.Point(574, 469);
+            this.tenEPbutton.Location = new System.Drawing.Point(519, 469);
             this.tenEPbutton.Name = "tenEPbutton";
             this.tenEPbutton.Size = new System.Drawing.Size(97, 33);
             this.tenEPbutton.TabIndex = 6;
@@ -245,7 +260,7 @@
             // 
             // fiveEPbutton
             // 
-            this.fiveEPbutton.Location = new System.Drawing.Point(574, 430);
+            this.fiveEPbutton.Location = new System.Drawing.Point(519, 430);
             this.fiveEPbutton.Name = "fiveEPbutton";
             this.fiveEPbutton.Size = new System.Drawing.Size(97, 33);
             this.fiveEPbutton.TabIndex = 6;
@@ -313,14 +328,38 @@
             this.loginButton.UseVisualStyleBackColor = true;
             this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
             // 
-            // lbl_logReminder
+            // PRsortButton
             // 
-            this.lbl_logReminder.AutoSize = true;
-            this.lbl_logReminder.Location = new System.Drawing.Point(552, 48);
-            this.lbl_logReminder.Name = "lbl_logReminder";
-            this.lbl_logReminder.Size = new System.Drawing.Size(155, 13);
-            this.lbl_logReminder.TabIndex = 18;
-            this.lbl_logReminder.Text = "Remember to type /log in-game";
+            this.PRsortButton.Location = new System.Drawing.Point(640, 454);
+            this.PRsortButton.Name = "PRsortButton";
+            this.PRsortButton.Size = new System.Drawing.Size(100, 30);
+            this.PRsortButton.TabIndex = 19;
+            this.PRsortButton.Text = "PR";
+            this.PRsortButton.UseVisualStyleBackColor = true;
+            this.PRsortButton.Visible = false;
+            this.PRsortButton.Click += new System.EventHandler(this.PRsortButton_Click);
+            // 
+            // alphaSortButton
+            // 
+            this.alphaSortButton.Location = new System.Drawing.Point(640, 493);
+            this.alphaSortButton.Name = "alphaSortButton";
+            this.alphaSortButton.Size = new System.Drawing.Size(100, 30);
+            this.alphaSortButton.TabIndex = 20;
+            this.alphaSortButton.Text = "Alphabetical";
+            this.alphaSortButton.UseVisualStyleBackColor = true;
+            this.alphaSortButton.Visible = false;
+            this.alphaSortButton.Click += new System.EventHandler(this.alphaSortButton_Click);
+            // 
+            // lbl_sort
+            // 
+            this.lbl_sort.AutoSize = true;
+            this.lbl_sort.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_sort.Location = new System.Drawing.Point(647, 434);
+            this.lbl_sort.Name = "lbl_sort";
+            this.lbl_sort.Size = new System.Drawing.Size(87, 13);
+            this.lbl_sort.TabIndex = 21;
+            this.lbl_sort.Text = "Sort Table by:";
+            this.lbl_sort.Visible = false;
             // 
             // guildManagement
             // 
@@ -371,9 +410,12 @@
         private System.Windows.Forms.Label lbl_GPminValue;
         private System.Windows.Forms.Label lbl_GPminTitle;
         private System.Windows.Forms.Label lbl_decayValue;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbl_rightClickText;
         private System.Windows.Forms.Label lbl_leftClickText;
         private System.Windows.Forms.Label lbl_logReminder;
+        private System.Windows.Forms.Label lbl_sort;
+        private System.Windows.Forms.Button alphaSortButton;
+        private System.Windows.Forms.Button PRsortButton;
     }
 }
 
