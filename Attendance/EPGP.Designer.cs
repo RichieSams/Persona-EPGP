@@ -31,6 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(guildManagement));
             this.tabArea = new System.Windows.Forms.TabControl();
             this.mainTab = new System.Windows.Forms.TabPage();
+            this.lbl_sort = new System.Windows.Forms.Label();
+            this.alphaSortButton = new System.Windows.Forms.Button();
+            this.PRsortButton = new System.Windows.Forms.Button();
             this.lbl_logReminder = new System.Windows.Forms.Label();
             this.lbl_rightClickText = new System.Windows.Forms.Label();
             this.lbl_leftClickText = new System.Windows.Forms.Label();
@@ -54,9 +57,6 @@
             this.lbl_pass = new System.Windows.Forms.Label();
             this.lbl_name = new System.Windows.Forms.Label();
             this.loginButton = new System.Windows.Forms.Button();
-            this.PRsortButton = new System.Windows.Forms.Button();
-            this.alphaSortButton = new System.Windows.Forms.Button();
-            this.lbl_sort = new System.Windows.Forms.Label();
             this.tabArea.SuspendLayout();
             this.mainTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.EPGPspreadsheet)).BeginInit();
@@ -102,6 +102,39 @@
             this.mainTab.Text = "Main";
             this.mainTab.UseVisualStyleBackColor = true;
             // 
+            // lbl_sort
+            // 
+            this.lbl_sort.AutoSize = true;
+            this.lbl_sort.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_sort.Location = new System.Drawing.Point(641, 434);
+            this.lbl_sort.Name = "lbl_sort";
+            this.lbl_sort.Size = new System.Drawing.Size(87, 13);
+            this.lbl_sort.TabIndex = 21;
+            this.lbl_sort.Text = "Sort Table by:";
+            this.lbl_sort.Visible = false;
+            // 
+            // alphaSortButton
+            // 
+            this.alphaSortButton.Location = new System.Drawing.Point(634, 493);
+            this.alphaSortButton.Name = "alphaSortButton";
+            this.alphaSortButton.Size = new System.Drawing.Size(100, 30);
+            this.alphaSortButton.TabIndex = 20;
+            this.alphaSortButton.Text = "Alphabetical";
+            this.alphaSortButton.UseVisualStyleBackColor = true;
+            this.alphaSortButton.Visible = false;
+            this.alphaSortButton.Click += new System.EventHandler(this.alphaSortButton_Click);
+            // 
+            // PRsortButton
+            // 
+            this.PRsortButton.Location = new System.Drawing.Point(634, 454);
+            this.PRsortButton.Name = "PRsortButton";
+            this.PRsortButton.Size = new System.Drawing.Size(100, 30);
+            this.PRsortButton.TabIndex = 19;
+            this.PRsortButton.Text = "PR";
+            this.PRsortButton.UseVisualStyleBackColor = true;
+            this.PRsortButton.Visible = false;
+            this.PRsortButton.Click += new System.EventHandler(this.PRsortButton_Click);
+            // 
             // lbl_logReminder
             // 
             this.lbl_logReminder.AutoSize = true;
@@ -134,7 +167,7 @@
             // lbl_GPminValue
             // 
             this.lbl_GPminValue.AutoSize = true;
-            this.lbl_GPminValue.Location = new System.Drawing.Point(665, 375);
+            this.lbl_GPminValue.Location = new System.Drawing.Point(665, 387);
             this.lbl_GPminValue.Name = "lbl_GPminValue";
             this.lbl_GPminValue.Size = new System.Drawing.Size(31, 13);
             this.lbl_GPminValue.TabIndex = 15;
@@ -144,7 +177,7 @@
             // 
             this.lbl_GPminTitle.AutoSize = true;
             this.lbl_GPminTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_GPminTitle.Location = new System.Drawing.Point(646, 358);
+            this.lbl_GPminTitle.Location = new System.Drawing.Point(646, 370);
             this.lbl_GPminTitle.Name = "lbl_GPminTitle";
             this.lbl_GPminTitle.Size = new System.Drawing.Size(80, 13);
             this.lbl_GPminTitle.TabIndex = 14;
@@ -153,7 +186,7 @@
             // lbl_decayValue
             // 
             this.lbl_decayValue.AutoSize = true;
-            this.lbl_decayValue.Location = new System.Drawing.Point(525, 375);
+            this.lbl_decayValue.Location = new System.Drawing.Point(525, 387);
             this.lbl_decayValue.Name = "lbl_decayValue";
             this.lbl_decayValue.Size = new System.Drawing.Size(94, 13);
             this.lbl_decayValue.TabIndex = 13;
@@ -163,7 +196,7 @@
             // 
             this.lbl_decayTitle.AutoSize = true;
             this.lbl_decayTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_decayTitle.Location = new System.Drawing.Point(533, 358);
+            this.lbl_decayTitle.Location = new System.Drawing.Point(533, 370);
             this.lbl_decayTitle.Name = "lbl_decayTitle";
             this.lbl_decayTitle.Size = new System.Drawing.Size(90, 13);
             this.lbl_decayTitle.TabIndex = 12;
@@ -172,7 +205,7 @@
             // lbl_EPgainsValues
             // 
             this.lbl_EPgainsValues.AutoSize = true;
-            this.lbl_EPgainsValues.Location = new System.Drawing.Point(661, 278);
+            this.lbl_EPgainsValues.Location = new System.Drawing.Point(661, 290);
             this.lbl_EPgainsValues.Name = "lbl_EPgainsValues";
             this.lbl_EPgainsValues.Size = new System.Drawing.Size(53, 52);
             this.lbl_EPgainsValues.TabIndex = 11;
@@ -181,7 +214,7 @@
             // lbl_EPgainsNames
             // 
             this.lbl_EPgainsNames.AutoSize = true;
-            this.lbl_EPgainsNames.Location = new System.Drawing.Point(535, 278);
+            this.lbl_EPgainsNames.Location = new System.Drawing.Point(535, 290);
             this.lbl_EPgainsNames.Name = "lbl_EPgainsNames";
             this.lbl_EPgainsNames.Size = new System.Drawing.Size(124, 52);
             this.lbl_EPgainsNames.TabIndex = 10;
@@ -191,7 +224,7 @@
             // 
             this.lbl_EPgainsTitle.AutoSize = true;
             this.lbl_EPgainsTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_EPgainsTitle.Location = new System.Drawing.Point(597, 261);
+            this.lbl_EPgainsTitle.Location = new System.Drawing.Point(597, 273);
             this.lbl_EPgainsTitle.Name = "lbl_EPgainsTitle";
             this.lbl_EPgainsTitle.Size = new System.Drawing.Size(63, 13);
             this.lbl_EPgainsTitle.TabIndex = 9;
@@ -200,21 +233,21 @@
             // lbl_itemCostValues
             // 
             this.lbl_itemCostValues.AutoSize = true;
-            this.lbl_itemCostValues.Location = new System.Drawing.Point(635, 110);
+            this.lbl_itemCostValues.Location = new System.Drawing.Point(638, 110);
             this.lbl_itemCostValues.Name = "lbl_itemCostValues";
-            this.lbl_itemCostValues.Size = new System.Drawing.Size(52, 130);
+            this.lbl_itemCostValues.Size = new System.Drawing.Size(49, 143);
             this.lbl_itemCostValues.TabIndex = 8;
-            this.lbl_itemCostValues.Text = "5 GP\r\n10 GP\r\n5 GP\r\n5 GP\r\n5 GP\r\n5 GP\r\n10 GP\r\n10 GP\r\n5 GP\r\n2x normal";
+            this.lbl_itemCostValues.Text = "5 GP\r\n10 GP\r\n5 GP\r\n5 GP\r\n5 GP\r\n5 GP\r\n10 GP\r\n10 GP\r\n5 GP\r\n100 LGP\r\n200 LGP";
             // 
             // lbl_itemCostNames
             // 
             this.lbl_itemCostNames.AutoSize = true;
-            this.lbl_itemCostNames.Location = new System.Drawing.Point(566, 110);
+            this.lbl_itemCostNames.Location = new System.Drawing.Point(563, 110);
             this.lbl_itemCostNames.Name = "lbl_itemCostNames";
-            this.lbl_itemCostNames.Size = new System.Drawing.Size(65, 130);
+            this.lbl_itemCostNames.Size = new System.Drawing.Size(74, 143);
             this.lbl_itemCostNames.TabIndex = 7;
-            this.lbl_itemCostNames.Text = "Armor\r\n2H\r\nMain Hands\r\nOff Hands\r\nRanged\r\nRings\r\nTrinkets\r\nGreaters\r\nLessers\r\nLeg" +
-                "endaries\r\n";
+            this.lbl_itemCostNames.Text = "Armor\r\n1H\r\n2H\r\nOff Hands\r\nRanged\r\nRings\r\nTrinkets\r\nGreaters\r\nLessers\r\nLegendary 1" +
+                "H\r\nLegendary 2H\r\n";
             // 
             // lbl_itemCostTitle
             // 
@@ -239,7 +272,7 @@
             // 
             // attendanceButton
             // 
-            this.attendanceButton.Location = new System.Drawing.Point(519, 508);
+            this.attendanceButton.Location = new System.Drawing.Point(513, 508);
             this.attendanceButton.Name = "attendanceButton";
             this.attendanceButton.Size = new System.Drawing.Size(97, 33);
             this.attendanceButton.TabIndex = 6;
@@ -250,7 +283,7 @@
             // 
             // tenEPbutton
             // 
-            this.tenEPbutton.Location = new System.Drawing.Point(519, 469);
+            this.tenEPbutton.Location = new System.Drawing.Point(513, 469);
             this.tenEPbutton.Name = "tenEPbutton";
             this.tenEPbutton.Size = new System.Drawing.Size(97, 33);
             this.tenEPbutton.TabIndex = 6;
@@ -260,7 +293,7 @@
             // 
             // fiveEPbutton
             // 
-            this.fiveEPbutton.Location = new System.Drawing.Point(519, 430);
+            this.fiveEPbutton.Location = new System.Drawing.Point(513, 430);
             this.fiveEPbutton.Name = "fiveEPbutton";
             this.fiveEPbutton.Size = new System.Drawing.Size(97, 33);
             this.fiveEPbutton.TabIndex = 6;
@@ -327,39 +360,6 @@
             this.loginButton.Text = "Login";
             this.loginButton.UseVisualStyleBackColor = true;
             this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
-            // 
-            // PRsortButton
-            // 
-            this.PRsortButton.Location = new System.Drawing.Point(640, 454);
-            this.PRsortButton.Name = "PRsortButton";
-            this.PRsortButton.Size = new System.Drawing.Size(100, 30);
-            this.PRsortButton.TabIndex = 19;
-            this.PRsortButton.Text = "PR";
-            this.PRsortButton.UseVisualStyleBackColor = true;
-            this.PRsortButton.Visible = false;
-            this.PRsortButton.Click += new System.EventHandler(this.PRsortButton_Click);
-            // 
-            // alphaSortButton
-            // 
-            this.alphaSortButton.Location = new System.Drawing.Point(640, 493);
-            this.alphaSortButton.Name = "alphaSortButton";
-            this.alphaSortButton.Size = new System.Drawing.Size(100, 30);
-            this.alphaSortButton.TabIndex = 20;
-            this.alphaSortButton.Text = "Alphabetical";
-            this.alphaSortButton.UseVisualStyleBackColor = true;
-            this.alphaSortButton.Visible = false;
-            this.alphaSortButton.Click += new System.EventHandler(this.alphaSortButton_Click);
-            // 
-            // lbl_sort
-            // 
-            this.lbl_sort.AutoSize = true;
-            this.lbl_sort.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_sort.Location = new System.Drawing.Point(647, 434);
-            this.lbl_sort.Name = "lbl_sort";
-            this.lbl_sort.Size = new System.Drawing.Size(87, 13);
-            this.lbl_sort.TabIndex = 21;
-            this.lbl_sort.Text = "Sort Table by:";
-            this.lbl_sort.Visible = false;
             // 
             // guildManagement
             // 
