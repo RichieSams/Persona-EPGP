@@ -111,7 +111,11 @@ namespace Attendance
 
         private void Cell_Clicked(object sender, DataGridViewCellEventArgs e )
         {
-            EPGPspreadsheet.Rows[e.RowIndex].Cells["Name"].Selected = true;
+            // Highlight name if the cell clicked isn't a header cell
+            if (e.RowIndex != -1)
+            {
+                EPGPspreadsheet.Rows[e.RowIndex].Cells["Name"].Selected = true;
+            }
         }
 
         private void updateTable()
@@ -545,12 +549,24 @@ namespace Attendance
 
         private void PRsortButton_Click(object sender, EventArgs e)
         {
-
+            BindingSource bs = EPGPspreadsheet.DataSource as BindingSource;
+            DataTable table = bs.DataSource as DataTable;
+            table.ColumnChanged -= Column_Changed;
+            bs.Sort = "Present DESC, Standby DESC, PR DESC";
+            this.EPGPspreadsheet.DataSource = bs;
+            bs = EPGPspreadsheet.DataSource as BindingSource;
+            table.ColumnChanged += Column_Changed;
         }
 
         private void alphaSortButton_Click(object sender, EventArgs e)
         {
-            
+            BindingSource bs = EPGPspreadsheet.DataSource as BindingSource;
+            DataTable table = bs.DataSource as DataTable;
+            table.ColumnChanged -= Column_Changed;
+            bs.Sort = "Name ASC";
+            this.EPGPspreadsheet.DataSource = bs;
+            bs = EPGPspreadsheet.DataSource as BindingSource;
+            table.ColumnChanged += Column_Changed;
         }
     }
 }
