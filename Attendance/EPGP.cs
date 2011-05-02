@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Xml;
 using System.IO;
+using System.Diagnostics;
+using System.Threading;
 
 namespace Attendance
 {
@@ -16,46 +18,31 @@ namespace Attendance
     {
         private String general_user_id = "persona_admin";
         private String general_password = "ilike333";
-        private Boolean overlayToggle = false;
-        private Boolean overlayBorder = true;
         private string currentZone = string.Empty;
         private Boolean loggedIn = false;
+        private Thread refreshThread;
+
+        private DateTime tableModTime;
+
+        overlay overlayForm;
 
         private MySqlConnection connection;
 
         private double minGP = 5.0;
-
-        protected override bool ShowWithoutActivation
-        {
-            get { return true; }
-        }
 
         public guildManagement()
         {
             InitializeComponent();
         }
 
+        ~guildManagement()
+        {
+            refreshThread.Abort();
+            Application.Exit();
+        }
+
         private void fiveEPbutton_Click(object sender, EventArgs e)
         {
-            //try
-            //{
-            //    if (connection.State == ConnectionState.Closed) connection.Open();
-
-            //    MySqlCommand command = null;
-
-            //    command = new MySqlCommand("UPDATE EPGP SET ep=ep+5 WHERE present=1 OR standby=1", connection);
-            //    command.ExecuteNonQuery();
-
-            //    updateTable();
-            //}
-            //catch (MySqlException ex)
-            //{
-            //    // Didn't work
-            //}
-            //finally
-            //{
-            //    if (connection.State == ConnectionState.Open) connection.Close();
-            //}
             executeSQL("UPDATE EPGP SET ep=ep+5 WHERE present=1 OR standby=1", new object[] {});
             updateTable();
         }
@@ -94,6 +81,9 @@ namespace Attendance
             EPGPspreadsheet.Columns["Present"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             EPGPspreadsheet.Columns["Standby"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             
+            // Link
+            linkLabel1.Links[0].LinkData = linkLabel1.Text;
+
             // Highlight name on cell click
             EPGPspreadsheet.CellClick += Cell_Clicked;
 
@@ -105,16 +95,45 @@ namespace Attendance
             logWatcher.Created += new FileSystemEventHandler(textLogParser);
             logWatcher.EnableRaisingEvents = true;
 
+            // Create Overlay
+            overlayForm = new overlay();
+
+            // Table Mod
+            tableModTime = getTableLastModTime();
+
+            // Refresh Table Timer
+            refreshDelegate = new refreshNew(refreshNewerTable);
+            refreshTable refreshTbl = new refreshTable();
+            refreshThread = new Thread(delegate()
+                {
+                    refreshTbl.refresh(this);
+                });
+            refreshThread.Start();
+
             // Find zone
             zoneParser();
         }
 
         private void Cell_Clicked(object sender, DataGridViewCellEventArgs e )
         {
-            EPGPspreadsheet.Rows[e.RowIndex].Cells["Name"].Selected = true;
+            //if (e.RowIndex == -1)
+            //{
+                // Header
+            //    DataGridViewColumnHeaderCell header = EPGPspreadsheet.Columns[e.ColumnIndex].HeaderCell;
+            //    String name = EPGPspreadsheet.Columns[e.ColumnIndex].Name;
+            //    BindingSource bs = (BindingSource)EPGPspreadsheet.DataSource;
+
+            //    header.SortGlyphDirection = SortOrder.Ascending;
+
+            //    bs.Sort = "Present ASC, PR DESC";
+            //}
+            //else 
+            if (e.RowIndex >= 0) {
+                EPGPspreadsheet.Rows[e.RowIndex].Cells["Name"].Selected = true;
+            }
         }
 
-        private void updateTable()
+        private bool updateTable()
         {
             try
             {
@@ -131,10 +150,13 @@ namespace Attendance
                 bs.DataSource = table;
                 this.EPGPspreadsheet.DataSource = bs;
                 table.ColumnChanged += Column_Changed;
+
+                return true;
             }
             catch (MySqlException ex)
             {
                 // Didn't work
+                return false;
             }
             finally
             {
@@ -176,101 +198,89 @@ namespace Attendance
         {
             // Get Name
             String name = (String)e.Row["Name"];
+            DataTable table = e.Column.Table;
+            table.ColumnChanged -= Column_Changed;
+            bool success = false;
             // Check to see which column is being changed
             if (e.Column.ColumnName.Equals("EP") || e.Column.ColumnName.Equals("GP") || e.Column.ColumnName.Equals("LGP"))
             {
-                DataTable table = e.Column.Table;
-                table.ColumnChanged -= Column_Changed;
                 if (e.Column.ColumnName.Equals("GP"))
                     e.Row["GP"] = Math.Max((double)e.Row["GP"], minGP);
-                e.Row["PR"] = (Double)e.Row["EP"] / (Double)e.Row["GP"];
-                resortTable(e.Column.Table);
-                if (e.Column.ColumnName.Equals("EP"))
-                    executeSQL("UPDATE EPGP SET ep=@1 WHERE name=@2", new object[] { (double)e.Row["EP"], name });
-                if (e.Column.ColumnName.Equals("GP"))
-                    executeSQL("UPDATE EPGP SET gp=@1 WHERE name=@2", new object[] { (double)e.Row["GP"], name });
                 if (e.Column.ColumnName.Equals("LGP"))
-                    executeSQL("UPDATE EPGP SET lgp=@1 WHERE name=@2", new object[] { (double)e.Row["LGP"], name });
-                
+                    e.Row["LGP"] = Math.Max((double)e.Row["LGP"], minGP);
+                e.Row["PR"] = (double)e.Row["EP"] / (double)e.Row["GP"];
+                if (e.Column.ColumnName.Equals("EP"))
+                    success = executeSQL("UPDATE EPGP SET ep=@1 WHERE name=@2", new object[] { (double)e.Row["EP"], name });
+                if (e.Column.ColumnName.Equals("GP"))
+                    success = executeSQL("UPDATE EPGP SET gp=@1 WHERE name=@2", new object[] { (double)e.Row["GP"], name });
+                if (e.Column.ColumnName.Equals("LGP"))
+                    success = executeSQL("UPDATE EPGP SET lgp=@1 WHERE name=@2", new object[] { (double)e.Row["LGP"], name });
             }
             else if (e.Column.ColumnName.Equals("Present"))
             {
-                DataTable table = e.Column.Table;
-                table.ColumnChanged -= Column_Changed;
                 if ((Boolean)e.Row["Present"] == true)
                 {
                     if ((Boolean)e.Row["Present"] == true) e.Row["Standby"] = false;
                 }
-                resortTable(e.Column.Table);
-                executeSQL("UPDATE EPGP SET present=@1,standby=@2 WHERE name=@3", new object[] { ((bool)e.Row["Present"] ? 1 : 0), ((bool)e.Row["Standby"] ? 1 : 0), name });
+                success = executeSQL("UPDATE EPGP SET present=@1,standby=@2 WHERE name=@3", new object[] { ((bool)e.Row["Present"] ? 1 : 0), ((bool)e.Row["Standby"] ? 1 : 0), name });
             }
             else if (e.Column.ColumnName.Equals("Standby"))
             {
-                DataTable table = e.Column.Table;
-                table.ColumnChanged -= Column_Changed;
                 if ((Boolean)e.Row["Standby"] == true)
                 {
                     if ((Boolean)e.Row["Standby"] == true) e.Row["Present"] = false;
                 }
-                resortTable(e.Column.Table);
-                executeSQL("UPDATE EPGP SET present=@1,standby=@2 WHERE name=@3", new object[] {((bool)e.Row["Present"] ? 1 : 0), ((bool)e.Row["Standby"] ? 1 : 0), name});
+                success = executeSQL("UPDATE EPGP SET present=@1,standby=@2 WHERE name=@3", new object[] {((bool)e.Row["Present"] ? 1 : 0), ((bool)e.Row["Standby"] ? 1 : 0), name});
             }
+            if (success)
+            {
+                resortTable(table);
+            }
+            else
+            {
+                table.RejectChanges();
+                MessageBox.Show("Change failed.", "Change");
+            }
+            table.ColumnChanged += Column_Changed;
         }
 
         private void resortTable(DataTable dt)
         {
-            DataTable table = new DataTable();
-            DataRow[] data;
             // Auto sort if not logged in
             if (!loggedIn)
             {
-                data = (from r in dt.AsEnumerable() orderby r["Present"] descending, r["Standby"] descending, r["PR"] descending select r).ToArray();
+                BindingSource bs = (BindingSource)EPGPspreadsheet.DataSource;
+                bs.Sort = "Present DESC, Standby DESC, PR DESC";
             }
-            else
-            {
-                data = (from r in dt.AsEnumerable() select r).ToArray();
-            }
-            table = data.CopyToDataTable();
-            BindingSource bs = new BindingSource();
-            bs.DataSource = table;
-            this.EPGPspreadsheet.DataSource = bs;
-            table.ColumnChanged += Column_Changed;
         }
 
-        overlay overlayForm = new overlay();
-
-        public void overlayButton_Click(object sender, EventArgs e)
+        public void overlayButton_Click(object sender, MouseEventArgs e)
         {
-            if (overlayForm.Visible == false)
+            if (e.Button == MouseButtons.Left)
             {
-                if (overlayForm.IsDisposed) overlayForm = new overlay();
-                overlayForm.Show();
-                overlayToggle = true;
+                if (overlayForm.Visible == false)
+                {
+                    if (overlayForm.IsDisposed)
+                        overlayForm = new overlay();
+                    overlayForm.Show();
+                }
+                else
+                {
+                    overlayForm.Hide();
+                }
+                this.Focus();
             }
-            else
+            else if (e.Button == MouseButtons.Right)
             {
-                overlayForm.Hide();
-                overlayToggle = false;
-            }
-            this.Focus();
-        }
-
-        private void overlayButton_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                if (overlayBorder)
+                if (overlayForm.FormBorderStyle == System.Windows.Forms.FormBorderStyle.FixedSingle)
                 {
                     overlayForm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-                    overlayBorder = false;
                 }
                 else
                 {
                     overlayForm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-                    overlayBorder = true;
                 }
             }
-
         }
 
         private void txt_pass_KeyDown(object sender, KeyEventArgs e)
@@ -287,7 +297,7 @@ namespace Attendance
             loginFunction();
         }
 
-        private void loginFunction()
+        private bool loginFunction()
         {
             try
             {
@@ -310,11 +320,16 @@ namespace Attendance
                 EPGPspreadsheet.Columns["PR"].ReadOnly = true;
                 EPGPspreadsheet.Columns["LPR"].ReadOnly = true;
                 loggedIn = true;
+                lbl_loggedIn.Text = "Logged In";
+                lbl_loggedIn.ForeColor = Color.Green;
+
+                return loggedIn;
             }
             catch (MySqlException ex)
             {
                 //Show popup that login failed
-                MessageBox.Show("Login failed");
+                MessageBox.Show("Login failed", "Login");
+                return loggedIn;
             }
             finally
             {
@@ -543,14 +558,74 @@ namespace Attendance
             overlayForm.lbl_test.Text = currentZone;
         }
 
-        private void PRsortButton_Click(object sender, EventArgs e)
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-
+            ProcessStartInfo info = new ProcessStartInfo(e.Link.LinkData.ToString());
+            Process.Start(info);
         }
 
-        private void alphaSortButton_Click(object sender, EventArgs e)
+        private void btn_refreshTbl_Click(object sender, EventArgs e)
         {
-            
+            refreshNewerTable();
         }
+
+        private DateTime getTableLastModTime()
+        {
+            if (connection.State == ConnectionState.Closed) connection.Open();
+
+            MySqlCommand command = connection.CreateCommand();
+
+            command.CommandText = "SELECT UPDATE_TIME FROM information_schema.tables WHERE TABLE_SCHEMA = 'persona_EPGP' AND TABLE_NAME = 'EPGP'";
+
+            MySqlDataReader dr = command.ExecuteReader();
+            dr.Read();
+            MySql.Data.Types.MySqlDateTime sqlDt = dr.GetMySqlDateTime("UPDATE_TIME");
+
+            dr.Close();
+            connection.Close();
+
+            return sqlDt.GetDateTime();
+        }
+
+        public delegate void refreshNew();
+        public refreshNew refreshDelegate;
+        
+        public void refreshNewerTable()
+        {
+            try
+            {
+                DateTime dt = getTableLastModTime();
+
+                if (dt.CompareTo(tableModTime) > 0)
+                {
+                    // Table has been modified since
+                    tableModTime = dt;
+                    updateTable();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                // Didn't Work
+            }
+        }
+
+    }
+
+    public class refreshTable
+    {
+
+        public void refresh(guildManagement gm)
+        {
+            Random r = new Random();
+            while (true)
+            {
+                Thread.Sleep(r.Next(25000, 35000));
+
+                if (!gm.IsDisposed) {
+                    gm.Invoke(gm.refreshDelegate);
+                }
+            }
+        }
+
     }
 }
