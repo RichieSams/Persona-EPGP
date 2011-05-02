@@ -344,6 +344,7 @@
             this.fiveEPbutton.Text = "+5 EP";
             this.fiveEPbutton.UseVisualStyleBackColor = true;
             this.fiveEPbutton.Visible = false;
+            this.fiveEPbutton.Click += new System.EventHandler(this.fiveEPbutton_Click);
             // 
             // txt_name
             // 

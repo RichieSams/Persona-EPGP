@@ -111,7 +111,7 @@ namespace Attendance
             refreshThread.Start();
 
             // Find zone
-            zoneParser();
+            zoneParser(); // this errors right now :(
         }
 
         private void Cell_Clicked(object sender, DataGridViewCellEventArgs e )
@@ -129,6 +129,7 @@ namespace Attendance
             //}
             //else 
             if (e.RowIndex >= 0) {
+                // Highlight name if the cell clicked isn't a header cell
                 EPGPspreadsheet.Rows[e.RowIndex].Cells["Name"].Selected = true;
             }
         }
