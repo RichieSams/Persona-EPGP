@@ -554,7 +554,6 @@ namespace Attendance
             table.ColumnChanged -= Column_Changed;
             bs.Sort = "Present DESC, Standby DESC, PR DESC";
             this.EPGPspreadsheet.DataSource = bs;
-            bs = EPGPspreadsheet.DataSource as BindingSource;
             table.ColumnChanged += Column_Changed;
         }
 
@@ -565,7 +564,6 @@ namespace Attendance
             table.ColumnChanged -= Column_Changed;
             bs.Sort = "Name ASC";
             this.EPGPspreadsheet.DataSource = bs;
-            bs = EPGPspreadsheet.DataSource as BindingSource;
             table.ColumnChanged += Column_Changed;
         }
     }
