@@ -75,6 +75,7 @@ namespace Attendance
             EPGPspreadsheet.ReadOnly = true;
 
             // Formatting
+            EPGPspreadsheet.Columns["Name"].Width = 75;
             EPGPspreadsheet.Columns["EP"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             EPGPspreadsheet.Columns["EP"].DefaultCellStyle.Format = "0.00";
             EPGPspreadsheet.Columns["EP"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
@@ -84,6 +85,12 @@ namespace Attendance
             EPGPspreadsheet.Columns["PR"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             EPGPspreadsheet.Columns["PR"].DefaultCellStyle.Format = "0.00";
             EPGPspreadsheet.Columns["PR"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            EPGPspreadsheet.Columns["LGP"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            EPGPspreadsheet.Columns["LGP"].DefaultCellStyle.Format = "0.00";
+            EPGPspreadsheet.Columns["LGP"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            EPGPspreadsheet.Columns["LPR"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            EPGPspreadsheet.Columns["LPR"].DefaultCellStyle.Format = "0.00";
+            EPGPspreadsheet.Columns["LPR"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             EPGPspreadsheet.Columns["Present"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             EPGPspreadsheet.Columns["Standby"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             
@@ -116,7 +123,7 @@ namespace Attendance
                 MySqlCommand command = connection.CreateCommand();
                 MySqlDataAdapter adapter = new MySqlDataAdapter();
 
-                command.CommandText = "SELECT name as Name, ep as EP, gp as GP, ep/gp as PR, present as Present, standby as Standby FROM EPGP ORDER BY Present DESC, Standby DESC, PR DESC";
+                command.CommandText = "SELECT name as Name, ep as EP, gp as GP, ep/gp as PR, lgp as LGP, ep/lgp as LPR, present as Present, standby as Standby FROM EPGP ORDER BY Present DESC, Standby DESC, PR DESC";
                 adapter.SelectCommand = command;
                 DataTable table = new DataTable();
                 adapter.Fill(table);
@@ -170,7 +177,7 @@ namespace Attendance
             // Get Name
             String name = (String)e.Row["Name"];
             // Check to see which column is being changed
-            if (e.Column.ColumnName.Equals("EP") || e.Column.ColumnName.Equals("GP"))
+            if (e.Column.ColumnName.Equals("EP") || e.Column.ColumnName.Equals("GP") || e.Column.ColumnName.Equals("LGP"))
             {
                 DataTable table = e.Column.Table;
                 table.ColumnChanged -= Column_Changed;
@@ -182,6 +189,8 @@ namespace Attendance
                     executeSQL("UPDATE EPGP SET ep=@1 WHERE name=@2", new object[] { (double)e.Row["EP"], name });
                 if (e.Column.ColumnName.Equals("GP"))
                     executeSQL("UPDATE EPGP SET gp=@1 WHERE name=@2", new object[] { (double)e.Row["GP"], name });
+                if (e.Column.ColumnName.Equals("LGP"))
+                    executeSQL("UPDATE EPGP SET lgp=@1 WHERE name=@2", new object[] { (double)e.Row["LGP"], name });
                 
             }
             else if (e.Column.ColumnName.Equals("Present"))
@@ -299,6 +308,7 @@ namespace Attendance
                 EPGPspreadsheet.ReadOnly = false;
                 EPGPspreadsheet.Columns["Name"].ReadOnly = true;
                 EPGPspreadsheet.Columns["PR"].ReadOnly = true;
+                EPGPspreadsheet.Columns["LPR"].ReadOnly = true;
                 loggedIn = true;
             }
             catch (MySqlException ex)
