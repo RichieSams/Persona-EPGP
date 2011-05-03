@@ -387,25 +387,69 @@ namespace Attendance
             {
                 XmlTextReader xml = new XmlTextReader(settingsPath);
 
+                while (xml.Read())
+                {
+                    if (xml.NodeType == XmlNodeType.Element)
+                    {
+                        if (xml.Name == "Overlay")
+                        {
+                            while (xml.Read() && !(xml.NodeType == XmlNodeType.EndElement && xml.Name == "Overlay"))
+                            {
+                                if (xml.NodeType == XmlNodeType.Element)
+                                {
+                                    xml.Read();
+                                    if (xml.Name == "X")
+                                        settingsOverlayX = Convert.ToInt32(xml.Value);
+                                    if (xml.Name == "Y")
+                                        settingsOverlayY = Convert.ToInt32(xml.Value);
+                                    if (xml.Name == "Opacity")
+                                        settingsOverlayOpacity = Convert.ToDouble(xml.Value);
+                                }
+                            }
+                        }
+                        else if (xml.Name == "RiftDirectory")
+                        {
+                            xml.Read();
+                            settingsRiftDir = xml.Value;
+                        }
+                        
+                    }
+                }
+                xml.Close();
+
+                // No directory loaded make them pick again
+                if (settingsRiftDir.Equals(""))
+                {
+                    // Save if they pick a directory
+                    if (getRiftDir())
+                        saveSettings();
+                }
             }
             else
             {
-                // Get Rift Directory
-                FolderBrowserDialog fbd = new FolderBrowserDialog();
-                fbd.Description = "Select your RIFT directory";
-                fbd.ShowNewFolderButton = false;
-                if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    settingsRiftDir = fbd.SelectedPath;
-                }
-                else
-                {
-                    MessageBox.Show(this, "EPGPTool will not function correctly until you choose the correct RIFT directory.\nGo to the settings tab to change rift directory.", "RIFT Directory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
+                getRiftDir();
                 // Save Defaults
                 saveSettings();
             }
             return true;
+        }
+
+        private bool getRiftDir()
+        {
+            // Get Rift Directory
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.Description = "Select your RIFT directory";
+            fbd.ShowNewFolderButton = false;
+            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                settingsRiftDir = fbd.SelectedPath;
+                return true;
+            }
+            else
+            {
+                MessageBox.Show(this, "EPGPTool will not function correctly until you choose the correct RIFT directory.\nGo to the settings tab to change rift directory.", "RIFT Directory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
         }
 
         #endregion // Settings
