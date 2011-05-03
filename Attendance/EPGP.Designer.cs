@@ -327,7 +327,7 @@
             // 
             this.lbl_loggedIn.AutoSize = true;
             this.lbl_loggedIn.ForeColor = System.Drawing.Color.Red;
-            this.lbl_loggedIn.Location = new System.Drawing.Point(70, 73);
+            this.lbl_loggedIn.Location = new System.Drawing.Point(66, 73);
             this.lbl_loggedIn.Name = "lbl_loggedIn";
             this.lbl_loggedIn.Size = new System.Drawing.Size(75, 13);
             this.lbl_loggedIn.TabIndex = 10;
@@ -335,7 +335,7 @@
             // 
             // loginButton
             // 
-            this.loginButton.Location = new System.Drawing.Point(173, 68);
+            this.loginButton.Location = new System.Drawing.Point(169, 68);
             this.loginButton.Name = "loginButton";
             this.loginButton.Size = new System.Drawing.Size(65, 22);
             this.loginButton.TabIndex = 3;
@@ -356,7 +356,7 @@
             // lbl_pass
             // 
             this.lbl_pass.AutoSize = true;
-            this.lbl_pass.Location = new System.Drawing.Point(24, 42);
+            this.lbl_pass.Location = new System.Drawing.Point(20, 42);
             this.lbl_pass.Name = "lbl_pass";
             this.lbl_pass.Size = new System.Drawing.Size(56, 13);
             this.lbl_pass.TabIndex = 3;
@@ -365,7 +365,7 @@
             // txt_pass
             // 
             this.txt_pass.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_pass.Location = new System.Drawing.Point(118, 40);
+            this.txt_pass.Location = new System.Drawing.Point(114, 40);
             this.txt_pass.Name = "txt_pass";
             this.txt_pass.Size = new System.Drawing.Size(120, 20);
             this.txt_pass.TabIndex = 2;
@@ -375,7 +375,7 @@
             // lbl_name
             // 
             this.lbl_name.AutoSize = true;
-            this.lbl_name.Location = new System.Drawing.Point(24, 12);
+            this.lbl_name.Location = new System.Drawing.Point(20, 12);
             this.lbl_name.Name = "lbl_name";
             this.lbl_name.Size = new System.Drawing.Size(58, 13);
             this.lbl_name.TabIndex = 4;
@@ -406,7 +406,7 @@
             // txt_name
             // 
             this.txt_name.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_name.Location = new System.Drawing.Point(118, 10);
+            this.txt_name.Location = new System.Drawing.Point(114, 10);
             this.txt_name.Name = "txt_name";
             this.txt_name.Size = new System.Drawing.Size(120, 20);
             this.txt_name.TabIndex = 1;
@@ -433,8 +433,8 @@
             this.textBox2.Size = new System.Drawing.Size(216, 130);
             this.textBox2.TabIndex = 22;
             this.textBox2.Text = "-More overlay options (transparency, etc)\r\n-Info to show log, combatlog\r\n-Timer R" +
-                "efresh (currently hardcoded at 25-35 seconds randomly)\r\n-Disable refresh if logg" +
-                "ed in\r\n-Slider for overlay Transparency";
+                "efresh (currently hardcoded at 25-35 seconds randomly)\r\n-Slider for overlay Tran" +
+                "sparency";
             // 
             // lbl_logReminder
             // 
@@ -473,7 +473,7 @@
             this.overlayButton.TabIndex = 18;
             this.overlayButton.Text = "Toggle Overlay";
             this.overlayButton.UseVisualStyleBackColor = true;
-            this.overlayButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.overlayButton_Click);
+            this.overlayButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.overlayButton_Click);
             // 
             // EPGPspreadsheet
             // 
@@ -510,6 +510,8 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "guildManagement";
             this.Text = "Persona Guild Management";
+            this.Activated += new System.EventHandler(this.guildManagement_Shown);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.guildManagement_Close);
             this.Load += new System.EventHandler(this.guildManagement_Load);
             this.tabArea.ResumeLayout(false);
             this.infoTab.ResumeLayout(false);
