@@ -327,9 +327,9 @@ namespace Attendance
                 fiveEPbutton.Show();
                 tenEPbutton.Show();
                 attendanceButton.Show();
-                lbl_sort.Show();
-                PRsortButton.Show();
-                alphaSortButton.Show();
+                lbl_sort2.Show();
+                PRsortButton2.Show();
+                alphaSortButton2.Show();
                 EPGPspreadsheet.ReadOnly = false;
                 EPGPspreadsheet.Columns["Name"].ReadOnly = true;
                 EPGPspreadsheet.Columns["PR"].ReadOnly = true;

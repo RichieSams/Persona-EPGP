@@ -31,6 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(guildManagement));
             this.tabArea = new System.Windows.Forms.TabControl();
             this.infoTab = new System.Windows.Forms.TabPage();
+            this.lbl_sort1 = new System.Windows.Forms.Label();
+            this.alphaSortButton1 = new System.Windows.Forms.Button();
+            this.PRsortButton1 = new System.Windows.Forms.Button();
             this.lbl_webLink = new System.Windows.Forms.LinkLabel();
             this.lbl_learnMore = new System.Windows.Forms.Label();
             this.lbl_GPminValue = new System.Windows.Forms.Label();
@@ -44,9 +47,9 @@
             this.lbl_itemCostNames = new System.Windows.Forms.Label();
             this.lbl_itemCostTitle = new System.Windows.Forms.Label();
             this.adminTab = new System.Windows.Forms.TabPage();
-            this.lbl_sort = new System.Windows.Forms.Label();
-            this.alphaSortButton = new System.Windows.Forms.Button();
-            this.PRsortButton = new System.Windows.Forms.Button();
+            this.lbl_sort2 = new System.Windows.Forms.Label();
+            this.alphaSortButton2 = new System.Windows.Forms.Button();
+            this.PRsortButton2 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.lbl_loggedIn = new System.Windows.Forms.Label();
             this.loginButton = new System.Windows.Forms.Button();
@@ -85,6 +88,9 @@
             // 
             // infoTab
             // 
+            this.infoTab.Controls.Add(this.lbl_sort1);
+            this.infoTab.Controls.Add(this.alphaSortButton1);
+            this.infoTab.Controls.Add(this.PRsortButton1);
             this.infoTab.Controls.Add(this.lbl_webLink);
             this.infoTab.Controls.Add(this.lbl_learnMore);
             this.infoTab.Controls.Add(this.lbl_GPminValue);
@@ -104,6 +110,36 @@
             this.infoTab.TabIndex = 0;
             this.infoTab.Text = "Info";
             this.infoTab.UseVisualStyleBackColor = true;
+            // 
+            // lbl_sort1
+            // 
+            this.lbl_sort1.AutoSize = true;
+            this.lbl_sort1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_sort1.Location = new System.Drawing.Point(89, 400);
+            this.lbl_sort1.Name = "lbl_sort1";
+            this.lbl_sort1.Size = new System.Drawing.Size(70, 13);
+            this.lbl_sort1.TabIndex = 27;
+            this.lbl_sort1.Text = "Sort Table:";
+            // 
+            // alphaSortButton1
+            // 
+            this.alphaSortButton1.Location = new System.Drawing.Point(74, 416);
+            this.alphaSortButton1.Name = "alphaSortButton1";
+            this.alphaSortButton1.Size = new System.Drawing.Size(100, 30);
+            this.alphaSortButton1.TabIndex = 26;
+            this.alphaSortButton1.Text = "Alphabetical";
+            this.alphaSortButton1.UseVisualStyleBackColor = true;
+            this.alphaSortButton1.Click += new System.EventHandler(this.alphaSortButton_Click);
+            // 
+            // PRsortButton1
+            // 
+            this.PRsortButton1.Location = new System.Drawing.Point(74, 452);
+            this.PRsortButton1.Name = "PRsortButton1";
+            this.PRsortButton1.Size = new System.Drawing.Size(100, 30);
+            this.PRsortButton1.TabIndex = 25;
+            this.PRsortButton1.Text = "PR";
+            this.PRsortButton1.UseVisualStyleBackColor = true;
+            this.PRsortButton1.Click += new System.EventHandler(this.PRsortButton_Click);
             // 
             // lbl_webLink
             // 
@@ -224,9 +260,9 @@
             // 
             // adminTab
             // 
-            this.adminTab.Controls.Add(this.lbl_sort);
-            this.adminTab.Controls.Add(this.alphaSortButton);
-            this.adminTab.Controls.Add(this.PRsortButton);
+            this.adminTab.Controls.Add(this.lbl_sort2);
+            this.adminTab.Controls.Add(this.alphaSortButton2);
+            this.adminTab.Controls.Add(this.PRsortButton2);
             this.adminTab.Controls.Add(this.textBox1);
             this.adminTab.Controls.Add(this.lbl_loggedIn);
             this.adminTab.Controls.Add(this.loginButton);
@@ -244,38 +280,38 @@
             this.adminTab.Text = "Admin";
             this.adminTab.UseVisualStyleBackColor = true;
             // 
-            // lbl_sort
+            // lbl_sort2
             // 
-            this.lbl_sort.AutoSize = true;
-            this.lbl_sort.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_sort.Location = new System.Drawing.Point(140, 166);
-            this.lbl_sort.Name = "lbl_sort";
-            this.lbl_sort.Size = new System.Drawing.Size(87, 13);
-            this.lbl_sort.TabIndex = 23;
-            this.lbl_sort.Text = "Sort Table by:";
-            this.lbl_sort.Visible = false;
+            this.lbl_sort2.AutoSize = true;
+            this.lbl_sort2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_sort2.Location = new System.Drawing.Point(148, 166);
+            this.lbl_sort2.Name = "lbl_sort2";
+            this.lbl_sort2.Size = new System.Drawing.Size(70, 13);
+            this.lbl_sort2.TabIndex = 23;
+            this.lbl_sort2.Text = "Sort Table:";
+            this.lbl_sort2.Visible = false;
             // 
-            // alphaSortButton
+            // alphaSortButton2
             // 
-            this.alphaSortButton.Location = new System.Drawing.Point(133, 182);
-            this.alphaSortButton.Name = "alphaSortButton";
-            this.alphaSortButton.Size = new System.Drawing.Size(100, 30);
-            this.alphaSortButton.TabIndex = 22;
-            this.alphaSortButton.Text = "Alphabetical";
-            this.alphaSortButton.UseVisualStyleBackColor = true;
-            this.alphaSortButton.Visible = false;
-            this.alphaSortButton.Click += new System.EventHandler(this.alphaSortButton_Click);
+            this.alphaSortButton2.Location = new System.Drawing.Point(133, 182);
+            this.alphaSortButton2.Name = "alphaSortButton2";
+            this.alphaSortButton2.Size = new System.Drawing.Size(100, 30);
+            this.alphaSortButton2.TabIndex = 22;
+            this.alphaSortButton2.Text = "Alphabetical";
+            this.alphaSortButton2.UseVisualStyleBackColor = true;
+            this.alphaSortButton2.Visible = false;
+            this.alphaSortButton2.Click += new System.EventHandler(this.alphaSortButton_Click);
             // 
-            // PRsortButton
+            // PRsortButton2
             // 
-            this.PRsortButton.Location = new System.Drawing.Point(133, 218);
-            this.PRsortButton.Name = "PRsortButton";
-            this.PRsortButton.Size = new System.Drawing.Size(100, 30);
-            this.PRsortButton.TabIndex = 20;
-            this.PRsortButton.Text = "PR";
-            this.PRsortButton.UseVisualStyleBackColor = true;
-            this.PRsortButton.Visible = false;
-            this.PRsortButton.Click += new System.EventHandler(this.PRsortButton_Click);
+            this.PRsortButton2.Location = new System.Drawing.Point(133, 218);
+            this.PRsortButton2.Name = "PRsortButton2";
+            this.PRsortButton2.Size = new System.Drawing.Size(100, 30);
+            this.PRsortButton2.TabIndex = 20;
+            this.PRsortButton2.Text = "PR";
+            this.PRsortButton2.UseVisualStyleBackColor = true;
+            this.PRsortButton2.Visible = false;
+            this.PRsortButton2.Click += new System.EventHandler(this.PRsortButton_Click);
             // 
             // textBox1
             // 
@@ -522,9 +558,12 @@
         private System.Windows.Forms.Label lbl_loggedIn;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label lbl_sort;
-        private System.Windows.Forms.Button alphaSortButton;
-        private System.Windows.Forms.Button PRsortButton;
+        private System.Windows.Forms.Label lbl_sort2;
+        private System.Windows.Forms.Button alphaSortButton2;
+        private System.Windows.Forms.Button PRsortButton2;
+        private System.Windows.Forms.Label lbl_sort1;
+        private System.Windows.Forms.Button alphaSortButton1;
+        private System.Windows.Forms.Button PRsortButton1;
     }
 }
 
