@@ -22,6 +22,7 @@ namespace Attendance
         private Boolean loggedIn = false;
 
         private MySqlConnection connection;
+        private MySqlConnection lockConnection;
 
         private double minGP = 5.0;
 
@@ -295,14 +296,30 @@ namespace Attendance
         {
             try
             {
-                //try to connect to SQL with login info
                 string login_name = txt_name.Text;
                 string login_pass = txt_pass.Text;
-                string MyConString = "server=personaguild.com; User Id=persona_" + login_name + "; database=persona_EPGP; Password=" + login_pass;
-                connection = new MySqlConnection(MyConString);
-                connection.Open();
-                // Grab lock
-                //if successful, show admin buttons and unlock table
+                string lockConString = "server=personaguild.com; User Id=persona_" + login_name + "; database=persona_lock; Password=" + login_pass;
+                lockConnection = new MySqlConnection(lockConString);
+                // Try to connect to SQL using login info
+                lockConnection.Open();
+                // Try to grab lock
+                MySqlCommand checkCommand = new MySqlCommand("SHOW OPEN TABLES WHERE In_use > 0", lockConnection);
+                MySqlCommand lockCommand = new MySqlCommand("LOCK TABLES locktable WRITE", lockConnection);
+                MySqlDataReader dataReader;
+                dataReader = checkCommand.ExecuteReader();
+                // If query returns null, lock sql
+                if (!dataReader.Read())
+                {
+                    dataReader.Close();
+                    lockCommand.ExecuteNonQuery();
+                }
+                // Otherwise, throw an error
+                else
+                {
+                    throw new System.IndexOutOfRangeException();
+                }
+
+                // If successful, show admin buttons and unlock table
                 fiveEPbutton.Show();
                 tenEPbutton.Show();
                 attendanceButton.Show();
@@ -318,14 +335,18 @@ namespace Attendance
             catch (MySqlException ex)
             {
                 //Show popup that login failed
-                MessageBox.Show("Login failed");
+                MessageBox.Show("Invalid login information"); 
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                //Show popup that login failed
+                MessageBox.Show("An officer is already logged in");
             }
             finally
             {
-                //clear login fields and close connection
+                // Clear login fields
                 txt_name.Text = "";
                 txt_pass.Text = "";
-                if (connection.State == ConnectionState.Open) connection.Close();
             }
         }
 
