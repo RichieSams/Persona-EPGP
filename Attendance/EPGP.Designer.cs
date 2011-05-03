@@ -115,7 +115,7 @@
             this.lbl_webLink.TabIndex = 24;
             this.lbl_webLink.TabStop = true;
             this.lbl_webLink.Text = "http://www.epgpweb.com/help/system";
-            this.lbl_webLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            this.lbl_webLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbl_webLink_LinkClicked);
             // 
             // lbl_learnMore
             // 
@@ -354,6 +354,7 @@
             this.tenEPbutton.Text = "+ 10 EP";
             this.tenEPbutton.UseVisualStyleBackColor = true;
             this.tenEPbutton.Visible = false;
+            this.tenEPbutton.Click += new System.EventHandler(this.tenEPbutton_Click);
             // 
             // fiveEPbutton
             // 

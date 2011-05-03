@@ -21,6 +21,7 @@ namespace Attendance
         private string currentZone = string.Empty;
         private Boolean loggedIn = false;
         private Thread refreshThread;
+        private string officerName = string.Empty;
 
         private DateTime tableModTime;
 
@@ -38,14 +39,9 @@ namespace Attendance
 
         ~guildManagement()
         {
+            if (lockConnection.State == ConnectionState.Open) lockConnection.Close();
             refreshThread.Abort();
             Application.Exit();
-        }
-
-        private void fiveEPbutton_Click(object sender, EventArgs e)
-        {
-            executeSQL("UPDATE EPGP SET ep=ep+5 WHERE present=1 OR standby=1", new object[] {});
-            updateTable();
         }
 
         private void guildManagement_Load(object sender, EventArgs e)
@@ -326,7 +322,8 @@ namespace Attendance
                     throw new System.IndexOutOfRangeException();
                 }
 
-                // If successful, show admin buttons and unlock table
+                // If successful, save name of the officer, show admin buttons, unlock table, and format logged in text
+                officerName = login_name;
                 fiveEPbutton.Show();
                 tenEPbutton.Show();
                 attendanceButton.Show();
@@ -337,9 +334,9 @@ namespace Attendance
                 EPGPspreadsheet.Columns["Name"].ReadOnly = true;
                 EPGPspreadsheet.Columns["PR"].ReadOnly = true;
                 EPGPspreadsheet.Columns["LPR"].ReadOnly = true;
-                loggedIn = true;
                 lbl_loggedIn.Text = "Logged In";
                 lbl_loggedIn.ForeColor = Color.Green;
+                loggedIn = true;
             }
             catch (MySqlException ex)
             {
@@ -353,7 +350,7 @@ namespace Attendance
             }
             finally
             {
-                // Clear login fields
+                // Clear login text boxes
                 txt_name.Text = "";
                 txt_pass.Text = "";
             }
@@ -410,7 +407,18 @@ namespace Attendance
             }
         }
 
-        
+        private void fiveEPbutton_Click(object sender, EventArgs e)
+        {
+            executeSQL("UPDATE EPGP SET ep=ep+5 WHERE present=1 OR standby=1", new object[] { });
+            updateTable();
+        }
+
+        private void tenEPbutton_Click(object sender, EventArgs e)
+        {
+            executeSQL("UPDATE EPGP SET ep=ep+10 WHERE present=1 OR standby=1", new object[] { });
+            updateTable();
+        }
+
         private void textLogParser(object source, FileSystemEventArgs e) 
         {
             // Only do overlay text if the user is in a raid zone
@@ -578,7 +586,7 @@ namespace Attendance
             overlayForm.lbl_test.Text = currentZone;
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void lbl_webLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             ProcessStartInfo info = new ProcessStartInfo(e.Link.LinkData.ToString());
             Process.Start(info);
@@ -629,27 +637,23 @@ namespace Attendance
             }
         }
 
-
         private void alphaSortButton_Click(object sender, EventArgs e)
         {
-            BindingSource bs = EPGPspreadsheet.DataSource as BindingSource;
-            DataTable table = bs.DataSource as DataTable;
+            BindingSource bs = (BindingSource)EPGPspreadsheet.DataSource;
+            DataTable table = (DataTable)bs.DataSource;
             table.ColumnChanged -= Column_Changed;
             bs.Sort = "Name ASC";
-            this.EPGPspreadsheet.DataSource = bs;
             table.ColumnChanged += Column_Changed;
         }
 
         private void PRsortButton_Click(object sender, EventArgs e)
         {
-            BindingSource bs = EPGPspreadsheet.DataSource as BindingSource;
-            DataTable table = bs.DataSource as DataTable;
+            BindingSource bs = (BindingSource)EPGPspreadsheet.DataSource;
+            DataTable table = (DataTable)bs.DataSource;
             table.ColumnChanged -= Column_Changed;
             bs.Sort = "Present DESC, Standby DESC, PR DESC";
-            this.EPGPspreadsheet.DataSource = bs;
             table.ColumnChanged += Column_Changed;
         }
-
 
     }
 
