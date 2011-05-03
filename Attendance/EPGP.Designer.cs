@@ -31,11 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(guildManagement));
             this.tabArea = new System.Windows.Forms.TabControl();
             this.infoTab = new System.Windows.Forms.TabPage();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.lbl_sort = new System.Windows.Forms.Label();
-            this.alphaSortButton = new System.Windows.Forms.Button();
-            this.PRsortButton = new System.Windows.Forms.Button();
+            this.lbl_webLink = new System.Windows.Forms.LinkLabel();
+            this.lbl_learnMore = new System.Windows.Forms.Label();
             this.lbl_GPminValue = new System.Windows.Forms.Label();
             this.lbl_GPminTitle = new System.Windows.Forms.Label();
             this.lbl_decayValue = new System.Windows.Forms.Label();
@@ -47,6 +44,11 @@
             this.lbl_itemCostNames = new System.Windows.Forms.Label();
             this.lbl_itemCostTitle = new System.Windows.Forms.Label();
             this.adminTab = new System.Windows.Forms.TabPage();
+            this.lbl_sort = new System.Windows.Forms.Label();
+            this.alphaSortButton = new System.Windows.Forms.Button();
+            this.PRsortButton = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.lbl_loggedIn = new System.Windows.Forms.Label();
             this.loginButton = new System.Windows.Forms.Button();
             this.attendanceButton = new System.Windows.Forms.Button();
             this.lbl_pass = new System.Windows.Forms.Label();
@@ -56,16 +58,13 @@
             this.fiveEPbutton = new System.Windows.Forms.Button();
             this.txt_name = new System.Windows.Forms.TextBox();
             this.settingsTab = new System.Windows.Forms.TabPage();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.lbl_logReminder = new System.Windows.Forms.Label();
             this.lbl_rightClickText = new System.Windows.Forms.Label();
             this.lbl_leftClickText = new System.Windows.Forms.Label();
             this.overlayButton = new System.Windows.Forms.Button();
             this.EPGPspreadsheet = new System.Windows.Forms.DataGridView();
             this.btn_refreshTbl = new System.Windows.Forms.Button();
-            this.lbl_loggedIn = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.tabArea.SuspendLayout();
             this.infoTab.SuspendLayout();
             this.adminTab.SuspendLayout();
@@ -86,12 +85,8 @@
             // 
             // infoTab
             // 
-            this.infoTab.Controls.Add(this.textBox3);
-            this.infoTab.Controls.Add(this.linkLabel1);
-            this.infoTab.Controls.Add(this.label2);
-            this.infoTab.Controls.Add(this.lbl_sort);
-            this.infoTab.Controls.Add(this.alphaSortButton);
-            this.infoTab.Controls.Add(this.PRsortButton);
+            this.infoTab.Controls.Add(this.lbl_webLink);
+            this.infoTab.Controls.Add(this.lbl_learnMore);
             this.infoTab.Controls.Add(this.lbl_GPminValue);
             this.infoTab.Controls.Add(this.lbl_GPminTitle);
             this.infoTab.Controls.Add(this.lbl_decayValue);
@@ -110,58 +105,27 @@
             this.infoTab.Text = "Info";
             this.infoTab.UseVisualStyleBackColor = true;
             // 
-            // linkLabel1
+            // lbl_webLink
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(0, 34);
-            this.linkLabel1.Location = new System.Drawing.Point(33, 359);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(194, 13);
-            this.linkLabel1.TabIndex = 24;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "http://www.epgpweb.com/help/system";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            this.lbl_webLink.AutoSize = true;
+            this.lbl_webLink.LinkArea = new System.Windows.Forms.LinkArea(0, 34);
+            this.lbl_webLink.Location = new System.Drawing.Point(33, 359);
+            this.lbl_webLink.Name = "lbl_webLink";
+            this.lbl_webLink.Size = new System.Drawing.Size(194, 13);
+            this.lbl_webLink.TabIndex = 24;
+            this.lbl_webLink.TabStop = true;
+            this.lbl_webLink.Text = "http://www.epgpweb.com/help/system";
+            this.lbl_webLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
-            // label2
+            // lbl_learnMore
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(96, 344);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(75, 13);
-            this.label2.TabIndex = 22;
-            this.label2.Text = "Learn More:";
-            // 
-            // lbl_sort
-            // 
-            this.lbl_sort.AutoSize = true;
-            this.lbl_sort.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_sort.Location = new System.Drawing.Point(13, 479);
-            this.lbl_sort.Name = "lbl_sort";
-            this.lbl_sort.Size = new System.Drawing.Size(87, 13);
-            this.lbl_sort.TabIndex = 21;
-            this.lbl_sort.Text = "Sort Table by:";
-            this.lbl_sort.Visible = false;
-            // 
-            // alphaSortButton
-            // 
-            this.alphaSortButton.Location = new System.Drawing.Point(6, 538);
-            this.alphaSortButton.Name = "alphaSortButton";
-            this.alphaSortButton.Size = new System.Drawing.Size(100, 30);
-            this.alphaSortButton.TabIndex = 20;
-            this.alphaSortButton.Text = "Alphabetical";
-            this.alphaSortButton.UseVisualStyleBackColor = true;
-            this.alphaSortButton.Visible = false;
-            // 
-            // PRsortButton
-            // 
-            this.PRsortButton.Location = new System.Drawing.Point(6, 499);
-            this.PRsortButton.Name = "PRsortButton";
-            this.PRsortButton.Size = new System.Drawing.Size(100, 30);
-            this.PRsortButton.TabIndex = 19;
-            this.PRsortButton.Text = "PR";
-            this.PRsortButton.UseVisualStyleBackColor = true;
-            this.PRsortButton.Visible = false;
+            this.lbl_learnMore.AutoSize = true;
+            this.lbl_learnMore.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_learnMore.Location = new System.Drawing.Point(96, 344);
+            this.lbl_learnMore.Name = "lbl_learnMore";
+            this.lbl_learnMore.Size = new System.Drawing.Size(75, 13);
+            this.lbl_learnMore.TabIndex = 22;
+            this.lbl_learnMore.Text = "Learn More:";
             // 
             // lbl_GPminValue
             // 
@@ -260,6 +224,9 @@
             // 
             // adminTab
             // 
+            this.adminTab.Controls.Add(this.lbl_sort);
+            this.adminTab.Controls.Add(this.alphaSortButton);
+            this.adminTab.Controls.Add(this.PRsortButton);
             this.adminTab.Controls.Add(this.textBox1);
             this.adminTab.Controls.Add(this.lbl_loggedIn);
             this.adminTab.Controls.Add(this.loginButton);
@@ -277,6 +244,59 @@
             this.adminTab.Text = "Admin";
             this.adminTab.UseVisualStyleBackColor = true;
             // 
+            // lbl_sort
+            // 
+            this.lbl_sort.AutoSize = true;
+            this.lbl_sort.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_sort.Location = new System.Drawing.Point(140, 166);
+            this.lbl_sort.Name = "lbl_sort";
+            this.lbl_sort.Size = new System.Drawing.Size(87, 13);
+            this.lbl_sort.TabIndex = 23;
+            this.lbl_sort.Text = "Sort Table by:";
+            this.lbl_sort.Visible = false;
+            // 
+            // alphaSortButton
+            // 
+            this.alphaSortButton.Location = new System.Drawing.Point(133, 182);
+            this.alphaSortButton.Name = "alphaSortButton";
+            this.alphaSortButton.Size = new System.Drawing.Size(100, 30);
+            this.alphaSortButton.TabIndex = 22;
+            this.alphaSortButton.Text = "Alphabetical";
+            this.alphaSortButton.UseVisualStyleBackColor = true;
+            this.alphaSortButton.Visible = false;
+            this.alphaSortButton.Click += new System.EventHandler(this.alphaSortButton_Click);
+            // 
+            // PRsortButton
+            // 
+            this.PRsortButton.Location = new System.Drawing.Point(133, 218);
+            this.PRsortButton.Name = "PRsortButton";
+            this.PRsortButton.Size = new System.Drawing.Size(100, 30);
+            this.PRsortButton.TabIndex = 20;
+            this.PRsortButton.Text = "PR";
+            this.PRsortButton.UseVisualStyleBackColor = true;
+            this.PRsortButton.Visible = false;
+            this.PRsortButton.Click += new System.EventHandler(this.PRsortButton_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(17, 423);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(216, 130);
+            this.textBox1.TabIndex = 11;
+            this.textBox1.Text = "-Add Log Stuff (Showing Log, Undo, etc)\r\n-Add User\r\n-Delete User?\r\n-Attach Raid f" +
+                "ilebrowser and get info to check last modified date then warn if old";
+            // 
+            // lbl_loggedIn
+            // 
+            this.lbl_loggedIn.AutoSize = true;
+            this.lbl_loggedIn.ForeColor = System.Drawing.Color.Red;
+            this.lbl_loggedIn.Location = new System.Drawing.Point(70, 73);
+            this.lbl_loggedIn.Name = "lbl_loggedIn";
+            this.lbl_loggedIn.Size = new System.Drawing.Size(75, 13);
+            this.lbl_loggedIn.TabIndex = 10;
+            this.lbl_loggedIn.Text = "Not Logged In";
+            // 
             // loginButton
             // 
             this.loginButton.Location = new System.Drawing.Point(173, 68);
@@ -289,9 +309,9 @@
             // 
             // attendanceButton
             // 
-            this.attendanceButton.Location = new System.Drawing.Point(85, 163);
+            this.attendanceButton.Location = new System.Drawing.Point(27, 166);
             this.attendanceButton.Name = "attendanceButton";
-            this.attendanceButton.Size = new System.Drawing.Size(97, 33);
+            this.attendanceButton.Size = new System.Drawing.Size(100, 30);
             this.attendanceButton.TabIndex = 9;
             this.attendanceButton.Text = "Attendance";
             this.attendanceButton.UseVisualStyleBackColor = true;
@@ -327,9 +347,9 @@
             // 
             // tenEPbutton
             // 
-            this.tenEPbutton.Location = new System.Drawing.Point(141, 202);
+            this.tenEPbutton.Location = new System.Drawing.Point(27, 238);
             this.tenEPbutton.Name = "tenEPbutton";
-            this.tenEPbutton.Size = new System.Drawing.Size(97, 33);
+            this.tenEPbutton.Size = new System.Drawing.Size(100, 30);
             this.tenEPbutton.TabIndex = 8;
             this.tenEPbutton.Text = "+ 10 EP";
             this.tenEPbutton.UseVisualStyleBackColor = true;
@@ -339,7 +359,7 @@
             // 
             this.fiveEPbutton.Location = new System.Drawing.Point(27, 202);
             this.fiveEPbutton.Name = "fiveEPbutton";
-            this.fiveEPbutton.Size = new System.Drawing.Size(97, 33);
+            this.fiveEPbutton.Size = new System.Drawing.Size(100, 30);
             this.fiveEPbutton.TabIndex = 7;
             this.fiveEPbutton.Text = "+5 EP";
             this.fiveEPbutton.UseVisualStyleBackColor = true;
@@ -367,6 +387,17 @@
             this.settingsTab.TabIndex = 2;
             this.settingsTab.Text = "Settings";
             this.settingsTab.UseVisualStyleBackColor = true;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(18, 139);
+            this.textBox2.Multiline = true;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(216, 130);
+            this.textBox2.TabIndex = 22;
+            this.textBox2.Text = "-More overlay options (transparency, etc)\r\n-Info to show log, combatlog\r\n-Timer R" +
+                "efresh (currently hardcoded at 25-35 seconds randomly)\r\n-Disable refresh if logg" +
+                "ed in\r\n-Slider for overlay Transparency";
             // 
             // lbl_logReminder
             // 
@@ -430,45 +461,6 @@
             this.btn_refreshTbl.UseVisualStyleBackColor = true;
             this.btn_refreshTbl.Click += new System.EventHandler(this.btn_refreshTbl_Click);
             // 
-            // lbl_loggedIn
-            // 
-            this.lbl_loggedIn.AutoSize = true;
-            this.lbl_loggedIn.ForeColor = System.Drawing.Color.Red;
-            this.lbl_loggedIn.Location = new System.Drawing.Point(70, 73);
-            this.lbl_loggedIn.Name = "lbl_loggedIn";
-            this.lbl_loggedIn.Size = new System.Drawing.Size(75, 13);
-            this.lbl_loggedIn.TabIndex = 10;
-            this.lbl_loggedIn.Text = "Not Logged In";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(22, 309);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(216, 130);
-            this.textBox1.TabIndex = 11;
-            this.textBox1.Text = "-Add Log Stuff (Showing Log, Undo, etc)\r\n-Add User\r\n-Delete User?\r\n-Attach Raid f" +
-                "ilebrowser and get info to check last modified date then warn if old";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(18, 139);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(216, 130);
-            this.textBox2.TabIndex = 22;
-            this.textBox2.Text = "-More overlay options (transparency, etc)\r\n-Info to show log, combatlog\r\n-Timer R" +
-                "efresh (currently hardcoded at 25-35 seconds randomly)\r\n";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(112, 499);
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(134, 69);
-            this.textBox3.TabIndex = 25;
-            this.textBox3.Text = "-Make DataGrid multicolumn sortable";
-            // 
             // guildManagement
             // 
             this.AllowDrop = true;
@@ -512,9 +504,6 @@
         private System.Windows.Forms.Label lbl_GPminValue;
         private System.Windows.Forms.Label lbl_GPminTitle;
         private System.Windows.Forms.Label lbl_decayValue;
-        private System.Windows.Forms.Label lbl_sort;
-        private System.Windows.Forms.Button alphaSortButton;
-        private System.Windows.Forms.Button PRsortButton;
         private System.Windows.Forms.TabPage adminTab;
         private System.Windows.Forms.Button attendanceButton;
         private System.Windows.Forms.Button tenEPbutton;
@@ -524,15 +513,17 @@
         private System.Windows.Forms.Label lbl_rightClickText;
         private System.Windows.Forms.Label lbl_leftClickText;
         private System.Windows.Forms.Button overlayButton;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lbl_learnMore;
         private System.Windows.Forms.Label lbl_EPgainsNames;
         private System.Windows.Forms.Label lbl_EPgainsTitle;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel lbl_webLink;
         private System.Windows.Forms.Button btn_refreshTbl;
         private System.Windows.Forms.Label lbl_loggedIn;
-        private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label lbl_sort;
+        private System.Windows.Forms.Button alphaSortButton;
+        private System.Windows.Forms.Button PRsortButton;
     }
 }
 

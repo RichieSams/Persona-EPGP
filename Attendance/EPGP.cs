@@ -83,7 +83,7 @@ namespace Attendance
             EPGPspreadsheet.Columns["Standby"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             
             // Link
-            linkLabel1.Links[0].LinkData = linkLabel1.Text;
+            lbl_webLink.Links[0].LinkData = lbl_webLink.Text;
 
             // Highlight name on cell click
             EPGPspreadsheet.CellClick += Cell_Clicked;
@@ -340,23 +340,16 @@ namespace Attendance
                 loggedIn = true;
                 lbl_loggedIn.Text = "Logged In";
                 lbl_loggedIn.ForeColor = Color.Green;
-
-                return loggedIn;
             }
             catch (MySqlException ex)
             {
                 //Show popup that login failed
-<<<<<<< HEAD
                 MessageBox.Show("Invalid login information"); 
             }
             catch (IndexOutOfRangeException ex)
             {
                 //Show popup that login failed
                 MessageBox.Show("An officer is already logged in");
-=======
-                MessageBox.Show("Login failed", "Login");
-                return loggedIn;
->>>>>>> 5e3f84c3658ad0424635f79f636b8ac1fe992d3e
             }
             finally
             {
@@ -364,6 +357,7 @@ namespace Attendance
                 txt_name.Text = "";
                 txt_pass.Text = "";
             }
+            return loggedIn;
         }
 
         private void attendanceButton_Click(object sender, EventArgs e)
@@ -634,6 +628,28 @@ namespace Attendance
                 // Didn't Work
             }
         }
+
+
+        private void alphaSortButton_Click(object sender, EventArgs e)
+        {
+            BindingSource bs = EPGPspreadsheet.DataSource as BindingSource;
+            DataTable table = bs.DataSource as DataTable;
+            table.ColumnChanged -= Column_Changed;
+            bs.Sort = "Name ASC";
+            this.EPGPspreadsheet.DataSource = bs;
+            table.ColumnChanged += Column_Changed;
+        }
+
+        private void PRsortButton_Click(object sender, EventArgs e)
+        {
+            BindingSource bs = EPGPspreadsheet.DataSource as BindingSource;
+            DataTable table = bs.DataSource as DataTable;
+            table.ColumnChanged -= Column_Changed;
+            bs.Sort = "Present DESC, Standby DESC, PR DESC";
+            this.EPGPspreadsheet.DataSource = bs;
+            table.ColumnChanged += Column_Changed;
+        }
+
 
     }
 
