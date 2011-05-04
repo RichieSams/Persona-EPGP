@@ -193,20 +193,19 @@ namespace Attendance
                 // Try to connect to SQL using login info
                 lockConnection.Open();
                 // Try to grab lock
-                MySqlCommand lockCommand = new MySqlCommand("SHOW OPEN TABLES FROM persona_lock LIKE '%locktable%'", lockConnection);
-                MySqlDataReader dr;
-                dr = lockCommand.ExecuteReader();
+                MySqlCommand checkCommand = new MySqlCommand("SHOW OPEN TABLES WHERE In_use > 0", lockConnection);
+                MySqlCommand lockCommand = new MySqlCommand("LOCK TABLES locktable WRITE", lockConnection);
+                MySqlDataReader dataReader;
+                dataReader = checkCommand.ExecuteReader();
                 // If query returns null, lock sql
-                dr.Read();
-                if (Convert.ToInt32(dr["In_use"]) == 0)
+                if (!dataReader.Read())
                 {
-                    dr.Close();
-                    lockCommand.CommandText = "LOCK TABLES locktable WRITE";
+                    dataReader.Close();
                     lockCommand.ExecuteNonQuery();
                 }
+                // Otherwise, throw an error and return
                 else
                 {
-                    //Show popup that login failed
                     MessageBox.Show("An officer is already logged in");
                     return loggedIn;
                 }

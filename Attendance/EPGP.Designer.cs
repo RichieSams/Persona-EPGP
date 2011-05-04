@@ -472,8 +472,9 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(216, 130);
             this.textBox2.TabIndex = 22;
-            this.textBox2.Text = "-More overlay options (transparency, etc)\r\n-Info to show log, combatlog\r\n-Timer R" +
-                "efresh (currently hardcoded at 25-35 seconds randomly)\r\n";
+            this.textBox2.Text = "-More overlay options (anything else you can think of?)\r\n-Info to show log, comba" +
+                "tlog (what do you mean?)\r\n-Timer Refresh (currently hardcoded at 25-35 seconds r" +
+                "andomly)\r\n";
             // 
             // lbl_logReminder
             // 
