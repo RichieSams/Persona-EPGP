@@ -17,7 +17,7 @@ namespace Attendance
         {
             InitializeComponent();
 
-            this.Location = this.PointToScreen(new Point(x, y));
+            this.Location = new Point(x, y);
             this.Opacity = opacity;
         }
     }
