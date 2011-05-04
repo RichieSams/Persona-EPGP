@@ -218,6 +218,8 @@ namespace Attendance
                 lbl_sort2.Show();
                 PRsortButton2.Show();
                 alphaSortButton2.Show();
+                userAddButton.Show();
+                userDeleteButton.Show();
                 EPGPspreadsheet.ReadOnly = false;
                 EPGPspreadsheet.Columns["Name"].ReadOnly = true;
                 EPGPspreadsheet.Columns["PR"].ReadOnly = true;
@@ -305,6 +307,31 @@ namespace Attendance
         {
             executeSQLUpdate("UPDATE EPGP SET ep=ep+10 WHERE present=1 OR standby=1", new object[] { });
             updateTable();
+        }
+
+        private void addUserButton_Click(object sender, EventArgs e)
+        {
+            string memberName = EPGPspreadsheet.SelectedCells[0].Value.ToString();
+        }
+
+        private void userDeleteButton_Click(object sender, EventArgs e)
+        {
+            string message = "Are you sure you want to delete " + EPGPspreadsheet.SelectedCells[0].Value.ToString() + "?";
+            var result = MessageBox.Show(message, "Delete User", MessageBoxButtons.YesNo);
+
+            // If the no button was pressed, return
+            if (result == DialogResult.No)
+            {
+                return;
+            }
+            if (result == DialogResult.Yes)
+            {
+                if (connection.State == ConnectionState.Closed) connection.Open();
+                MySqlCommand deleteCommand = new MySqlCommand("DELETE FROM EPGP WHERE name = '" + EPGPspreadsheet.SelectedCells[0].Value.ToString() + "'", connection);
+                deleteCommand.ExecuteNonQuery();
+                if (connection.State == ConnectionState.Open) connection.Close();
+                updateTable();
+            }
         }
 
         #endregion // Admin
@@ -942,7 +969,6 @@ namespace Attendance
                 ex.GetBaseException();
             }
         }
-
     }
 
     public class refreshTable

@@ -71,6 +71,8 @@
             this.overlayButton = new System.Windows.Forms.Button();
             this.EPGPspreadsheet = new System.Windows.Forms.DataGridView();
             this.btn_refreshTbl = new System.Windows.Forms.Button();
+            this.userDeleteButton = new System.Windows.Forms.Button();
+            this.userAddButton = new System.Windows.Forms.Button();
             this.tabArea.SuspendLayout();
             this.infoTab.SuspendLayout();
             this.adminTab.SuspendLayout();
@@ -324,8 +326,9 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(216, 130);
             this.textBox1.TabIndex = 11;
-            this.textBox1.Text = "-Add Log Stuff (Showing Log, Undo, etc)\r\n-Add User\r\n-Delete User?\r\n-Attach Raid f" +
-                "ilebrowser and get info to check last modified date then warn if old";
+            this.textBox1.Text = "-Add Log Stuff (Showing Log, Undo, etc)\r\n-Add User (need to write the function)\r\n" +
+                "-Attach Raid filebrowser and get info to check last modified date then warn if o" +
+                "ld";
             // 
             // lbl_loggedIn
             // 
@@ -538,12 +541,36 @@
             this.btn_refreshTbl.UseVisualStyleBackColor = true;
             this.btn_refreshTbl.Click += new System.EventHandler(this.btn_refreshTbl_Click);
             // 
+            // userDeleteButton
+            // 
+            this.userDeleteButton.Location = new System.Drawing.Point(107, 583);
+            this.userDeleteButton.Name = "userDeleteButton";
+            this.userDeleteButton.Size = new System.Drawing.Size(100, 25);
+            this.userDeleteButton.TabIndex = 24;
+            this.userDeleteButton.Text = "Delete User";
+            this.userDeleteButton.UseVisualStyleBackColor = true;
+            this.userDeleteButton.Visible = false;
+            this.userDeleteButton.Click += new System.EventHandler(this.userDeleteButton_Click);
+            // 
+            // userAddButton
+            // 
+            this.userAddButton.Location = new System.Drawing.Point(5, 583);
+            this.userAddButton.Name = "userAddButton";
+            this.userAddButton.Size = new System.Drawing.Size(100, 25);
+            this.userAddButton.TabIndex = 25;
+            this.userAddButton.Text = "Add User";
+            this.userAddButton.UseVisualStyleBackColor = true;
+            this.userAddButton.Visible = false;
+            this.userAddButton.Click += new System.EventHandler(this.addUserButton_Click);
+            // 
             // guildManagement
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(759, 612);
+            this.Controls.Add(this.userAddButton);
+            this.Controls.Add(this.userDeleteButton);
             this.Controls.Add(this.btn_refreshTbl);
             this.Controls.Add(this.tabArea);
             this.Controls.Add(this.EPGPspreadsheet);
@@ -609,6 +636,8 @@
         private System.Windows.Forms.Label lbl_opacity;
         private System.Windows.Forms.TextBox txt_opacity;
         private System.Windows.Forms.TrackBar opacitySlider;
+        private System.Windows.Forms.Button userDeleteButton;
+        private System.Windows.Forms.Button userAddButton;
     }
 }
 
