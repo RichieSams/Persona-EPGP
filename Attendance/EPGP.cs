@@ -137,6 +137,8 @@ namespace Attendance
             this.Activated -= guildManagement_Activated;
 
             // This needs to stay here or the form doesn't show properly
+            // What do you mean by doesn't show properly?
+            // When I switched back to in on_load everything showed up correctly. Is there some instance where this wouldn't happen?
 
             // Load settings
             loadSettings();
