@@ -662,107 +662,114 @@ namespace Attendance
 
         private void textLogParser(object source, FileSystemEventArgs e)
         {
-            FileStream fs = new FileStream("C:\\Program Files (x86)\\RIFT Game\\log.txt", FileMode.Open, FileAccess.Read);
-            StreamReader reader = new StreamReader(fs);
-            string linesBlock;
-            // Try to get the last 1024 bytes of data from the file
             try
             {
-                reader.BaseStream.Seek(-500, SeekOrigin.End);
-                linesBlock = reader.ReadToEnd();
-            }
-            // If it fails, instead get the entire file
-            catch (IOException)
-            {
-                linesBlock = reader.ReadToEnd();
-            }
-            fs.Close();
-            reader.Close();
-            // Split into lines and get the last line
-            string[] lines = linesBlock.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            string lastLine = lines[lines.Length - 1];
-
-            // Extract the zone from the channel name and set it to the current zone
-            if (lastLine.IndexOf("[1. ") != -1)
-            {
-                string zoneString = lastLine.Substring(10, lastLine.Length - 10);
-                currentZone = zoneString.Substring(zoneString.IndexOf("[1. ") + 4, zoneString.IndexOf("]") - zoneString.IndexOf("[") - 4);
-                lbl_currentZoneValue.Text = currentZone;
-            }
-
-            // Only do overlay text if the user is in a raid zone
-            if ((currentZone == "Greenscale's Blight") || (currentZone == "River of Souls") || (currentZone == "Freemarch"))
-            {
-                // Non-raid speech lines are ignored           /////Idea: create channel for EPGP so the program doesn't have to read raid chatter
-                if (lastLine.IndexOf("[Guild]") != -1) //change to [Raid] for release
+                FileStream fs = new FileStream("C:\\Program Files (x86)\\RIFT Game\\log.txt", FileMode.Open, FileAccess.Read);
+                StreamReader reader = new StreamReader(fs);
+                string linesBlock;
+                // Try to get the last 1024 bytes of data from the file
+                try
                 {
-                    // Trim off the time stamp
-                    string overlayString = lastLine.Substring(10, lastLine.Length - 10);
-                    // Split into name and text
-                    string[] logList = overlayString.Split(':');
-                    // Check for phrase
-                    if ((logList[1] == " need") || (logList[1] == " greed"))
+                    reader.BaseStream.Seek(-500, SeekOrigin.End);
+                    linesBlock = reader.ReadToEnd();
+                }
+                // If it fails, instead get the entire file
+                catch (IOException)
+                {
+                    linesBlock = reader.ReadToEnd();
+                }
+                fs.Close();
+                reader.Close();
+                // Split into lines and get the last line
+                string[] lines = linesBlock.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                string lastLine = lines[lines.Length - 1];
+
+                // Extract the zone from the channel name and set it to the current zone
+                if (lastLine.IndexOf("[1. ") != -1)
+                {
+                    string zoneString = lastLine.Substring(10, lastLine.Length - 10);
+                    currentZone = zoneString.Substring(zoneString.IndexOf("[1. ") + 4, zoneString.IndexOf("]") - zoneString.IndexOf("[") - 4);
+                    lbl_currentZoneValue.Text = currentZone;
+                }
+
+                // Only do overlay text if the user is in a raid zone
+                if ((currentZone == "Greenscale's Blight") || (currentZone == "River of Souls") || (currentZone == "Freemarch"))
+                {
+                    // Non-raid speech lines are ignored           /////Idea: create channel for EPGP so the program doesn't have to read raid chatter
+                    if (lastLine.IndexOf("[Guild]") != -1) //change to [Raid] for release
                     {
-                        int tempInt = 0;
-                        string tempString = string.Empty;
-                        // Trim off [raid] and the brackets around the name
-                        logList[0] = logList[0].Substring(8, logList[0].Length - 9); //change to 7 and 8 when actually using [Raid] and not [Guild]
-                        // Cycle through the names on the spreadsheet
-                        while (tempInt < EPGPspreadsheet.RowCount)
+                        // Trim off the time stamp
+                        string overlayString = lastLine.Substring(10, lastLine.Length - 10);
+                        // Split into name and text
+                        string[] logList = overlayString.Split(':');
+                        // Check for phrase
+                        if ((logList[1] == " need") || (logList[1] == " greed"))
                         {
-                            tempString = EPGPspreadsheet.Rows[tempInt].Cells["Name"].Value.ToString();
-                            if (tempString == logList[0])
+                            int tempInt = 0;
+                            string tempString = string.Empty;
+                            // Trim off [raid] and the brackets around the name
+                            logList[0] = logList[0].Substring(8, logList[0].Length - 9); //change to 7 and 8 when actually using [Raid] and not [Guild]
+                            // Cycle through the names on the spreadsheet
+                            while (tempInt < EPGPspreadsheet.RowCount)
                             {
-                                // If the label is empty, enter in the text
-                                if (overlayForm.lbl_overlayName.Text == null)
+                                tempString = EPGPspreadsheet.Rows[tempInt].Cells["Name"].Value.ToString();
+                                if (tempString == logList[0])
                                 {
-                                    overlayForm.lbl_overlayName.Text = logList[0];
-                                    if (logList[1] == " need")
+                                    // If the label is empty, enter in the text
+                                    if (overlayForm.lbl_overlayName.Text == "")
                                     {
-                                        // Try to format PR to only 2 decimals
-                                        try
+                                        overlayForm.lbl_overlayName.Text = logList[0];
+                                        if (logList[1] == " need")
                                         {
-                                            overlayForm.lbl_overlayPR.Text = EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString().Substring(0, EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString().IndexOf('.') + 3);
+                                            // Try to format PR to only 2 decimals
+                                            try
+                                            {
+                                                overlayForm.lbl_overlayPR.Text = EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString().Substring(0, EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString().IndexOf('.') + 3);
+                                            }
+                                            // If it fails, use the whole thing
+                                            catch (ArgumentOutOfRangeException)
+                                            {
+                                                overlayForm.lbl_overlayPR.Text = EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString();
+                                            }
                                         }
-                                        // If it fails, use the whole thing
-                                        catch (ArgumentOutOfRangeException)
+                                        if (logList[1] == " greed")
                                         {
-                                            overlayForm.lbl_overlayPR.Text = EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString();
+                                            overlayForm.lbl_overlayPR.Text = "Off spec";
                                         }
                                     }
-                                    if (logList[1] == " greed")
+                                    // Otherwise, append a newline and the text to the end of the string
+                                    else
                                     {
-                                        overlayForm.lbl_overlayPR.Text = "Off spec";
+                                        string test = EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString();
+                                        overlayForm.lbl_overlayName.Text += "\n" + logList[0];
+                                        if (logList[1] == " need")
+                                        {
+                                            // Try to format PR to only 2 decimals
+                                            try
+                                            {
+                                                overlayForm.lbl_overlayPR.Text += "\n" + EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString().Substring(0, EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString().IndexOf('.') + 3);
+                                            }
+                                            // If it fails, use the whole thing
+                                            catch (ArgumentOutOfRangeException)
+                                            {
+                                                overlayForm.lbl_overlayPR.Text += "\n" + EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString();
+                                            }
+                                        }
+                                        if (logList[1] == " greed")
+                                        {
+                                            overlayForm.lbl_overlayPR.Text += "\nOff Spec";
+                                        }
                                     }
                                 }
-                                // Otherwise, append a newline and the text to the end of the string
-                                else
-                                {
-                                    string test = EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString();
-                                    overlayForm.lbl_overlayName.Text += "\n" + logList[0];
-                                    if (logList[1] == " need")
-                                    {
-                                        // Try to format PR to only 2 decimals
-                                        try
-                                        {
-                                            overlayForm.lbl_overlayPR.Text += "\n" + EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString().Substring(0, EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString().IndexOf('.') + 3);
-                                        }
-                                        // If it fails, use the whole thing
-                                        catch (ArgumentOutOfRangeException)
-                                        {
-                                            overlayForm.lbl_overlayPR.Text += "\n" + EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString();
-                                        }
-                                    }
-                                    if (logList[1] == " greed")
-                                    {
-                                        overlayForm.lbl_overlayPR.Text += "\nOff Spec";
-                                    }
-                                }
+                                tempInt++;
                             }
-                            tempInt++;
                         }
                     }
                 }
+            }
+            catch (IOException ex)
+            {
+                return;
             }
         }
 

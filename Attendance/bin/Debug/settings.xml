@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <EPGPTool>
   <Overlay>
-    <X>1430</X>
-    <Y>161</Y>
+    <X>1403</X>
+    <Y>289</Y>
     <Opacity>0.5</Opacity>
     <Border>None</Border>
     <Toggle>True</Toggle>
