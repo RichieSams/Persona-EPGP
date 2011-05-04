@@ -128,11 +128,18 @@ namespace Attendance
             logWatcher.Created += new FileSystemEventHandler(textLogParser);
             logWatcher.EnableRaisingEvents = true;
 
-            // Load settings
-            loadSettings();
-
             // Find zone
             zoneParser();
+        }
+
+        private void guildManagement_Activated(object sender, EventArgs e)
+        {
+            this.Activated -= guildManagement_Activated;
+
+            // This needs to stay here or the form doesn't show properly
+
+            // Load settings
+            loadSettings();
         }
 
         #endregion // Intialize
@@ -337,14 +344,14 @@ namespace Attendance
 
         #region Settings
 
-        public void overlayButton_Click(object sender, MouseEventArgs e)
+        private void overlayButton_Click(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 if (overlayForm.Visible == false)
                 {
                     if (overlayForm.IsDisposed)
-                        overlayForm = new overlay(settingsOverlayX, settingsOverlayY, settingsOverlayOpacity);
+                        overlayForm = new overlay(this, settingsOverlayX, settingsOverlayY, settingsOverlayOpacity);
                     overlayForm.Show();
                 }
                 else
@@ -366,7 +373,7 @@ namespace Attendance
             }
         }
 
-        private bool saveSettings()
+        public bool saveSettings()
         {
             XmlTextWriter xml = new XmlTextWriter(settingsPath, null);
             xml.Formatting = Formatting.Indented;
@@ -384,10 +391,25 @@ namespace Attendance
                             xml.WriteString(settingsOverlayOpacity.ToString());
                         xml.WriteEndElement();
                         xml.WriteStartElement("Border");
-                            xml.WriteString(overlayForm.FormBorderStyle.ToString());
+                            // If it's null then that means it wasn't created and needs to be set to default
+                            if (overlayForm == null || overlayForm.FormBorderStyle == System.Windows.Forms.FormBorderStyle.FixedSingle)
+                            {
+                                xml.WriteString("FixedSingle");
+                            }
+                            else
+                            {
+                                xml.WriteString("None");
+                            }
                         xml.WriteEndElement();
                         xml.WriteStartElement("Toggle");
-                            xml.WriteString(overlayForm.Visible.ToString());
+                            if (overlayForm == null)
+                            {
+                                xml.WriteString("False");
+                            }
+                            else
+                            {
+                                xml.WriteString(overlayForm.Visible.ToString());
+                            }
                         xml.WriteEndElement();
                     xml.WriteEndElement();
                     xml.WriteStartElement("RiftDirectory");
@@ -408,89 +430,98 @@ namespace Attendance
             return true;
         }
 
-        private bool loadSettings()
+        public bool loadSettings()
         {
             if (File.Exists(settingsPath))
             {
                 XmlTextReader xml = new XmlTextReader(settingsPath);
-                
 
-                while (xml.Read())
+                try
                 {
-                    if (xml.NodeType == XmlNodeType.Element)
+                    while (xml.Read())
                     {
-                        if (xml.Name == "Overlay")
+                        if (xml.NodeType == XmlNodeType.Element)
                         {
-                            while (xml.Read() && !(xml.NodeType == XmlNodeType.EndElement && xml.Name == "Overlay"))
+                            if (xml.Name == "Overlay")
                             {
-                                if (xml.NodeType == XmlNodeType.Element)
+                                while (xml.Read() && !(xml.NodeType == XmlNodeType.EndElement && xml.Name == "Overlay"))
                                 {
-                                    if (xml.Name == "X")
+                                    if (xml.NodeType == XmlNodeType.Element)
                                     {
-                                        if (xml.Read())
+                                        if (xml.Name == "X")
                                         {
-                                            settingsOverlayX = Convert.ToInt32(xml.Value);
-                                        }
-                                    }
-                                    if (xml.Name == "Y")
-                                    {
-                                        if (xml.Read())
-                                        {
-                                            settingsOverlayY = Convert.ToInt32(xml.Value);
-                                        }
-                                    }
-                                    if (xml.Name == "Opacity")
-                                    {
-                                        if (xml.Read())
-                                        {
-                                            settingsOverlayOpacity = Convert.ToDouble(xml.Value);
-                                            opacitySlider.ValueChanged -= opacitySlider_ValueChanged;
-                                            txt_opacity.TextChanged -= txt_opacity_TextChanged;
-                                            opacitySlider.Value = Convert.ToInt32(settingsOverlayOpacity * 100);
-                                            txt_opacity.Text = Convert.ToInt32(settingsOverlayOpacity * 100).ToString();
-                                            opacitySlider.ValueChanged += opacitySlider_ValueChanged;
-                                        }
-                                    }
-                                    if (xml.Name == "Border")
-                                    {
-                                        if (xml.Read())
-                                        {
-                                            if (xml.Value == "None")
+                                            if (xml.Read())
                                             {
-                                                overlayBorder = false;
-                                            }
-                                            if (xml.Value == "FixedSingle")
-                                            {
-                                                overlayBorder = true;
+                                                settingsOverlayX = Convert.ToInt32(xml.Value);
                                             }
                                         }
-                                    }
-                                    if (xml.Name == "Toggle")
-                                    {
-                                        if (xml.Read())
+                                        if (xml.Name == "Y")
                                         {
-                                            if (xml.Value == "True")
+                                            if (xml.Read())
                                             {
-                                                overlayToggle = true;
+                                                settingsOverlayY = Convert.ToInt32(xml.Value);
                                             }
-                                            if (xml.Value == "False")
+                                        }
+                                        if (xml.Name == "Opacity")
+                                        {
+                                            if (xml.Read())
                                             {
-                                                overlayToggle = false;
+                                                settingsOverlayOpacity = Convert.ToDouble(xml.Value);
+                                                opacitySlider.ValueChanged -= opacitySlider_ValueChanged;
+                                                txt_opacity.TextChanged -= txt_opacity_TextChanged;
+                                                opacitySlider.Value = Convert.ToInt32(settingsOverlayOpacity * 100);
+                                                txt_opacity.Text = Convert.ToInt32(settingsOverlayOpacity * 100).ToString();
+                                                opacitySlider.ValueChanged += opacitySlider_ValueChanged;
+                                            }
+                                        }
+                                        if (xml.Name == "Border")
+                                        {
+                                            if (xml.Read())
+                                            {
+                                                if (xml.Value == "None")
+                                                {
+                                                    overlayBorder = false;
+                                                }
+                                                if (xml.Value == "FixedSingle")
+                                                {
+                                                    overlayBorder = true;
+                                                }
+                                            }
+                                        }
+                                        if (xml.Name == "Toggle")
+                                        {
+                                            if (xml.Read())
+                                            {
+                                                if (xml.Value == "True")
+                                                {
+                                                    overlayToggle = true;
+                                                }
+                                                if (xml.Value == "False")
+                                                {
+                                                    overlayToggle = false;
+                                                }
                                             }
                                         }
                                     }
                                 }
                             }
+                            else if (xml.Name == "RiftDirectory")
+                            {
+                                xml.Read();
+                                settingsRiftDir = xml.Value;
+                            }
+
                         }
-                        else if (xml.Name == "RiftDirectory")
-                        {
-                            xml.Read();
-                            settingsRiftDir = xml.Value;
-                        }
-                        
                     }
                 }
+                catch (Exception ex)
+                {
+                    // Reset Settings
+                    xml.Close();
+                    saveSettings();
+                }
                 xml.Close();
+               
 
                 // No directory loaded make them pick again
                 if (settingsRiftDir.Equals(""))
@@ -508,7 +539,7 @@ namespace Attendance
             }
 
             // Create overlay form
-            overlayForm = new overlay(settingsOverlayX, settingsOverlayY, settingsOverlayOpacity);
+            overlayForm = new overlay(this, settingsOverlayX, settingsOverlayY, settingsOverlayOpacity);
 
             // Set border style
             if (overlayBorder)

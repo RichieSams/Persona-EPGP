@@ -577,6 +577,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "guildManagement";
             this.Text = "Persona Guild Management";
+            this.Activated += new System.EventHandler(this.guildManagement_Activated);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.guildManagement_Close);
             this.Load += new System.EventHandler(this.guildManagement_Load);
             this.tabArea.ResumeLayout(false);
