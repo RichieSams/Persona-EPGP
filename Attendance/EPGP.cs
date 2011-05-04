@@ -668,7 +668,7 @@ namespace Attendance
             // Try to get the last 1024 bytes of data from the file
             try
             {
-                reader.BaseStream.Seek(-1024, SeekOrigin.End);
+                reader.BaseStream.Seek(-500, SeekOrigin.End);
                 linesBlock = reader.ReadToEnd();
             }
             // If it fails, instead get the entire file
