@@ -67,8 +67,8 @@ namespace Attendance
         private void guildManagement_Close(object sender, FormClosedEventArgs e)
         {
             if (lockConnection != null && lockConnection.State == ConnectionState.Open) lockConnection.Close();
-            //settingsOverlayX = overlayForm.Location.X;
-            //settingsOverlayY = overlayForm.Location.Y;
+            settingsOverlayX = overlayForm.Location.X;
+            settingsOverlayY = overlayForm.Location.Y;
             saveSettings();
             refreshThread.Abort();
             Application.Exit();
