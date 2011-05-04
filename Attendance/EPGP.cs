@@ -889,6 +889,7 @@ namespace Attendance
                 if (e.Column.ColumnName.Equals("LGP"))
                     e.Row["LGP"] = Math.Max((double)e.Row["LGP"], minGP);
                 e.Row["PR"] = (double)e.Row["EP"] / (double)e.Row["GP"];
+                e.Row["LPR"] = (double)e.Row["EP"] / (double)e.Row["LGP"];
                 if (e.Column.ColumnName.Equals("EP"))
                     success = executeSQLUpdate("UPDATE EPGP SET ep=@1 WHERE name=@2", new object[] { (double)e.Row["EP"], name });
                 if (e.Column.ColumnName.Equals("GP"))
