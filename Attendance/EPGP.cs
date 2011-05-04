@@ -452,6 +452,35 @@ namespace Attendance
             }
         }
 
+        private void txt_opacity_TextChanged(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(txt_opacity.Text) > 100)
+            {
+                MessageBox.Show("Invalid entry. Enter a number between 0 - 100");
+                txt_opacity.Text = "50";
+                opacitySlider.Value = 50;
+                settingsOverlayOpacity = 0.5;
+                saveSettings();
+            }
+            if (txt_opacity.Text != "")
+            {
+                opacitySlider.Value = Convert.ToInt32(txt_opacity.Text);
+                settingsOverlayOpacity = Convert.ToDouble(opacitySlider.Value) / 100;
+                saveSettings();
+            }
+        }
+
+        private void opacitySlider_ValueChanged(object sender, EventArgs e)
+        {
+            txt_opacity.Text = opacitySlider.Value.ToString();
+        }
+
+        private void opacitySlider_MouseUp(object sender, MouseEventArgs e)
+        {
+            settingsOverlayOpacity = Convert.ToDouble(opacitySlider.Value) / 100;
+            saveSettings();
+        }
+
         #endregion // Settings
 
         #region Log Parser
@@ -819,7 +848,7 @@ namespace Attendance
                 ex.GetBaseException();
             }
         }
-        
+
     }
 
     public class refreshTable

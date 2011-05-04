@@ -61,6 +61,9 @@
             this.fiveEPbutton = new System.Windows.Forms.Button();
             this.txt_name = new System.Windows.Forms.TextBox();
             this.settingsTab = new System.Windows.Forms.TabPage();
+            this.lbl_transparency = new System.Windows.Forms.Label();
+            this.txt_opacity = new System.Windows.Forms.TextBox();
+            this.opacitySlider = new System.Windows.Forms.TrackBar();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.lbl_logReminder = new System.Windows.Forms.Label();
             this.lbl_rightClickText = new System.Windows.Forms.Label();
@@ -72,6 +75,7 @@
             this.infoTab.SuspendLayout();
             this.adminTab.SuspendLayout();
             this.settingsTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.EPGPspreadsheet)).BeginInit();
             this.SuspendLayout();
             // 
@@ -413,6 +417,9 @@
             // 
             // settingsTab
             // 
+            this.settingsTab.Controls.Add(this.lbl_transparency);
+            this.settingsTab.Controls.Add(this.txt_opacity);
+            this.settingsTab.Controls.Add(this.opacitySlider);
             this.settingsTab.Controls.Add(this.textBox2);
             this.settingsTab.Controls.Add(this.lbl_logReminder);
             this.settingsTab.Controls.Add(this.lbl_rightClickText);
@@ -425,9 +432,43 @@
             this.settingsTab.Text = "Settings";
             this.settingsTab.UseVisualStyleBackColor = true;
             // 
+            // lbl_transparency
+            // 
+            this.lbl_transparency.AutoSize = true;
+            this.lbl_transparency.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_transparency.Location = new System.Drawing.Point(69, 84);
+            this.lbl_transparency.Name = "lbl_transparency";
+            this.lbl_transparency.Size = new System.Drawing.Size(101, 13);
+            this.lbl_transparency.TabIndex = 25;
+            this.lbl_transparency.Text = "Overlay Opacity:";
+            // 
+            // txt_opacity
+            // 
+            this.txt_opacity.Location = new System.Drawing.Point(209, 106);
+            this.txt_opacity.Name = "txt_opacity";
+            this.txt_opacity.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.txt_opacity.Size = new System.Drawing.Size(25, 20);
+            this.txt_opacity.TabIndex = 24;
+            this.txt_opacity.Text = "50";
+            this.txt_opacity.TextChanged += new System.EventHandler(this.txt_opacity_TextChanged);
+            // 
+            // opacitySlider
+            // 
+            this.opacitySlider.AutoSize = false;
+            this.opacitySlider.BackColor = System.Drawing.Color.White;
+            this.opacitySlider.Location = new System.Drawing.Point(9, 104);
+            this.opacitySlider.Maximum = 100;
+            this.opacitySlider.Name = "opacitySlider";
+            this.opacitySlider.Size = new System.Drawing.Size(190, 45);
+            this.opacitySlider.TabIndex = 23;
+            this.opacitySlider.TickFrequency = 0;
+            this.opacitySlider.Value = 50;
+            this.opacitySlider.ValueChanged += new System.EventHandler(this.opacitySlider_ValueChanged);
+            this.opacitySlider.MouseUp += new System.Windows.Forms.MouseEventHandler(this.opacitySlider_MouseUp);
+            // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(18, 139);
+            this.textBox2.Location = new System.Drawing.Point(18, 199);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(216, 130);
@@ -439,7 +480,7 @@
             // lbl_logReminder
             // 
             this.lbl_logReminder.AutoSize = true;
-            this.lbl_logReminder.Location = new System.Drawing.Point(40, 42);
+            this.lbl_logReminder.Location = new System.Drawing.Point(42, 42);
             this.lbl_logReminder.Name = "lbl_logReminder";
             this.lbl_logReminder.Size = new System.Drawing.Size(155, 13);
             this.lbl_logReminder.TabIndex = 21;
@@ -520,6 +561,7 @@
             this.adminTab.PerformLayout();
             this.settingsTab.ResumeLayout(false);
             this.settingsTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.EPGPspreadsheet)).EndInit();
             this.ResumeLayout(false);
 
@@ -566,6 +608,9 @@
         private System.Windows.Forms.Label lbl_sort1;
         private System.Windows.Forms.Button alphaSortButton1;
         private System.Windows.Forms.Button PRsortButton1;
+        private System.Windows.Forms.Label lbl_transparency;
+        private System.Windows.Forms.TextBox txt_opacity;
+        private System.Windows.Forms.TrackBar opacitySlider;
     }
 }
 
