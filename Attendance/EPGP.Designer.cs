@@ -334,7 +334,7 @@
             // 
             this.lbl_loggedIn.AutoSize = true;
             this.lbl_loggedIn.ForeColor = System.Drawing.Color.Red;
-            this.lbl_loggedIn.Location = new System.Drawing.Point(66, 73);
+            this.lbl_loggedIn.Location = new System.Drawing.Point(32, 73);
             this.lbl_loggedIn.Name = "lbl_loggedIn";
             this.lbl_loggedIn.Size = new System.Drawing.Size(75, 13);
             this.lbl_loggedIn.TabIndex = 10;

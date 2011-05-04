@@ -233,7 +233,7 @@ namespace Attendance
                 EPGPspreadsheet.Columns["PR"].ReadOnly = true;
                 EPGPspreadsheet.Columns["LPR"].ReadOnly = true;
                 EPGPspreadsheet.CellValidating += EPGPspreadsheet_CellValidating;
-                lbl_loggedIn.Text = "Logged In";
+                lbl_loggedIn.Text = "Logged In as " + officerName;
                 lbl_loggedIn.ForeColor = Color.Green;
                 loggedIn = true;
                 // Stop Refreshing since we are the only ones editing

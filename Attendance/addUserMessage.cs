@@ -22,5 +22,16 @@ namespace Attendance
             get { return txt_addUser.Text; }
         }
 
+        // Press 'OK' if enter is pressed
+        private void txt_addUser_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                okButton.PerformClick();
+                e.SuppressKeyPress = true;
+            }
+        }
+
+
     }
 }

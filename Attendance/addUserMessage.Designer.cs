@@ -37,10 +37,10 @@
             // lbl_addUser
             // 
             this.lbl_addUser.AutoSize = true;
-            this.lbl_addUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_addUser.Location = new System.Drawing.Point(20, 22);
+            this.lbl_addUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_addUser.Location = new System.Drawing.Point(41, 22);
             this.lbl_addUser.Name = "lbl_addUser";
-            this.lbl_addUser.Size = new System.Drawing.Size(248, 13);
+            this.lbl_addUser.Size = new System.Drawing.Size(207, 13);
             this.lbl_addUser.TabIndex = 0;
             this.lbl_addUser.Text = "Enter the name of the person to be added:";
             // 
@@ -50,6 +50,7 @@
             this.txt_addUser.Name = "txt_addUser";
             this.txt_addUser.Size = new System.Drawing.Size(170, 20);
             this.txt_addUser.TabIndex = 1;
+            this.txt_addUser.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_addUser_KeyDown);
             // 
             // okButton
             // 
