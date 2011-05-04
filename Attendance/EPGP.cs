@@ -43,12 +43,15 @@ namespace Attendance
         public int settingsOverlayY = 100;
         private double settingsOverlayOpacity = 0.5;
         private String settingsRiftDir = "";
+        Boolean overlayBorder = true;
+        Boolean overlayToggle = false;
 
         // Player
         private string currentZone;
 
         // Overlay
         overlay overlayForm;
+
 
         #endregion // Variables
 
@@ -129,11 +132,8 @@ namespace Attendance
             // Load settings
             loadSettings();
 
-            // Create overlay form
-            overlayForm = new overlay(settingsOverlayX, settingsOverlayY, settingsOverlayOpacity);
-
             // Find zone
-            zoneParser(); // this errors right now :(
+            zoneParser();
         }
 
         #endregion // Intialize
@@ -358,6 +358,12 @@ namespace Attendance
                         xml.WriteStartElement("Opacity");
                             xml.WriteString(settingsOverlayOpacity.ToString());
                         xml.WriteEndElement();
+                        xml.WriteStartElement("Border");
+                            xml.WriteString(overlayForm.FormBorderStyle.ToString());
+                        xml.WriteEndElement();
+                        xml.WriteStartElement("Toggle");
+                            xml.WriteString(overlayForm.Visible.ToString());
+                        xml.WriteEndElement();
                     xml.WriteEndElement();
                     xml.WriteStartElement("RiftDirectory");
                         if (!settingsRiftDir.Equals(""))
@@ -379,10 +385,10 @@ namespace Attendance
 
         private bool loadSettings()
         {
-            
             if (File.Exists(settingsPath))
             {
                 XmlTextReader xml = new XmlTextReader(settingsPath);
+                
 
                 while (xml.Read())
                 {
@@ -420,6 +426,34 @@ namespace Attendance
                                             opacitySlider.ValueChanged += opacitySlider_ValueChanged;
                                         }
                                     }
+                                    if (xml.Name == "Border")
+                                    {
+                                        if (xml.Read())
+                                        {
+                                            if (xml.Value == "None")
+                                            {
+                                                overlayBorder = false;
+                                            }
+                                            if (xml.Value == "FixedSingle")
+                                            {
+                                                overlayBorder = true;
+                                            }
+                                        }
+                                    }
+                                    if (xml.Name == "Toggle")
+                                    {
+                                        if (xml.Read())
+                                        {
+                                            if (xml.Value == "True")
+                                            {
+                                                overlayToggle = true;
+                                            }
+                                            if (xml.Value == "False")
+                                            {
+                                                overlayToggle = false;
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -447,6 +481,30 @@ namespace Attendance
                 // Save Defaults
                 saveSettings();
             }
+
+            // Create overlay form
+            overlayForm = new overlay(settingsOverlayX, settingsOverlayY, settingsOverlayOpacity);
+
+            // Set border style
+            if (overlayBorder)
+            {
+                overlayForm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            }
+            else
+            {
+                overlayForm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            }
+
+            // Set toggle
+            if (overlayToggle)
+            {
+                overlayForm.Show();
+            }
+            else
+            {
+                overlayForm.Hide();
+            }
+
             return true;
         }
 
@@ -485,7 +543,6 @@ namespace Attendance
                         opacitySlider.Value = 50;
                         settingsOverlayOpacity = 0.5;
                         overlayForm.Opacity = settingsOverlayOpacity;
-                        saveSettings();
                         opacitySlider.ValueChanged += opacitySlider_ValueChanged;
                         return;
                     }
@@ -494,7 +551,6 @@ namespace Attendance
                         opacitySlider.Value = Convert.ToInt32(txt_opacity.Text);
                         settingsOverlayOpacity = Convert.ToDouble(opacitySlider.Value) / 100;
                         overlayForm.Opacity = settingsOverlayOpacity;
-                        saveSettings();
                     }
                     
                 }
@@ -506,7 +562,6 @@ namespace Attendance
                 opacitySlider.Value = 50;
                 settingsOverlayOpacity = 0.5;
                 overlayForm.Opacity = settingsOverlayOpacity;
-                saveSettings();
             }
             opacitySlider.ValueChanged += opacitySlider_ValueChanged;
         }
@@ -519,12 +574,6 @@ namespace Attendance
             settingsOverlayOpacity = Convert.ToDouble(opacitySlider.Value) / 100;
             overlayForm.Opacity = settingsOverlayOpacity;
             txt_opacity.TextChanged += txt_opacity_TextChanged;
-        }
-
-        private void opacitySlider_MouseUp(object sender, MouseEventArgs e)
-        {
-            settingsOverlayOpacity = Convert.ToDouble(opacitySlider.Value) / 100;
-            saveSettings();
         }
 
         #endregion // Settings

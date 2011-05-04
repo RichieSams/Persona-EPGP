@@ -464,7 +464,6 @@
             this.opacitySlider.TickFrequency = 0;
             this.opacitySlider.Value = 50;
             this.opacitySlider.ValueChanged += new System.EventHandler(this.opacitySlider_ValueChanged);
-            this.opacitySlider.MouseUp += new System.Windows.Forms.MouseEventHandler(this.opacitySlider_MouseUp);
             // 
             // textBox2
             // 
@@ -474,8 +473,7 @@
             this.textBox2.Size = new System.Drawing.Size(216, 130);
             this.textBox2.TabIndex = 22;
             this.textBox2.Text = "-More overlay options (transparency, etc)\r\n-Info to show log, combatlog\r\n-Timer R" +
-                "efresh (currently hardcoded at 25-35 seconds randomly)\r\n-Slider for overlay Tran" +
-                "sparency";
+                "efresh (currently hardcoded at 25-35 seconds randomly)\r\n";
             // 
             // lbl_logReminder
             // 
