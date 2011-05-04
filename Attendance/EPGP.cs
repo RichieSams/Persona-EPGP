@@ -139,7 +139,7 @@ namespace Attendance
             // Load settings
             loadSettings();
 
-            // Moved here so it's called after overlayForm has been created, ie. so it doensn't throw an error.
+            // Moved here so it's called after overlayForm has been created, ie. so it doesn't throw an error.
             // Find zone
             zoneParser();
         }
