@@ -13,9 +13,12 @@ namespace Attendance
 {
     public partial class overlay : Form
     {
-        public overlay()
+        public overlay(int x, int y, double opacity)
         {
             InitializeComponent();
+
+            this.Location = new Point(x, y);
+            this.Opacity = opacity;
         }
     }
 }
