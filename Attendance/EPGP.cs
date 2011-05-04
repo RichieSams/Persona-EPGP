@@ -52,7 +52,6 @@ namespace Attendance
         // Overlay
         overlay overlayForm;
 
-
         #endregion // Variables
 
         #region Intialize
