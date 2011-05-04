@@ -50,6 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="addUserMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="addUserMessage.Designer.cs">
+      <DependentUpon>addUserMessage.cs</DependentUpon>
+    </Compile>
     <Compile Include="EPGP.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,6 +70,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="addUserMessage.resx">
+      <DependentUpon>addUserMessage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EPGP.resx">
       <DependentUpon>EPGP.cs</DependentUpon>
     </EmbeddedResource>

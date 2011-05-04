@@ -320,6 +320,24 @@ namespace Attendance
         private void addUserButton_Click(object sender, EventArgs e)
         {
             string memberName = EPGPspreadsheet.SelectedCells[0].Value.ToString();
+            addUserMessage addUserPopup = new addUserMessage();
+            var result = addUserPopup.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                try
+                {
+                    if (connection.State == ConnectionState.Closed) connection.Open();
+                    MySqlCommand addCommand = new MySqlCommand("INSERT INTO EPGP (`name`) VALUES ('" + addUserPopup.MemberName + "')", connection);
+                    addCommand.ExecuteNonQuery();
+                    if (connection.State == ConnectionState.Open) connection.Close();
+                    updateTable();
+                }
+                catch (MySqlException ex)
+                {
+                    MessageBox.Show("Member already exists");
+                }
+            }
+
         }
 
         private void userDeleteButton_Click(object sender, EventArgs e)
