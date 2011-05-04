@@ -66,8 +66,6 @@ namespace Attendance
         private void guildManagement_Close(object sender, FormClosedEventArgs e)
         {
             if (lockConnection != null && lockConnection.State == ConnectionState.Open) lockConnection.Close();
-            settingsOverlayX = overlayForm.Location.X;
-            settingsOverlayY = overlayForm.Location.Y;
             saveSettings();
             refreshThread.Abort();
             Application.Exit();
@@ -128,8 +126,6 @@ namespace Attendance
             logWatcher.Created += new FileSystemEventHandler(textLogParser);
             logWatcher.EnableRaisingEvents = true;
 
-            // Find zone
-            zoneParser();
         }
 
         private void guildManagement_Activated(object sender, EventArgs e)
@@ -142,6 +138,10 @@ namespace Attendance
 
             // Load settings
             loadSettings();
+
+            // Moved here so it's called after overlayForm has been created, ie. so it doensn't throw an error.
+            // Find zone
+            zoneParser();
         }
 
         #endregion // Intialize
