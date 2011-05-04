@@ -168,7 +168,7 @@ namespace Attendance
             BindingSource bs = (BindingSource)EPGPspreadsheet.DataSource;
             //DataTable table = (DataTable)bs.DataSource;
             //table.ColumnChanged -= Column_Changed; // Don't need these you can delete when you see
-            bs.Sort = "Present DESC, Standby DESC, PR DESC";
+            bs.Sort = "Present DESC, Standby DESC, PR DESC, Name ASC";
             //table.ColumnChanged += Column_Changed; // Don't need these you can delete when you see
         }
 
@@ -256,7 +256,7 @@ namespace Attendance
         private void attendanceButton_Click(object sender, EventArgs e)
         {
             string[] raidArray = new string[20];
-            XmlTextReader reader = new XmlTextReader("C:\\Program Files (x86)\\RIFT Game\\raid.xml");
+            XmlTextReader reader = new XmlTextReader(settingsRiftDir + "\\raid.xml");
             int tempInt = 0;
 
             while (reader.Read())
@@ -581,6 +581,10 @@ namespace Attendance
                 overlayForm.Hide();
             }
 
+            // Remove Text
+            overlayForm.lbl_overlayName.Text = "";
+            overlayForm.lbl_overlayPR.Text = "";
+
             return true;
         }
 
@@ -658,36 +662,37 @@ namespace Attendance
 
         private void textLogParser(object source, FileSystemEventArgs e)
         {
+            FileStream fs = new FileStream("C:\\Program Files (x86)\\RIFT Game\\log.txt", FileMode.Open, FileAccess.Read);
+            StreamReader reader = new StreamReader(fs);
+            string linesBlock;
+            // Try to get the last 1024 bytes of data from the file
+            try
+            {
+                reader.BaseStream.Seek(-1024, SeekOrigin.End);
+                linesBlock = reader.ReadToEnd();
+            }
+            // If it fails, instead get the entire file
+            catch (IOException)
+            {
+                linesBlock = reader.ReadToEnd();
+            }
+            fs.Close();
+            reader.Close();
+            // Split into lines and get the last line
+            string[] lines = linesBlock.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string lastLine = lines[lines.Length - 1];
+
+            // Extract the zone from the channel name and set it to the current zone
+            if (lastLine.IndexOf("[1. ") != -1)
+            {
+                string zoneString = lastLine.Substring(10, lastLine.Length - 10);
+                currentZone = zoneString.Substring(zoneString.IndexOf("[1. ") + 4, zoneString.IndexOf("]") - zoneString.IndexOf("[") - 4);
+                lbl_currentZoneValue.Text = currentZone;
+            }
+
             // Only do overlay text if the user is in a raid zone
             if ((currentZone == "Greenscale's Blight") || (currentZone == "River of Souls") || (currentZone == "Freemarch"))
             {
-                FileStream fs = new FileStream("C:\\Program Files (x86)\\RIFT Game\\log.txt", FileMode.Open, FileAccess.Read);
-                StreamReader reader = new StreamReader(fs);
-                string linesBlock;
-                // Try to get the last 1024 bytes of data from the file
-                try
-                {
-                    reader.BaseStream.Seek(-1024, SeekOrigin.End);
-                    linesBlock = reader.ReadToEnd();
-                }
-                // If it fails, instead get the entire file
-                catch (IOException)
-                {
-                    linesBlock = reader.ReadToEnd();
-                }
-                fs.Close();
-                reader.Close();
-                // Split into lines and get the last line
-                string[] lines = linesBlock.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                string lastLine = lines[lines.Length - 1];
-
-                // Extract the zone from the channel name and set it to the current zone
-                if (lastLine.IndexOf("[1. ") != -1)
-                {
-                    string zoneString = lastLine.Substring(10, lastLine.Length - 10);
-                    currentZone = zoneString.Substring(zoneString.IndexOf("[1. ") + 4, zoneString.IndexOf("]") - zoneString.IndexOf("[") - 4);
-                }
-
                 // Non-raid speech lines are ignored           /////Idea: create channel for EPGP so the program doesn't have to read raid chatter
                 if (lastLine.IndexOf("[Guild]") != -1) //change to [Raid] for release
                 {
@@ -820,7 +825,7 @@ namespace Attendance
 
             }
             currentZone = lines[userIndex].Substring(lines[userIndex].IndexOf("\t") + 1, lines[userIndex].IndexOf(" (") - lines[userIndex].IndexOf("\t") - 1);
-            overlayForm.lbl_test.Text = currentZone;
+            lbl_currentZoneValue.Text = currentZone;
         }
 
         #endregion // Log Parser
@@ -910,6 +915,8 @@ namespace Attendance
             if (success)
             {
                 resortTable(table);
+                overlayForm.lbl_overlayName.Text = "";
+                overlayForm.lbl_overlayPR.Text = "";
             }
             else
             {
@@ -950,7 +957,7 @@ namespace Attendance
                 MySqlCommand command = connection.CreateCommand();
                 MySqlDataAdapter adapter = new MySqlDataAdapter();
 
-                command.CommandText = "SELECT name as Name, ep as EP, gp as GP, ep/gp as PR, lgp as LGP, ep/lgp as LPR, present as Present, standby as Standby FROM EPGP ORDER BY Present DESC, Standby DESC, PR DESC";
+                command.CommandText = "SELECT name as Name, ep as EP, gp as GP, ep/gp as PR, lgp as LGP, ep/lgp as LPR, present as Present, standby as Standby FROM EPGP ORDER BY Present DESC, Standby DESC, PR DESC, Name ASC";
                 adapter.SelectCommand = command;
                 DataTable table = new DataTable();
                 adapter.Fill(table);
@@ -978,7 +985,7 @@ namespace Attendance
             if (!loggedIn)
             {
                 BindingSource bs = (BindingSource)EPGPspreadsheet.DataSource;
-                bs.Sort = "Present DESC, Standby DESC, PR DESC";
+                bs.Sort = "Present DESC, Standby DESC, PR DESC, Name ASC";
             }
         }
 

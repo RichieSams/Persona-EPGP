@@ -73,6 +73,8 @@
             this.btn_refreshTbl = new System.Windows.Forms.Button();
             this.userDeleteButton = new System.Windows.Forms.Button();
             this.userAddButton = new System.Windows.Forms.Button();
+            this.lbl_currentZoneTitle = new System.Windows.Forms.Label();
+            this.lbl_currentZoneValue = new System.Windows.Forms.Label();
             this.tabArea.SuspendLayout();
             this.infoTab.SuspendLayout();
             this.adminTab.SuspendLayout();
@@ -94,6 +96,8 @@
             // 
             // infoTab
             // 
+            this.infoTab.Controls.Add(this.lbl_currentZoneValue);
+            this.infoTab.Controls.Add(this.lbl_currentZoneTitle);
             this.infoTab.Controls.Add(this.lbl_sort1);
             this.infoTab.Controls.Add(this.alphaSortButton1);
             this.infoTab.Controls.Add(this.PRsortButton1);
@@ -121,7 +125,7 @@
             // 
             this.lbl_sort1.AutoSize = true;
             this.lbl_sort1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_sort1.Location = new System.Drawing.Point(89, 400);
+            this.lbl_sort1.Location = new System.Drawing.Point(91, 400);
             this.lbl_sort1.Name = "lbl_sort1";
             this.lbl_sort1.Size = new System.Drawing.Size(70, 13);
             this.lbl_sort1.TabIndex = 27;
@@ -129,7 +133,7 @@
             // 
             // alphaSortButton1
             // 
-            this.alphaSortButton1.Location = new System.Drawing.Point(74, 416);
+            this.alphaSortButton1.Location = new System.Drawing.Point(76, 416);
             this.alphaSortButton1.Name = "alphaSortButton1";
             this.alphaSortButton1.Size = new System.Drawing.Size(100, 30);
             this.alphaSortButton1.TabIndex = 26;
@@ -139,7 +143,7 @@
             // 
             // PRsortButton1
             // 
-            this.PRsortButton1.Location = new System.Drawing.Point(74, 452);
+            this.PRsortButton1.Location = new System.Drawing.Point(76, 452);
             this.PRsortButton1.Name = "PRsortButton1";
             this.PRsortButton1.Size = new System.Drawing.Size(100, 30);
             this.PRsortButton1.TabIndex = 25;
@@ -151,7 +155,7 @@
             // 
             this.lbl_webLink.AutoSize = true;
             this.lbl_webLink.LinkArea = new System.Windows.Forms.LinkArea(0, 34);
-            this.lbl_webLink.Location = new System.Drawing.Point(33, 359);
+            this.lbl_webLink.Location = new System.Drawing.Point(29, 359);
             this.lbl_webLink.Name = "lbl_webLink";
             this.lbl_webLink.Size = new System.Drawing.Size(194, 13);
             this.lbl_webLink.TabIndex = 24;
@@ -163,7 +167,7 @@
             // 
             this.lbl_learnMore.AutoSize = true;
             this.lbl_learnMore.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_learnMore.Location = new System.Drawing.Point(96, 344);
+            this.lbl_learnMore.Location = new System.Drawing.Point(89, 344);
             this.lbl_learnMore.Name = "lbl_learnMore";
             this.lbl_learnMore.Size = new System.Drawing.Size(75, 13);
             this.lbl_learnMore.TabIndex = 22;
@@ -210,7 +214,7 @@
             // lbl_EPgainsValues
             // 
             this.lbl_EPgainsValues.AutoSize = true;
-            this.lbl_EPgainsValues.Location = new System.Drawing.Point(161, 210);
+            this.lbl_EPgainsValues.Location = new System.Drawing.Point(163, 210);
             this.lbl_EPgainsValues.Name = "lbl_EPgainsValues";
             this.lbl_EPgainsValues.Size = new System.Drawing.Size(53, 52);
             this.lbl_EPgainsValues.TabIndex = 11;
@@ -219,7 +223,7 @@
             // lbl_EPgainsNames
             // 
             this.lbl_EPgainsNames.AutoSize = true;
-            this.lbl_EPgainsNames.Location = new System.Drawing.Point(35, 210);
+            this.lbl_EPgainsNames.Location = new System.Drawing.Point(37, 210);
             this.lbl_EPgainsNames.Name = "lbl_EPgainsNames";
             this.lbl_EPgainsNames.Size = new System.Drawing.Size(124, 52);
             this.lbl_EPgainsNames.TabIndex = 10;
@@ -229,7 +233,7 @@
             // 
             this.lbl_EPgainsTitle.AutoSize = true;
             this.lbl_EPgainsTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_EPgainsTitle.Location = new System.Drawing.Point(97, 193);
+            this.lbl_EPgainsTitle.Location = new System.Drawing.Point(95, 193);
             this.lbl_EPgainsTitle.Name = "lbl_EPgainsTitle";
             this.lbl_EPgainsTitle.Size = new System.Drawing.Size(63, 13);
             this.lbl_EPgainsTitle.TabIndex = 9;
@@ -238,7 +242,7 @@
             // lbl_itemCostValues
             // 
             this.lbl_itemCostValues.AutoSize = true;
-            this.lbl_itemCostValues.Location = new System.Drawing.Point(140, 32);
+            this.lbl_itemCostValues.Location = new System.Drawing.Point(139, 32);
             this.lbl_itemCostValues.Name = "lbl_itemCostValues";
             this.lbl_itemCostValues.Size = new System.Drawing.Size(49, 143);
             this.lbl_itemCostValues.TabIndex = 8;
@@ -247,7 +251,7 @@
             // lbl_itemCostNames
             // 
             this.lbl_itemCostNames.AutoSize = true;
-            this.lbl_itemCostNames.Location = new System.Drawing.Point(65, 32);
+            this.lbl_itemCostNames.Location = new System.Drawing.Point(64, 32);
             this.lbl_itemCostNames.Name = "lbl_itemCostNames";
             this.lbl_itemCostNames.Size = new System.Drawing.Size(74, 143);
             this.lbl_itemCostNames.TabIndex = 7;
@@ -258,7 +262,7 @@
             // 
             this.lbl_itemCostTitle.AutoSize = true;
             this.lbl_itemCostTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_itemCostTitle.Location = new System.Drawing.Point(97, 15);
+            this.lbl_itemCostTitle.Location = new System.Drawing.Point(91, 15);
             this.lbl_itemCostTitle.Name = "lbl_itemCostTitle";
             this.lbl_itemCostTitle.Size = new System.Drawing.Size(70, 13);
             this.lbl_itemCostTitle.TabIndex = 6;
@@ -359,6 +363,7 @@
             this.attendanceButton.Text = "Attendance";
             this.attendanceButton.UseVisualStyleBackColor = true;
             this.attendanceButton.Visible = false;
+            this.attendanceButton.Click += new System.EventHandler(this.attendanceButton_Click);
             // 
             // lbl_pass
             // 
@@ -563,6 +568,25 @@
             this.userAddButton.Visible = false;
             this.userAddButton.Click += new System.EventHandler(this.addUserButton_Click);
             // 
+            // lbl_currentZoneTitle
+            // 
+            this.lbl_currentZoneTitle.AutoSize = true;
+            this.lbl_currentZoneTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_currentZoneTitle.Location = new System.Drawing.Point(84, 516);
+            this.lbl_currentZoneTitle.Name = "lbl_currentZoneTitle";
+            this.lbl_currentZoneTitle.Size = new System.Drawing.Size(85, 13);
+            this.lbl_currentZoneTitle.TabIndex = 28;
+            this.lbl_currentZoneTitle.Text = "Current Zone:";
+            // 
+            // lbl_currentZoneValue
+            // 
+            this.lbl_currentZoneValue.AutoSize = true;
+            this.lbl_currentZoneValue.Location = new System.Drawing.Point(95, 535);
+            this.lbl_currentZoneValue.Name = "lbl_currentZoneValue";
+            this.lbl_currentZoneValue.Size = new System.Drawing.Size(63, 13);
+            this.lbl_currentZoneValue.TabIndex = 29;
+            this.lbl_currentZoneValue.Text = "Placeholder";
+            // 
             // guildManagement
             // 
             this.AllowDrop = true;
@@ -639,6 +663,8 @@
         private System.Windows.Forms.TrackBar opacitySlider;
         private System.Windows.Forms.Button userDeleteButton;
         private System.Windows.Forms.Button userAddButton;
+        private System.Windows.Forms.Label lbl_currentZoneValue;
+        private System.Windows.Forms.Label lbl_currentZoneTitle;
     }
 }
 

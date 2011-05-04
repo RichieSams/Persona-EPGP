@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <EPGPTool>
   <Overlay>
-    <X>1396</X>
-    <Y>109</Y>
-    <Opacity>0.8</Opacity>
+    <X>1430</X>
+    <Y>161</Y>
+    <Opacity>0.5</Opacity>
     <Border>None</Border>
-    <Toggle>False</Toggle>
+    <Toggle>True</Toggle>
   </Overlay>
   <RiftDirectory>C:\Program Files (x86)\RIFT Game</RiftDirectory>
 </EPGPTool>

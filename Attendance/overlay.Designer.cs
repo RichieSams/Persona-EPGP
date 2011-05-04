@@ -31,37 +31,27 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(overlay));
             this.lbl_overlayName = new System.Windows.Forms.Label();
             this.lbl_overlayPR = new System.Windows.Forms.Label();
-            this.lbl_test = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lbl_overlayName
             // 
             this.lbl_overlayName.AutoSize = true;
             this.lbl_overlayName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_overlayName.Location = new System.Drawing.Point(27, 18);
+            this.lbl_overlayName.Location = new System.Drawing.Point(34, 27);
             this.lbl_overlayName.Name = "lbl_overlayName";
-            this.lbl_overlayName.Size = new System.Drawing.Size(98, 17);
+            this.lbl_overlayName.Size = new System.Drawing.Size(83, 17);
             this.lbl_overlayName.TabIndex = 0;
-            this.lbl_overlayName.Text = "Blazzinsouljah";
+            this.lbl_overlayName.Text = "Placeholder";
             // 
             // lbl_overlayPR
             // 
             this.lbl_overlayPR.AutoSize = true;
             this.lbl_overlayPR.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_overlayPR.Location = new System.Drawing.Point(133, 18);
+            this.lbl_overlayPR.Location = new System.Drawing.Point(140, 27);
             this.lbl_overlayPR.Name = "lbl_overlayPR";
             this.lbl_overlayPR.Size = new System.Drawing.Size(44, 17);
             this.lbl_overlayPR.TabIndex = 1;
             this.lbl_overlayPR.Text = "21.65";
-            // 
-            // lbl_test
-            // 
-            this.lbl_test.AutoSize = true;
-            this.lbl_test.Location = new System.Drawing.Point(27, 70);
-            this.lbl_test.Name = "lbl_test";
-            this.lbl_test.Size = new System.Drawing.Size(35, 13);
-            this.lbl_test.TabIndex = 2;
-            this.lbl_test.Text = "label1";
             // 
             // overlay
             // 
@@ -69,7 +59,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(219, 172);
-            this.Controls.Add(this.lbl_test);
             this.Controls.Add(this.lbl_overlayPR);
             this.Controls.Add(this.lbl_overlayName);
             this.ForeColor = System.Drawing.Color.White;
@@ -92,6 +81,5 @@
 
         public System.Windows.Forms.Label lbl_overlayName;
         public System.Windows.Forms.Label lbl_overlayPR;
-        public System.Windows.Forms.Label lbl_test;
     }
 }
