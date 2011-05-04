@@ -61,7 +61,7 @@
             this.fiveEPbutton = new System.Windows.Forms.Button();
             this.txt_name = new System.Windows.Forms.TextBox();
             this.settingsTab = new System.Windows.Forms.TabPage();
-            this.lbl_transparency = new System.Windows.Forms.Label();
+            this.lbl_opacity = new System.Windows.Forms.Label();
             this.txt_opacity = new System.Windows.Forms.TextBox();
             this.opacitySlider = new System.Windows.Forms.TrackBar();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -417,7 +417,7 @@
             // 
             // settingsTab
             // 
-            this.settingsTab.Controls.Add(this.lbl_transparency);
+            this.settingsTab.Controls.Add(this.lbl_opacity);
             this.settingsTab.Controls.Add(this.txt_opacity);
             this.settingsTab.Controls.Add(this.opacitySlider);
             this.settingsTab.Controls.Add(this.textBox2);
@@ -432,15 +432,15 @@
             this.settingsTab.Text = "Settings";
             this.settingsTab.UseVisualStyleBackColor = true;
             // 
-            // lbl_transparency
+            // lbl_opacity
             // 
-            this.lbl_transparency.AutoSize = true;
-            this.lbl_transparency.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_transparency.Location = new System.Drawing.Point(69, 84);
-            this.lbl_transparency.Name = "lbl_transparency";
-            this.lbl_transparency.Size = new System.Drawing.Size(101, 13);
-            this.lbl_transparency.TabIndex = 25;
-            this.lbl_transparency.Text = "Overlay Opacity:";
+            this.lbl_opacity.AutoSize = true;
+            this.lbl_opacity.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_opacity.Location = new System.Drawing.Point(69, 84);
+            this.lbl_opacity.Name = "lbl_opacity";
+            this.lbl_opacity.Size = new System.Drawing.Size(101, 13);
+            this.lbl_opacity.TabIndex = 25;
+            this.lbl_opacity.Text = "Overlay Opacity:";
             // 
             // txt_opacity
             // 
@@ -551,7 +551,6 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "guildManagement";
             this.Text = "Persona Guild Management";
-            this.Activated += new System.EventHandler(this.guildManagement_Shown);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.guildManagement_Close);
             this.Load += new System.EventHandler(this.guildManagement_Load);
             this.tabArea.ResumeLayout(false);
@@ -608,7 +607,7 @@
         private System.Windows.Forms.Label lbl_sort1;
         private System.Windows.Forms.Button alphaSortButton1;
         private System.Windows.Forms.Button PRsortButton1;
-        private System.Windows.Forms.Label lbl_transparency;
+        private System.Windows.Forms.Label lbl_opacity;
         private System.Windows.Forms.TextBox txt_opacity;
         private System.Windows.Forms.TrackBar opacitySlider;
     }

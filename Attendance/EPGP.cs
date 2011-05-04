@@ -39,8 +39,8 @@ namespace Attendance
         private const double minGP = 5.0;
         private const String settingsPath = "settings.xml";
         // Defaults
-        private int settingsOverlayX = 100;
-        private int settingsOverlayY = 100;
+        public int settingsOverlayX = 100;
+        public int settingsOverlayY = 100;
         private double settingsOverlayOpacity = 0.5;
         private String settingsRiftDir = "";
 
@@ -64,6 +64,9 @@ namespace Attendance
         private void guildManagement_Close(object sender, FormClosedEventArgs e)
         {
             if (lockConnection != null && lockConnection.State == ConnectionState.Open) lockConnection.Close();
+            //settingsOverlayX = overlayForm.Location.X;
+            //settingsOverlayY = overlayForm.Location.Y;
+            saveSettings();
             refreshThread.Abort();
             Application.Exit();
         }
@@ -123,15 +126,14 @@ namespace Attendance
             logWatcher.Created += new FileSystemEventHandler(textLogParser);
             logWatcher.EnableRaisingEvents = true;
 
+            // Load settings
+            loadSettings();
+
+            // Create overlay form
+            overlayForm = new overlay(settingsOverlayX, settingsOverlayY, settingsOverlayOpacity);
+
             // Find zone
             zoneParser(); // this errors right now :(
-        }
-
-        private void guildManagement_Shown(object sender, EventArgs e)
-        {
-            // Settings
-            this.Activated -= guildManagement_Shown; // Such a stupid work around
-            loadSettings();
         }
 
         #endregion // Intialize
@@ -204,7 +206,9 @@ namespace Attendance
                 }
                 else
                 {
-                    throw new IndexOutOfRangeException();
+                    //Show popup that login failed
+                    MessageBox.Show("An officer is already logged in");
+                    return loggedIn;
                 }
 
                 // If successful, save name of the officer, show admin buttons, unlock table, and format logged in text
@@ -230,11 +234,6 @@ namespace Attendance
             {
                 //Show popup that login failed
                 MessageBox.Show("Invalid login information");
-            }
-            catch (IndexOutOfRangeException ex)
-            {
-                //Show popup that login failed
-                MessageBox.Show("An officer is already logged in");
             }
             finally
             {
@@ -315,8 +314,6 @@ namespace Attendance
 
         public void overlayButton_Click(object sender, MouseEventArgs e)
         {
-            if (overlayForm == null)
-                overlayForm = new overlay(settingsOverlayX, settingsOverlayY, settingsOverlayOpacity);
             if (e.Button == MouseButtons.Left)
             {
                 if (overlayForm.Visible == false)
@@ -397,13 +394,32 @@ namespace Attendance
                             {
                                 if (xml.NodeType == XmlNodeType.Element)
                                 {
-                                    xml.Read();
                                     if (xml.Name == "X")
-                                        settingsOverlayX = Convert.ToInt32(xml.Value);
+                                    {
+                                        if (xml.Read())
+                                        {
+                                            settingsOverlayX = Convert.ToInt32(xml.Value);
+                                        }
+                                    }
                                     if (xml.Name == "Y")
-                                        settingsOverlayY = Convert.ToInt32(xml.Value);
+                                    {
+                                        if (xml.Read())
+                                        {
+                                            settingsOverlayY = Convert.ToInt32(xml.Value);
+                                        }
+                                    }
                                     if (xml.Name == "Opacity")
-                                        settingsOverlayOpacity = Convert.ToDouble(xml.Value);
+                                    {
+                                        if (xml.Read())
+                                        {
+                                            settingsOverlayOpacity = Convert.ToDouble(xml.Value);
+                                            opacitySlider.ValueChanged -= opacitySlider_ValueChanged;
+                                            txt_opacity.TextChanged -= txt_opacity_TextChanged;
+                                            opacitySlider.Value = Convert.ToInt32(settingsOverlayOpacity * 100);
+                                            txt_opacity.Text = Convert.ToInt32(settingsOverlayOpacity * 100).ToString();
+                                            opacitySlider.ValueChanged += opacitySlider_ValueChanged;
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -454,25 +470,55 @@ namespace Attendance
 
         private void txt_opacity_TextChanged(object sender, EventArgs e)
         {
-            if (Convert.ToInt32(txt_opacity.Text) > 100)
+            opacitySlider.ValueChanged -= opacitySlider_ValueChanged;
+            // Data validation to make sure value is an int
+            try
             {
-                MessageBox.Show("Invalid entry. Enter a number between 0 - 100");
+                // If text has a value, set the value of the slider to the same and save to the settings file
+                if (txt_opacity.Text != "")
+                {
+                    // Data validation to make sure the value is between 0 and 100
+                    if ((Convert.ToInt32(txt_opacity.Text) > 100) || (Convert.ToInt32(txt_opacity.Text) < 0))
+                    {
+                        MessageBox.Show("Invalid entry. Enter an integer between 0 - 100");
+                        txt_opacity.Text = "50";
+                        opacitySlider.Value = 50;
+                        settingsOverlayOpacity = 0.5;
+                        overlayForm.Opacity = settingsOverlayOpacity;
+                        saveSettings();
+                        opacitySlider.ValueChanged += opacitySlider_ValueChanged;
+                        return;
+                    }
+                    else
+                    {
+                        opacitySlider.Value = Convert.ToInt32(txt_opacity.Text);
+                        settingsOverlayOpacity = Convert.ToDouble(opacitySlider.Value) / 100;
+                        overlayForm.Opacity = settingsOverlayOpacity;
+                        saveSettings();
+                    }
+                    
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Invalid entry. Enter an integer between 0 - 100");
                 txt_opacity.Text = "50";
                 opacitySlider.Value = 50;
                 settingsOverlayOpacity = 0.5;
+                overlayForm.Opacity = settingsOverlayOpacity;
                 saveSettings();
             }
-            if (txt_opacity.Text != "")
-            {
-                opacitySlider.Value = Convert.ToInt32(txt_opacity.Text);
-                settingsOverlayOpacity = Convert.ToDouble(opacitySlider.Value) / 100;
-                saveSettings();
-            }
+            opacitySlider.ValueChanged += opacitySlider_ValueChanged;
         }
-
+        
+        // Update the text box value on slide, but only save when mouse is released
         private void opacitySlider_ValueChanged(object sender, EventArgs e)
         {
+            txt_opacity.TextChanged -= txt_opacity_TextChanged;
             txt_opacity.Text = opacitySlider.Value.ToString();
+            settingsOverlayOpacity = Convert.ToDouble(opacitySlider.Value) / 100;
+            overlayForm.Opacity = settingsOverlayOpacity;
+            txt_opacity.TextChanged += txt_opacity_TextChanged;
         }
 
         private void opacitySlider_MouseUp(object sender, MouseEventArgs e)
