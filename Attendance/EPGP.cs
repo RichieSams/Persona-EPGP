@@ -61,6 +61,8 @@ namespace Attendance
             InitializeComponent();
 
             loggedIn = false;
+
+            tableModTime = DateTime.MinValue;
         }
 
         private void guildManagement_Close(object sender, FormClosedEventArgs e)
@@ -220,12 +222,12 @@ namespace Attendance
 
                 // If successful, save name of the officer, show admin buttons, unlock table, and format logged in text
                 officerName = login_name;
+                lbl_admin_epfunc.Show();
+                attendanceButton.Show();
+                lbl_admin_raidxml.Show();
                 fiveEPbutton.Show();
                 tenEPbutton.Show();
-                attendanceButton.Show();
-                lbl_sort2.Show();
-                PRsortButton2.Show();
-                alphaSortButton2.Show();
+                lbl_admin_users.Show();
                 userAddButton.Show();
                 userDeleteButton.Show();
                 EPGPspreadsheet.ReadOnly = false;
@@ -334,7 +336,7 @@ namespace Attendance
                 }
                 catch (MySqlException ex)
                 {
-                    MessageBox.Show("Member already exists");
+                    MessageBox.Show("Member already exists.", "Add User", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
 
@@ -352,11 +354,19 @@ namespace Attendance
             }
             if (result == DialogResult.Yes)
             {
-                if (connection.State == ConnectionState.Closed) connection.Open();
-                MySqlCommand deleteCommand = new MySqlCommand("DELETE FROM EPGP WHERE name = '" + EPGPspreadsheet.SelectedCells[0].Value.ToString() + "'", connection);
-                deleteCommand.ExecuteNonQuery();
-                if (connection.State == ConnectionState.Open) connection.Close();
-                updateTable();
+                try
+                {
+                    if (connection.State == ConnectionState.Closed) connection.Open();
+                    MySqlCommand deleteCommand = new MySqlCommand("DELETE FROM EPGP WHERE name = '" + EPGPspreadsheet.SelectedCells[0].Value.ToString() + "'", connection);
+                    deleteCommand.ExecuteNonQuery();
+                    if (connection.State == ConnectionState.Open) connection.Close();
+                    DataTable dt = (DataTable)((BindingSource)EPGPspreadsheet.DataSource).DataSource;
+                    dt.Rows.RemoveAt(EPGPspreadsheet.SelectedCells[0].RowIndex);
+                }
+                catch (MySqlException ex)
+                {
+                    MessageBox.Show("Delete failed.", "Delete User", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -957,14 +967,34 @@ namespace Attendance
 
                 MySqlCommand command = connection.CreateCommand();
                 MySqlDataAdapter adapter = new MySqlDataAdapter();
+                MySql.Data.Types.MySqlDateTime sqlDt = new MySql.Data.Types.MySqlDateTime(tableModTime);
+                String sqlTimeStamp = "'" + sqlDt.Year + "-" + sqlDt.Month + "-" + sqlDt.Day + " " + sqlDt.Hour + ":" + sqlDt.Minute + ":" + sqlDt.Second + "'";
 
-                command.CommandText = "SELECT name as Name, ep as EP, gp as GP, ep/gp as PR, lgp as LGP, ep/lgp as LPR, present as Present, standby as Standby FROM EPGP ORDER BY Present DESC, Standby DESC, PR DESC, Name ASC";
+                command.CommandText = "SELECT name as Name, ep as EP, gp as GP, ep/gp as PR, lgp as LGP, ep/lgp as LPR, present as Present, standby as Standby "+
+                                      "FROM EPGP "+
+                                      "WHERE lastUpdateTime>"+sqlTimeStamp+" "+
+                                      "ORDER BY Present DESC, Standby DESC, PR DESC, Name ASC";
                 adapter.SelectCommand = command;
                 DataTable table = new DataTable();
                 adapter.Fill(table);
-                BindingSource bs = new BindingSource();
-                bs.DataSource = table;
-                this.EPGPspreadsheet.DataSource = bs;
+                // Set Primary Key
+                table.PrimaryKey = new DataColumn[]{table.Columns["Name"]};
+                BindingSource bs = null;
+                if (this.EPGPspreadsheet.DataSource == null)
+                {
+                    // First load on table
+                    bs = new BindingSource();
+                    bs.DataSource = table;
+                    this.EPGPspreadsheet.DataSource = bs;
+                }
+                else
+                {
+                    // Some part of table was modified
+                    bs = (BindingSource)this.EPGPspreadsheet.DataSource;
+                    DataTable curTbl = (DataTable)bs.DataSource;
+                    curTbl.Merge(table, false);
+                    resortTable(curTbl);
+                }
                 table.ColumnChanged += Column_Changed;
 
                 return true;
@@ -986,7 +1016,10 @@ namespace Attendance
             if (!loggedIn)
             {
                 BindingSource bs = (BindingSource)EPGPspreadsheet.DataSource;
-                bs.Sort = "Present DESC, Standby DESC, PR DESC, Name ASC";
+                if (bs.Sort == "")
+                    bs.Sort = "Present DESC, Standby DESC, PR DESC, Name ASC";
+                else
+                    bs.Sort = bs.Sort.ToString();
             }
         }
 
@@ -1016,9 +1049,9 @@ namespace Attendance
 
                 if (dt.CompareTo(tableModTime) > 0 || tableModTime == null)
                 {
+                    updateTable();
                     // Table has been modified since
                     tableModTime = dt;
-                    updateTable();
                 }
             }
             catch (MySqlException ex)
