@@ -28,6 +28,7 @@ namespace Attendance
         // MySql Connections
         private MySqlConnection connection;
         private MySqlConnection lockConnection;
+        private MySqlConnection logConnection;
         
         // Table
         public delegate void refreshNew();
@@ -76,8 +77,12 @@ namespace Attendance
         private void guildManagement_Load(object sender, EventArgs e)
         {
             // Set up general connection to pull table
-            string MyConString = "server=personaguild.com; User Id=" + general_user_id + "; database=persona_EPGP; Password=" + general_password;
-            connection = new MySqlConnection(MyConString);
+            string genConString = "server=personaguild.com; User Id=" + general_user_id + "; database=persona_EPGP; Password=" + general_password;
+            connection = new MySqlConnection(genConString);
+
+            // Set up logging connection
+            string logConString = "server=personaguild.com; User Id=" + general_user_id + "; database=persona_log; Password=" + general_password;
+            logConnection = new MySqlConnection(logConString);
 
             // Fill the table for the first time and set mod time
             refreshNewerTable();
@@ -935,12 +940,21 @@ namespace Attendance
                 resortTable(table);
                 overlayForm.lbl_overlayName.Text = "";
                 overlayForm.lbl_overlayPR.Text = "";
+                // Logging                
+                if (logConnection.State == ConnectionState.Closed) logConnection.Open();
+                // Need to make a way to get the item name whether it be exact or just general (chest, boots, etc.)
+                // Also, need to find a way to compile all the +5 EP and +10 EP into one entry, yet still show who got it
+                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `item`, `officer`) VALUES ('" + e.Row["Name"].ToString() + "', '" + ((double)e.ProposedValue - (double)e.Row[e.Column.Ordinal, DataRowVersion.Original]).ToString() + "', '" + e.Column.ColumnName.ToString() + "', 'test', '" + officerName + "')";
+                MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
+                logCommand.ExecuteNonQuery();
+                if (logConnection.State == ConnectionState.Open) logConnection.Close();
             }
             else
             {
                 table.RejectChanges();
                 MessageBox.Show("Change failed.", "Change");
             }
+
             table.ColumnChanged += Column_Changed;
         }
 

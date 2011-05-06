@@ -33,9 +33,6 @@
             this.infoTab = new System.Windows.Forms.TabPage();
             this.lbl_currentZoneValue = new System.Windows.Forms.Label();
             this.lbl_currentZoneTitle = new System.Windows.Forms.Label();
-            this.lbl_sort1 = new System.Windows.Forms.Label();
-            this.alphaSortButton1 = new System.Windows.Forms.Button();
-            this.PRsortButton1 = new System.Windows.Forms.Button();
             this.lbl_webLink = new System.Windows.Forms.LinkLabel();
             this.lbl_learnMore = new System.Windows.Forms.Label();
             this.lbl_GPminValue = new System.Windows.Forms.Label();
@@ -49,6 +46,12 @@
             this.lbl_itemCostNames = new System.Windows.Forms.Label();
             this.lbl_itemCostTitle = new System.Windows.Forms.Label();
             this.adminTab = new System.Windows.Forms.TabPage();
+            this.lbl_admin_users = new System.Windows.Forms.Label();
+            this.lbl_admin_raidxml = new System.Windows.Forms.Label();
+            this.lbl_admin_epfunc = new System.Windows.Forms.Label();
+            this.lbl_admin_login = new System.Windows.Forms.Label();
+            this.userDeleteButton = new System.Windows.Forms.Button();
+            this.userAddButton = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.lbl_loggedIn = new System.Windows.Forms.Label();
             this.loginButton = new System.Windows.Forms.Button();
@@ -68,14 +71,11 @@
             this.lbl_rightClickText = new System.Windows.Forms.Label();
             this.lbl_leftClickText = new System.Windows.Forms.Label();
             this.overlayButton = new System.Windows.Forms.Button();
+            this.lbl_sort1 = new System.Windows.Forms.Label();
+            this.alphaSortButton1 = new System.Windows.Forms.Button();
+            this.PRsortButton1 = new System.Windows.Forms.Button();
             this.EPGPspreadsheet = new System.Windows.Forms.DataGridView();
             this.btn_refreshTbl = new System.Windows.Forms.Button();
-            this.userDeleteButton = new System.Windows.Forms.Button();
-            this.userAddButton = new System.Windows.Forms.Button();
-            this.lbl_admin_login = new System.Windows.Forms.Label();
-            this.lbl_admin_epfunc = new System.Windows.Forms.Label();
-            this.lbl_admin_raidxml = new System.Windows.Forms.Label();
-            this.lbl_admin_users = new System.Windows.Forms.Label();
             this.tabArea.SuspendLayout();
             this.infoTab.SuspendLayout();
             this.adminTab.SuspendLayout();
@@ -137,36 +137,6 @@
             this.lbl_currentZoneTitle.Size = new System.Drawing.Size(85, 13);
             this.lbl_currentZoneTitle.TabIndex = 28;
             this.lbl_currentZoneTitle.Text = "Current Zone:";
-            // 
-            // lbl_sort1
-            // 
-            this.lbl_sort1.AutoSize = true;
-            this.lbl_sort1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_sort1.Location = new System.Drawing.Point(2, 589);
-            this.lbl_sort1.Name = "lbl_sort1";
-            this.lbl_sort1.Size = new System.Drawing.Size(48, 13);
-            this.lbl_sort1.TabIndex = 27;
-            this.lbl_sort1.Text = "Sort By";
-            // 
-            // alphaSortButton1
-            // 
-            this.alphaSortButton1.Location = new System.Drawing.Point(56, 583);
-            this.alphaSortButton1.Name = "alphaSortButton1";
-            this.alphaSortButton1.Size = new System.Drawing.Size(80, 25);
-            this.alphaSortButton1.TabIndex = 26;
-            this.alphaSortButton1.Text = "Alphabetical";
-            this.alphaSortButton1.UseVisualStyleBackColor = true;
-            this.alphaSortButton1.Click += new System.EventHandler(this.alphaSortButton_Click);
-            // 
-            // PRsortButton1
-            // 
-            this.PRsortButton1.Location = new System.Drawing.Point(142, 583);
-            this.PRsortButton1.Name = "PRsortButton1";
-            this.PRsortButton1.Size = new System.Drawing.Size(80, 25);
-            this.PRsortButton1.TabIndex = 25;
-            this.PRsortButton1.Text = "PR";
-            this.PRsortButton1.UseVisualStyleBackColor = true;
-            this.PRsortButton1.Click += new System.EventHandler(this.PRsortButton_Click);
             // 
             // lbl_webLink
             // 
@@ -309,6 +279,70 @@
             this.adminTab.TabIndex = 1;
             this.adminTab.Text = "Admin";
             this.adminTab.UseVisualStyleBackColor = true;
+            // 
+            // lbl_admin_users
+            // 
+            this.lbl_admin_users.AutoSize = true;
+            this.lbl_admin_users.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_admin_users.Location = new System.Drawing.Point(14, 272);
+            this.lbl_admin_users.Name = "lbl_admin_users";
+            this.lbl_admin_users.Size = new System.Drawing.Size(39, 13);
+            this.lbl_admin_users.TabIndex = 31;
+            this.lbl_admin_users.Text = "Users";
+            this.lbl_admin_users.Visible = false;
+            // 
+            // lbl_admin_raidxml
+            // 
+            this.lbl_admin_raidxml.AutoSize = true;
+            this.lbl_admin_raidxml.Location = new System.Drawing.Point(32, 197);
+            this.lbl_admin_raidxml.Name = "lbl_admin_raidxml";
+            this.lbl_admin_raidxml.Size = new System.Drawing.Size(197, 13);
+            this.lbl_admin_raidxml.TabIndex = 30;
+            this.lbl_admin_raidxml.Text = "info about raid.xml (last modified if its old)";
+            this.lbl_admin_raidxml.Visible = false;
+            // 
+            // lbl_admin_epfunc
+            // 
+            this.lbl_admin_epfunc.AutoSize = true;
+            this.lbl_admin_epfunc.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_admin_epfunc.Location = new System.Drawing.Point(14, 133);
+            this.lbl_admin_epfunc.Name = "lbl_admin_epfunc";
+            this.lbl_admin_epfunc.Size = new System.Drawing.Size(82, 13);
+            this.lbl_admin_epfunc.TabIndex = 29;
+            this.lbl_admin_epfunc.Text = "EP Functions";
+            this.lbl_admin_epfunc.Visible = false;
+            // 
+            // lbl_admin_login
+            // 
+            this.lbl_admin_login.AutoSize = true;
+            this.lbl_admin_login.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_admin_login.Location = new System.Drawing.Point(14, 11);
+            this.lbl_admin_login.Name = "lbl_admin_login";
+            this.lbl_admin_login.Size = new System.Drawing.Size(38, 13);
+            this.lbl_admin_login.TabIndex = 28;
+            this.lbl_admin_login.Text = "Login";
+            // 
+            // userDeleteButton
+            // 
+            this.userDeleteButton.Location = new System.Drawing.Point(134, 294);
+            this.userDeleteButton.Name = "userDeleteButton";
+            this.userDeleteButton.Size = new System.Drawing.Size(100, 30);
+            this.userDeleteButton.TabIndex = 24;
+            this.userDeleteButton.Text = "Delete User";
+            this.userDeleteButton.UseVisualStyleBackColor = true;
+            this.userDeleteButton.Visible = false;
+            this.userDeleteButton.Click += new System.EventHandler(this.userDeleteButton_Click);
+            // 
+            // userAddButton
+            // 
+            this.userAddButton.Location = new System.Drawing.Point(23, 294);
+            this.userAddButton.Name = "userAddButton";
+            this.userAddButton.Size = new System.Drawing.Size(100, 30);
+            this.userAddButton.TabIndex = 25;
+            this.userAddButton.Text = "Add User";
+            this.userAddButton.UseVisualStyleBackColor = true;
+            this.userAddButton.Visible = false;
+            this.userAddButton.Click += new System.EventHandler(this.addUserButton_Click);
             // 
             // textBox1
             // 
@@ -509,6 +543,36 @@
             this.overlayButton.UseVisualStyleBackColor = true;
             this.overlayButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.overlayButton_Click);
             // 
+            // lbl_sort1
+            // 
+            this.lbl_sort1.AutoSize = true;
+            this.lbl_sort1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_sort1.Location = new System.Drawing.Point(2, 589);
+            this.lbl_sort1.Name = "lbl_sort1";
+            this.lbl_sort1.Size = new System.Drawing.Size(48, 13);
+            this.lbl_sort1.TabIndex = 27;
+            this.lbl_sort1.Text = "Sort By";
+            // 
+            // alphaSortButton1
+            // 
+            this.alphaSortButton1.Location = new System.Drawing.Point(56, 583);
+            this.alphaSortButton1.Name = "alphaSortButton1";
+            this.alphaSortButton1.Size = new System.Drawing.Size(80, 25);
+            this.alphaSortButton1.TabIndex = 26;
+            this.alphaSortButton1.Text = "Alphabetical";
+            this.alphaSortButton1.UseVisualStyleBackColor = true;
+            this.alphaSortButton1.Click += new System.EventHandler(this.alphaSortButton_Click);
+            // 
+            // PRsortButton1
+            // 
+            this.PRsortButton1.Location = new System.Drawing.Point(142, 583);
+            this.PRsortButton1.Name = "PRsortButton1";
+            this.PRsortButton1.Size = new System.Drawing.Size(80, 25);
+            this.PRsortButton1.TabIndex = 25;
+            this.PRsortButton1.Text = "PR";
+            this.PRsortButton1.UseVisualStyleBackColor = true;
+            this.PRsortButton1.Click += new System.EventHandler(this.PRsortButton_Click);
+            // 
             // EPGPspreadsheet
             // 
             this.EPGPspreadsheet.AllowUserToAddRows = false;
@@ -531,70 +595,6 @@
             this.btn_refreshTbl.Text = "Refresh Table";
             this.btn_refreshTbl.UseVisualStyleBackColor = true;
             this.btn_refreshTbl.Click += new System.EventHandler(this.btn_refreshTbl_Click);
-            // 
-            // userDeleteButton
-            // 
-            this.userDeleteButton.Location = new System.Drawing.Point(134, 294);
-            this.userDeleteButton.Name = "userDeleteButton";
-            this.userDeleteButton.Size = new System.Drawing.Size(100, 30);
-            this.userDeleteButton.TabIndex = 24;
-            this.userDeleteButton.Text = "Delete User";
-            this.userDeleteButton.UseVisualStyleBackColor = true;
-            this.userDeleteButton.Visible = false;
-            this.userDeleteButton.Click += new System.EventHandler(this.userDeleteButton_Click);
-            // 
-            // userAddButton
-            // 
-            this.userAddButton.Location = new System.Drawing.Point(23, 294);
-            this.userAddButton.Name = "userAddButton";
-            this.userAddButton.Size = new System.Drawing.Size(100, 30);
-            this.userAddButton.TabIndex = 25;
-            this.userAddButton.Text = "Add User";
-            this.userAddButton.UseVisualStyleBackColor = true;
-            this.userAddButton.Visible = false;
-            this.userAddButton.Click += new System.EventHandler(this.addUserButton_Click);
-            // 
-            // lbl_admin_login
-            // 
-            this.lbl_admin_login.AutoSize = true;
-            this.lbl_admin_login.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_admin_login.Location = new System.Drawing.Point(14, 11);
-            this.lbl_admin_login.Name = "lbl_admin_login";
-            this.lbl_admin_login.Size = new System.Drawing.Size(38, 13);
-            this.lbl_admin_login.TabIndex = 28;
-            this.lbl_admin_login.Text = "Login";
-            // 
-            // lbl_admin_epfunc
-            // 
-            this.lbl_admin_epfunc.AutoSize = true;
-            this.lbl_admin_epfunc.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_admin_epfunc.Location = new System.Drawing.Point(14, 133);
-            this.lbl_admin_epfunc.Name = "lbl_admin_epfunc";
-            this.lbl_admin_epfunc.Size = new System.Drawing.Size(82, 13);
-            this.lbl_admin_epfunc.TabIndex = 29;
-            this.lbl_admin_epfunc.Text = "EP Functions";
-            this.lbl_admin_epfunc.Visible = false;
-            // 
-            // lbl_admin_raidxml
-            // 
-            this.lbl_admin_raidxml.AutoSize = true;
-            this.lbl_admin_raidxml.Location = new System.Drawing.Point(32, 197);
-            this.lbl_admin_raidxml.Name = "lbl_admin_raidxml";
-            this.lbl_admin_raidxml.Size = new System.Drawing.Size(197, 13);
-            this.lbl_admin_raidxml.TabIndex = 30;
-            this.lbl_admin_raidxml.Text = "info about raid.xml (last modified if its old)";
-            this.lbl_admin_raidxml.Visible = false;
-            // 
-            // lbl_admin_users
-            // 
-            this.lbl_admin_users.AutoSize = true;
-            this.lbl_admin_users.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_admin_users.Location = new System.Drawing.Point(14, 272);
-            this.lbl_admin_users.Name = "lbl_admin_users";
-            this.lbl_admin_users.Size = new System.Drawing.Size(39, 13);
-            this.lbl_admin_users.TabIndex = 31;
-            this.lbl_admin_users.Text = "Users";
-            this.lbl_admin_users.Visible = false;
             // 
             // guildManagement
             // 
