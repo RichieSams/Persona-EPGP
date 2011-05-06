@@ -240,6 +240,7 @@ namespace Attendance
                 lbl_admin_users.Show();
                 addUserButton.Show();
                 deleteUserButton.Show();
+                undoButton.Show();
                 EPGPspreadsheet.ReadOnly = false;
                 EPGPspreadsheet.Columns["Name"].ReadOnly = true;
                 EPGPspreadsheet.Columns["PR"].ReadOnly = true;
@@ -333,6 +334,7 @@ namespace Attendance
                     }
                 }
                 if (logConnection.State == ConnectionState.Closed) logConnection.Open();
+                // For some reason this threw a casting error when I pressed the sort button
                 string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `officer`) VALUES ('" + memberCSV + "', '5', 'EP', 'raid-wide +5 EP', '" + officerName + "')";
                 MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
                 logCommand.ExecuteNonQuery();
@@ -426,6 +428,32 @@ namespace Attendance
             else
             {
                 lbl_raidxmlDate.ForeColor = Color.Red;
+            }
+        }
+
+        private void undoButton_Click(object sender, EventArgs e)
+        {
+            DataTable table = new DataTable();
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            if (logConnection.State == ConnectionState.Closed) logConnection.Open();
+            MySqlCommand undoCommand = new MySqlCommand("SELECT * FROM log ORDER BY id DESC LIMIT 1", logConnection);
+            adapter.SelectCommand = undoCommand;
+            adapter.Fill(table);
+            if (logConnection.State == ConnectionState.Open) logConnection.Close();
+            DataRow SQLrow = table.Rows[0];
+            if (SQLrow["name"].ToString().IndexOf(',') == -1)
+            {
+                foreach (DataGridViewRow DGVrow in EPGPspreadsheet.Rows)
+                {
+                    if (SQLrow["name"].ToString() == DGVrow.Cells["Name"].Value.ToString())
+                    {
+                        DGVrow.Cells[SQLrow["type"].ToString()].Value = Double.Parse(DGVrow.Cells[SQLrow["type"].ToString()].Value.ToString()) - Double.Parse(SQLrow["number"].ToString());
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Last change was a raid-wide EP gain; Can't undo", "Can't Undo");
             }
         }
 
@@ -997,8 +1025,7 @@ namespace Attendance
                 // Logging                
                 if (logConnection.State == ConnectionState.Closed) logConnection.Open();
                 // Need to make a way to get the item name whether it be exact or just general (chest, boots, etc.)
-                // Also, need to find a way to compile all the +5 EP and +10 EP into one entry, yet still show who got it
-                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `officer`) VALUES ('" + e.Row["Name"].ToString() + "', '" + ((double)e.ProposedValue - (double)e.Row[e.Column.Ordinal, DataRowVersion.Original]).ToString() + "', '" + e.Column.ColumnName.ToString() + "', 'test', '" + officerName + "')";
+                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `officer`) VALUES ('" + e.Row["Name"].ToString() + "', '" + ((double)e.ProposedValue - (double)e.Row[e.Column.Ordinal, DataRowVersion.Current]).ToString() + "', '" + e.Column.ColumnName.ToString() + "', 'test', '" + officerName + "')";
                 MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
                 logCommand.ExecuteNonQuery();
                 if (logConnection.State == ConnectionState.Open) logConnection.Close();
@@ -1091,10 +1118,11 @@ namespace Attendance
             if (!loggedIn)
             {
                 BindingSource bs = (BindingSource)EPGPspreadsheet.DataSource;
-                if (bs.Sort == "")
+                //if (bs.Sort == "")
                     bs.Sort = "Present DESC, Standby DESC, PR DESC, Name ASC";
-                else
-                    bs.Sort = bs.Sort.ToString();
+                //else
+                //    bs.Sort = bs.Sort.ToString();
+                // This is throwing an error saying bs.Sort object isn't defined
             }
         }
 

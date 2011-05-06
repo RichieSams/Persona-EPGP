@@ -77,6 +77,7 @@
             this.PRsortButton1 = new System.Windows.Forms.Button();
             this.EPGPspreadsheet = new System.Windows.Forms.DataGridView();
             this.btn_refreshTbl = new System.Windows.Forms.Button();
+            this.undoButton = new System.Windows.Forms.Button();
             this.tabArea.SuspendLayout();
             this.infoTab.SuspendLayout();
             this.adminTab.SuspendLayout();
@@ -258,6 +259,7 @@
             // 
             // adminTab
             // 
+            this.adminTab.Controls.Add(this.undoButton);
             this.adminTab.Controls.Add(this.lbl_raidxmlDate);
             this.adminTab.Controls.Add(this.lbl_admin_users);
             this.adminTab.Controls.Add(this.lbl_raidxmlTitle);
@@ -361,10 +363,10 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(17, 423);
+            this.textBox1.Location = new System.Drawing.Point(17, 480);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(216, 130);
+            this.textBox1.Size = new System.Drawing.Size(217, 65);
             this.textBox1.TabIndex = 11;
             this.textBox1.Text = "-Add Log Stuff (Showing Log, Undo, etc)\r\n-Attach Raid filebrowser and get info to" +
                 " check last modified date then warn if old";
@@ -611,6 +613,17 @@
             this.btn_refreshTbl.UseVisualStyleBackColor = true;
             this.btn_refreshTbl.Click += new System.EventHandler(this.btn_refreshTbl_Click);
             // 
+            // undoButton
+            // 
+            this.undoButton.Location = new System.Drawing.Point(76, 394);
+            this.undoButton.Name = "undoButton";
+            this.undoButton.Size = new System.Drawing.Size(100, 30);
+            this.undoButton.TabIndex = 33;
+            this.undoButton.Text = "Undo";
+            this.undoButton.UseVisualStyleBackColor = true;
+            this.undoButton.Visible = false;
+            this.undoButton.Click += new System.EventHandler(this.undoButton_Click);
+            // 
             // guildManagement
             // 
             this.AllowDrop = true;
@@ -693,6 +706,7 @@
         private System.Windows.Forms.Label lbl_admin_epfunc;
         private System.Windows.Forms.Label lbl_admin_login;
         private System.Windows.Forms.Label lbl_raidxmlDate;
+        private System.Windows.Forms.Button undoButton;
     }
 }
 

@@ -3,7 +3,7 @@
   <Overlay>
     <X>900</X>
     <Y>117</Y>
-    <Opacity>0.5</Opacity>
+    <Opacity>0.75</Opacity>
     <Border>FixedSingle</Border>
     <Toggle>False</Toggle>
   </Overlay>
