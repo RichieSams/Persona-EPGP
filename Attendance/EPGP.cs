@@ -149,6 +149,10 @@ namespace Attendance
             // Moved here so it's called after overlayForm has been created, ie. so it doesn't throw an error.
             // Find zone
             zoneParser();
+
+            // Moved here so rift directory is found
+            // Display time of last raid.xml creation
+            xmlAge();
         }
 
         #endregion // Intialize
@@ -229,7 +233,8 @@ namespace Attendance
                 officerName = login_name;
                 lbl_admin_epfunc.Show();
                 attendanceButton.Show();
-                lbl_admin_raidxml.Show();
+                lbl_raidxmlTitle.Show();
+                lbl_raidxmlDate.Show();
                 fiveEPbutton.Show();
                 tenEPbutton.Show();
                 lbl_admin_users.Show();
@@ -308,10 +313,12 @@ namespace Attendance
             {
                 if (connection.State == ConnectionState.Open) connection.Close();
             }
+            xmlAge();
         }
 
         private void fiveEPbutton_Click(object sender, EventArgs e)
         {
+
             if (executeSQLUpdate("UPDATE EPGP SET ep=ep+5 WHERE present=1 OR standby=1", new object[] { }))
             {
                 updateTable();
@@ -405,6 +412,20 @@ namespace Attendance
                 {
                     MessageBox.Show("Delete failed.", "Delete User", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+
+        private void xmlAge()
+        {
+            TimeSpan xmlAgeTime = DateTime.Now.Subtract(File.GetLastWriteTime(settingsRiftDir + "\\raid.xml"));
+            lbl_raidxmlDate.Text = xmlAgeTime.Days.ToString() + " days "  + xmlAgeTime.Hours.ToString() + " hours " + xmlAgeTime.Minutes.ToString() + " minutes ago";
+            if (xmlAgeTime.Hours < 4)
+            {
+                lbl_raidxmlDate.ForeColor = Color.Green;
+            }
+            else
+            {
+                lbl_raidxmlDate.ForeColor = Color.Red;
             }
         }
 

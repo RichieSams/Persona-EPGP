@@ -46,8 +46,9 @@
             this.lbl_itemCostNames = new System.Windows.Forms.Label();
             this.lbl_itemCostTitle = new System.Windows.Forms.Label();
             this.adminTab = new System.Windows.Forms.TabPage();
+            this.lbl_raidxmlDate = new System.Windows.Forms.Label();
             this.lbl_admin_users = new System.Windows.Forms.Label();
-            this.lbl_admin_raidxml = new System.Windows.Forms.Label();
+            this.lbl_raidxmlTitle = new System.Windows.Forms.Label();
             this.lbl_admin_epfunc = new System.Windows.Forms.Label();
             this.lbl_admin_login = new System.Windows.Forms.Label();
             this.deleteUserButton = new System.Windows.Forms.Button();
@@ -257,8 +258,9 @@
             // 
             // adminTab
             // 
+            this.adminTab.Controls.Add(this.lbl_raidxmlDate);
             this.adminTab.Controls.Add(this.lbl_admin_users);
-            this.adminTab.Controls.Add(this.lbl_admin_raidxml);
+            this.adminTab.Controls.Add(this.lbl_raidxmlTitle);
             this.adminTab.Controls.Add(this.lbl_admin_epfunc);
             this.adminTab.Controls.Add(this.lbl_admin_login);
             this.adminTab.Controls.Add(this.deleteUserButton);
@@ -280,26 +282,39 @@
             this.adminTab.Text = "Admin";
             this.adminTab.UseVisualStyleBackColor = true;
             // 
+            // lbl_raidxmlDate
+            // 
+            this.lbl_raidxmlDate.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_raidxmlDate.AutoSize = true;
+            this.lbl_raidxmlDate.Location = new System.Drawing.Point(54, 221);
+            this.lbl_raidxmlDate.Name = "lbl_raidxmlDate";
+            this.lbl_raidxmlDate.Size = new System.Drawing.Size(145, 13);
+            this.lbl_raidxmlDate.TabIndex = 32;
+            this.lbl_raidxmlDate.Text = "0 days 0 hours 0 minutes ago";
+            this.lbl_raidxmlDate.Visible = false;
+            // 
             // lbl_admin_users
             // 
             this.lbl_admin_users.AutoSize = true;
             this.lbl_admin_users.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_admin_users.Location = new System.Drawing.Point(14, 272);
+            this.lbl_admin_users.Location = new System.Drawing.Point(14, 303);
             this.lbl_admin_users.Name = "lbl_admin_users";
             this.lbl_admin_users.Size = new System.Drawing.Size(39, 13);
             this.lbl_admin_users.TabIndex = 31;
             this.lbl_admin_users.Text = "Users";
             this.lbl_admin_users.Visible = false;
             // 
-            // lbl_admin_raidxml
+            // lbl_raidxmlTitle
             // 
-            this.lbl_admin_raidxml.AutoSize = true;
-            this.lbl_admin_raidxml.Location = new System.Drawing.Point(32, 197);
-            this.lbl_admin_raidxml.Name = "lbl_admin_raidxml";
-            this.lbl_admin_raidxml.Size = new System.Drawing.Size(197, 13);
-            this.lbl_admin_raidxml.TabIndex = 30;
-            this.lbl_admin_raidxml.Text = "info about raid.xml (last modified if its old)";
-            this.lbl_admin_raidxml.Visible = false;
+            this.lbl_raidxmlTitle.AutoSize = true;
+            this.lbl_raidxmlTitle.Location = new System.Drawing.Point(61, 197);
+            this.lbl_raidxmlTitle.Name = "lbl_raidxmlTitle";
+            this.lbl_raidxmlTitle.Size = new System.Drawing.Size(130, 13);
+            this.lbl_raidxmlTitle.TabIndex = 30;
+            this.lbl_raidxmlTitle.Text = "Raid.xml was last created:\r\n";
+            this.lbl_raidxmlTitle.Visible = false;
             // 
             // lbl_admin_epfunc
             // 
@@ -324,7 +339,7 @@
             // 
             // deleteUserButton
             // 
-            this.deleteUserButton.Location = new System.Drawing.Point(134, 294);
+            this.deleteUserButton.Location = new System.Drawing.Point(134, 325);
             this.deleteUserButton.Name = "deleteUserButton";
             this.deleteUserButton.Size = new System.Drawing.Size(100, 30);
             this.deleteUserButton.TabIndex = 24;
@@ -335,7 +350,7 @@
             // 
             // addUserButton
             // 
-            this.addUserButton.Location = new System.Drawing.Point(23, 294);
+            this.addUserButton.Location = new System.Drawing.Point(23, 325);
             this.addUserButton.Name = "addUserButton";
             this.addUserButton.Size = new System.Drawing.Size(100, 30);
             this.addUserButton.TabIndex = 25;
@@ -415,7 +430,7 @@
             // 
             // tenEPbutton
             // 
-            this.tenEPbutton.Location = new System.Drawing.Point(134, 221);
+            this.tenEPbutton.Location = new System.Drawing.Point(134, 252);
             this.tenEPbutton.Name = "tenEPbutton";
             this.tenEPbutton.Size = new System.Drawing.Size(100, 30);
             this.tenEPbutton.TabIndex = 8;
@@ -426,7 +441,7 @@
             // 
             // fiveEPbutton
             // 
-            this.fiveEPbutton.Location = new System.Drawing.Point(23, 221);
+            this.fiveEPbutton.Location = new System.Drawing.Point(23, 252);
             this.fiveEPbutton.Name = "fiveEPbutton";
             this.fiveEPbutton.Size = new System.Drawing.Size(100, 30);
             this.fiveEPbutton.TabIndex = 7;
@@ -674,9 +689,10 @@
         private System.Windows.Forms.Label lbl_currentZoneValue;
         private System.Windows.Forms.Label lbl_currentZoneTitle;
         private System.Windows.Forms.Label lbl_admin_users;
-        private System.Windows.Forms.Label lbl_admin_raidxml;
+        private System.Windows.Forms.Label lbl_raidxmlTitle;
         private System.Windows.Forms.Label lbl_admin_epfunc;
         private System.Windows.Forms.Label lbl_admin_login;
+        private System.Windows.Forms.Label lbl_raidxmlDate;
     }
 }
 
