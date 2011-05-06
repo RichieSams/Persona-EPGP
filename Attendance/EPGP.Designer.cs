@@ -50,8 +50,8 @@
             this.lbl_admin_raidxml = new System.Windows.Forms.Label();
             this.lbl_admin_epfunc = new System.Windows.Forms.Label();
             this.lbl_admin_login = new System.Windows.Forms.Label();
-            this.userDeleteButton = new System.Windows.Forms.Button();
-            this.userAddButton = new System.Windows.Forms.Button();
+            this.deleteUserButton = new System.Windows.Forms.Button();
+            this.addUserButton = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.lbl_loggedIn = new System.Windows.Forms.Label();
             this.loginButton = new System.Windows.Forms.Button();
@@ -261,8 +261,8 @@
             this.adminTab.Controls.Add(this.lbl_admin_raidxml);
             this.adminTab.Controls.Add(this.lbl_admin_epfunc);
             this.adminTab.Controls.Add(this.lbl_admin_login);
-            this.adminTab.Controls.Add(this.userDeleteButton);
-            this.adminTab.Controls.Add(this.userAddButton);
+            this.adminTab.Controls.Add(this.deleteUserButton);
+            this.adminTab.Controls.Add(this.addUserButton);
             this.adminTab.Controls.Add(this.textBox1);
             this.adminTab.Controls.Add(this.lbl_loggedIn);
             this.adminTab.Controls.Add(this.loginButton);
@@ -322,27 +322,27 @@
             this.lbl_admin_login.TabIndex = 28;
             this.lbl_admin_login.Text = "Login";
             // 
-            // userDeleteButton
+            // deleteUserButton
             // 
-            this.userDeleteButton.Location = new System.Drawing.Point(134, 294);
-            this.userDeleteButton.Name = "userDeleteButton";
-            this.userDeleteButton.Size = new System.Drawing.Size(100, 30);
-            this.userDeleteButton.TabIndex = 24;
-            this.userDeleteButton.Text = "Delete User";
-            this.userDeleteButton.UseVisualStyleBackColor = true;
-            this.userDeleteButton.Visible = false;
-            this.userDeleteButton.Click += new System.EventHandler(this.userDeleteButton_Click);
+            this.deleteUserButton.Location = new System.Drawing.Point(134, 294);
+            this.deleteUserButton.Name = "deleteUserButton";
+            this.deleteUserButton.Size = new System.Drawing.Size(100, 30);
+            this.deleteUserButton.TabIndex = 24;
+            this.deleteUserButton.Text = "Delete User";
+            this.deleteUserButton.UseVisualStyleBackColor = true;
+            this.deleteUserButton.Visible = false;
+            this.deleteUserButton.Click += new System.EventHandler(this.deleteUserButton_Click);
             // 
-            // userAddButton
+            // addUserButton
             // 
-            this.userAddButton.Location = new System.Drawing.Point(23, 294);
-            this.userAddButton.Name = "userAddButton";
-            this.userAddButton.Size = new System.Drawing.Size(100, 30);
-            this.userAddButton.TabIndex = 25;
-            this.userAddButton.Text = "Add User";
-            this.userAddButton.UseVisualStyleBackColor = true;
-            this.userAddButton.Visible = false;
-            this.userAddButton.Click += new System.EventHandler(this.addUserButton_Click);
+            this.addUserButton.Location = new System.Drawing.Point(23, 294);
+            this.addUserButton.Name = "addUserButton";
+            this.addUserButton.Size = new System.Drawing.Size(100, 30);
+            this.addUserButton.TabIndex = 25;
+            this.addUserButton.Text = "Add User";
+            this.addUserButton.UseVisualStyleBackColor = true;
+            this.addUserButton.Visible = false;
+            this.addUserButton.Click += new System.EventHandler(this.addUserButton_Click);
             // 
             // textBox1
             // 
@@ -669,8 +669,8 @@
         private System.Windows.Forms.Label lbl_opacity;
         private System.Windows.Forms.TextBox txt_opacity;
         private System.Windows.Forms.TrackBar opacitySlider;
-        private System.Windows.Forms.Button userDeleteButton;
-        private System.Windows.Forms.Button userAddButton;
+        private System.Windows.Forms.Button deleteUserButton;
+        private System.Windows.Forms.Button addUserButton;
         private System.Windows.Forms.Label lbl_currentZoneValue;
         private System.Windows.Forms.Label lbl_currentZoneTitle;
         private System.Windows.Forms.Label lbl_admin_users;

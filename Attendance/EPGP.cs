@@ -233,8 +233,8 @@ namespace Attendance
                 fiveEPbutton.Show();
                 tenEPbutton.Show();
                 lbl_admin_users.Show();
-                userAddButton.Show();
-                userDeleteButton.Show();
+                addUserButton.Show();
+                deleteUserButton.Show();
                 EPGPspreadsheet.ReadOnly = false;
                 EPGPspreadsheet.Columns["Name"].ReadOnly = true;
                 EPGPspreadsheet.Columns["PR"].ReadOnly = true;
@@ -315,13 +315,46 @@ namespace Attendance
             if (executeSQLUpdate("UPDATE EPGP SET ep=ep+5 WHERE present=1 OR standby=1", new object[] { }))
             {
                 updateTable();
+                // Log
+                string memberCSV = "Members:";
+                foreach (DataGridViewRow row in EPGPspreadsheet.Rows)
+                {
+                    string tempstring = row.Cells[6].Value.ToString();
+                    if ((row.Cells[6].Value.ToString() == "True") || (row.Cells[7].Value.ToString() == "True"))
+                    {
+                        memberCSV += "," + row.Cells[0].Value.ToString();
+                    }
+                }
+                if (logConnection.State == ConnectionState.Closed) logConnection.Open();
+                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `officer`) VALUES ('" + memberCSV + "', '5', 'EP', 'raid-wide +5 EP', '" + officerName + "')";
+                MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
+                logCommand.ExecuteNonQuery();
+                if (logConnection.State == ConnectionState.Open) logConnection.Close();
             }
         }
 
         private void tenEPbutton_Click(object sender, EventArgs e)
         {
-            executeSQLUpdate("UPDATE EPGP SET ep=ep+10 WHERE present=1 OR standby=1", new object[] { });
-            updateTable();
+            if (executeSQLUpdate("UPDATE EPGP SET ep=ep+10 WHERE present=1 OR standby=1", new object[] { }))
+            {
+                updateTable();
+                // Log
+                string memberCSV = "Members:";
+                foreach (DataGridViewRow row in EPGPspreadsheet.Rows)
+                {
+                    string tempstring = row.Cells[6].Value.ToString();
+                    if ((row.Cells[6].Value.ToString() == "True") || (row.Cells[7].Value.ToString() == "True"))
+                    {
+                        memberCSV += "," + row.Cells[0].Value.ToString();
+                    }
+                }
+                if (logConnection.State == ConnectionState.Closed) logConnection.Open();
+                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `officer`) VALUES ('" + memberCSV + "', '10', 'EP', 'raid-wide +10 EP', '" + officerName + "')";
+                MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
+                logCommand.ExecuteNonQuery();
+                if (logConnection.State == ConnectionState.Open) logConnection.Close();
+            }
+
         }
 
         private void addUserButton_Click(object sender, EventArgs e)
@@ -347,7 +380,7 @@ namespace Attendance
 
         }
 
-        private void userDeleteButton_Click(object sender, EventArgs e)
+        private void deleteUserButton_Click(object sender, EventArgs e)
         {
             string message = "Are you sure you want to delete " + EPGPspreadsheet.SelectedCells[0].Value.ToString() + "?";
             var result = MessageBox.Show(message, "Delete User", MessageBoxButtons.YesNo);
@@ -661,7 +694,7 @@ namespace Attendance
             opacitySlider.ValueChanged += opacitySlider_ValueChanged;
         }
         
-        // Update the text box value on slide, but only save when mouse is released
+        // Update the text box value on slide
         private void opacitySlider_ValueChanged(object sender, EventArgs e)
         {
             txt_opacity.TextChanged -= txt_opacity_TextChanged;
@@ -944,7 +977,7 @@ namespace Attendance
                 if (logConnection.State == ConnectionState.Closed) logConnection.Open();
                 // Need to make a way to get the item name whether it be exact or just general (chest, boots, etc.)
                 // Also, need to find a way to compile all the +5 EP and +10 EP into one entry, yet still show who got it
-                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `item`, `officer`) VALUES ('" + e.Row["Name"].ToString() + "', '" + ((double)e.ProposedValue - (double)e.Row[e.Column.Ordinal, DataRowVersion.Original]).ToString() + "', '" + e.Column.ColumnName.ToString() + "', 'test', '" + officerName + "')";
+                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `officer`) VALUES ('" + e.Row["Name"].ToString() + "', '" + ((double)e.ProposedValue - (double)e.Row[e.Column.Ordinal, DataRowVersion.Original]).ToString() + "', '" + e.Column.ColumnName.ToString() + "', 'test', '" + officerName + "')";
                 MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
                 logCommand.ExecuteNonQuery();
                 if (logConnection.State == ConnectionState.Open) logConnection.Close();
