@@ -1,0 +1,10 @@
+C:\Users\Adrian\Persona-EPGP\TreeGridView\bin\Debug\ExpandableGridView.dll
+C:\Users\Adrian\Persona-EPGP\TreeGridView\bin\Debug\ExpandableGridView.pdb
+C:\Users\Adrian\Persona-EPGP\TreeGridView\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Adrian\Persona-EPGP\TreeGridView\obj\Debug\AdvancedDataGridView.Properties.Resources.resources
+C:\Users\Adrian\Persona-EPGP\TreeGridView\obj\Debug\ResGen.read.1.tlog
+C:\Users\Adrian\Persona-EPGP\TreeGridView\obj\Debug\ResGen.write.1.tlog
+C:\Users\Adrian\Persona-EPGP\TreeGridView\obj\Debug\ExpandableGridView.dll
+C:\Users\Adrian\Persona-EPGP\TreeGridView\obj\Debug\ExpandableGridView.pdb
+C:\Users\Adrian\Persona-EPGP\TreeGridView\obj\Debug\GenerateResource.read.1.tlog
+C:\Users\Adrian\Persona-EPGP\TreeGridView\obj\Debug\GenerateResource.write.1.tlog
