@@ -65,6 +65,7 @@
             this.fiveEPbutton = new System.Windows.Forms.Button();
             this.txt_name = new System.Windows.Forms.TextBox();
             this.settingsTab = new System.Windows.Forms.TabPage();
+            this.testButton = new System.Windows.Forms.Button();
             this.lbl_opacity = new System.Windows.Forms.Label();
             this.txt_opacity = new System.Windows.Forms.TextBox();
             this.opacitySlider = new System.Windows.Forms.TrackBar();
@@ -74,8 +75,8 @@
             this.lbl_leftClickText = new System.Windows.Forms.Label();
             this.overlayButton = new System.Windows.Forms.Button();
             this.logTab = new System.Windows.Forms.TabPage();
-            this.treeList1 = new DevExpress.XtraTreeList.TreeList();
-            this.Name = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.logSpreadsheet = new DevExpress.XtraTreeList.TreeList();
+            this.Member = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.Number = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.Type = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.Reason = new DevExpress.XtraTreeList.Columns.TreeListColumn();
@@ -90,7 +91,7 @@
             this.settingsTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).BeginInit();
             this.logTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.logSpreadsheet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.EPGPspreadsheet)).BeginInit();
             this.SuspendLayout();
             // 
@@ -485,6 +486,7 @@
             // 
             // settingsTab
             // 
+            this.settingsTab.Controls.Add(this.testButton);
             this.settingsTab.Controls.Add(this.lbl_opacity);
             this.settingsTab.Controls.Add(this.txt_opacity);
             this.settingsTab.Controls.Add(this.opacitySlider);
@@ -499,6 +501,16 @@
             this.settingsTab.TabIndex = 2;
             this.settingsTab.Text = "Settings";
             this.settingsTab.UseVisualStyleBackColor = true;
+            // 
+            // testButton
+            // 
+            this.testButton.Location = new System.Drawing.Point(70, 412);
+            this.testButton.Name = "testButton";
+            this.testButton.Size = new System.Drawing.Size(100, 30);
+            this.testButton.TabIndex = 1;
+            this.testButton.Text = "Test log function";
+            this.testButton.UseVisualStyleBackColor = true;
+            this.testButton.Click += new System.EventHandler(this.testButton_Click);
             // 
             // lbl_opacity
             // 
@@ -585,7 +597,7 @@
             // 
             // logTab
             // 
-            this.logTab.Controls.Add(this.treeList1);
+            this.logTab.Controls.Add(this.logSpreadsheet);
             this.logTab.Location = new System.Drawing.Point(4, 22);
             this.logTab.Name = "logTab";
             this.logTab.Padding = new System.Windows.Forms.Padding(3);
@@ -594,43 +606,102 @@
             this.logTab.Text = "Log";
             this.logTab.UseVisualStyleBackColor = true;
             // 
-            // treeList1
+            // logSpreadsheet
             // 
-            this.treeList1.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
-            this.Name,
+            this.logSpreadsheet.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
+            this.Member,
             this.Number,
             this.Type,
             this.Reason});
-            this.treeList1.Location = new System.Drawing.Point(0, 1);
-            this.treeList1.Name = "treeList1";
-            this.treeList1.Size = new System.Drawing.Size(250, 574);
-            this.treeList1.TabIndex = 0;
+            this.logSpreadsheet.Location = new System.Drawing.Point(0, 1);
+            this.logSpreadsheet.Name = "logSpreadsheet";
+            this.logSpreadsheet.OptionsBehavior.Editable = false;
+            this.logSpreadsheet.OptionsMenu.EnableColumnMenu = false;
+            this.logSpreadsheet.OptionsMenu.EnableFooterMenu = false;
+            this.logSpreadsheet.OptionsView.ShowIndicator = false;
+            this.logSpreadsheet.ParentFieldName = "parentID";
+            this.logSpreadsheet.ShowButtonMode = DevExpress.XtraTreeList.ShowButtonModeEnum.ShowOnlyInEditor;
+            this.logSpreadsheet.Size = new System.Drawing.Size(250, 574);
+            this.logSpreadsheet.TabIndex = 0;
+            this.logSpreadsheet.TreeLevelWidth = 12;
+            this.logSpreadsheet.TreeLineStyle = DevExpress.XtraTreeList.LineStyle.Dark;
+            this.logSpreadsheet.UseDisabledStatePainter = false;
             // 
-            // Name
+            // Member
             // 
-            this.Name.FieldName = "Name";
-            this.Name.Name = "Name";
-            this.Name.Visible = true;
-            this.Name.VisibleIndex = 0;
+            this.Member.AppearanceCell.Options.UseTextOptions = true;
+            this.Member.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+            this.Member.AppearanceHeader.Options.UseTextOptions = true;
+            this.Member.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.Member.FieldName = "Member";
+            this.Member.Name = "Member";
+            this.Member.OptionsColumn.AllowEdit = false;
+            this.Member.OptionsColumn.AllowMove = false;
+            this.Member.OptionsColumn.AllowMoveToCustomizationForm = false;
+            this.Member.OptionsColumn.AllowSize = false;
+            this.Member.OptionsColumn.AllowSort = false;
+            this.Member.OptionsColumn.FixedWidth = true;
+            this.Member.OptionsColumn.ReadOnly = true;
+            this.Member.OptionsColumn.ShowInCustomizationForm = false;
+            this.Member.Visible = true;
+            this.Member.VisibleIndex = 0;
+            this.Member.Width = 90;
             // 
             // Number
             // 
+            this.Number.AppearanceCell.Options.UseTextOptions = true;
+            this.Number.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.Number.AppearanceHeader.Options.UseTextOptions = true;
+            this.Number.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.Number.FieldName = "Number";
             this.Number.Name = "Number";
+            this.Number.OptionsColumn.AllowEdit = false;
+            this.Number.OptionsColumn.AllowMove = false;
+            this.Number.OptionsColumn.AllowMoveToCustomizationForm = false;
+            this.Number.OptionsColumn.AllowSize = false;
+            this.Number.OptionsColumn.AllowSort = false;
+            this.Number.OptionsColumn.FixedWidth = true;
+            this.Number.OptionsColumn.ReadOnly = true;
+            this.Number.OptionsColumn.ShowInCustomizationForm = false;
             this.Number.Visible = true;
             this.Number.VisibleIndex = 1;
+            this.Number.Width = 44;
             // 
             // Type
             // 
+            this.Type.AppearanceCell.Options.UseTextOptions = true;
+            this.Type.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.Type.AppearanceHeader.Options.UseTextOptions = true;
+            this.Type.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.Type.FieldName = "Type";
             this.Type.Name = "Type";
+            this.Type.OptionsColumn.AllowEdit = false;
+            this.Type.OptionsColumn.AllowMove = false;
+            this.Type.OptionsColumn.AllowMoveToCustomizationForm = false;
+            this.Type.OptionsColumn.AllowSize = false;
+            this.Type.OptionsColumn.AllowSort = false;
+            this.Type.OptionsColumn.FixedWidth = true;
+            this.Type.OptionsColumn.ReadOnly = true;
+            this.Type.OptionsColumn.ShowInCustomizationForm = false;
             this.Type.Visible = true;
             this.Type.VisibleIndex = 2;
+            this.Type.Width = 32;
             // 
             // Reason
             // 
+            this.Reason.AppearanceCell.Options.UseTextOptions = true;
+            this.Reason.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+            this.Reason.AppearanceHeader.Options.UseTextOptions = true;
+            this.Reason.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.Reason.FieldName = "Reason";
             this.Reason.Name = "Reason";
+            this.Reason.OptionsColumn.AllowEdit = false;
+            this.Reason.OptionsColumn.AllowMove = false;
+            this.Reason.OptionsColumn.AllowMoveToCustomizationForm = false;
+            this.Reason.OptionsColumn.AllowSize = false;
+            this.Reason.OptionsColumn.AllowSort = false;
+            this.Reason.OptionsColumn.ReadOnly = true;
+            this.Reason.OptionsColumn.ShowInCustomizationForm = false;
             this.Reason.Visible = true;
             this.Reason.VisibleIndex = 3;
             // 
@@ -700,6 +771,7 @@
             this.Controls.Add(this.lbl_sort1);
             this.Controls.Add(this.EPGPspreadsheet);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "guildManagement";
             this.Text = "Persona Guild Management";
             this.Activated += new System.EventHandler(this.guildManagement_Activated);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.guildManagement_Close);
@@ -713,7 +785,7 @@
             this.settingsTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).EndInit();
             this.logTab.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.logSpreadsheet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.EPGPspreadsheet)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -772,8 +844,9 @@
         private System.Windows.Forms.Label lbl_raidxmlDate;
         private System.Windows.Forms.Button undoButton;
         private System.Windows.Forms.TabPage logTab;
-        private DevExpress.XtraTreeList.TreeList treeList1;
-        private DevExpress.XtraTreeList.Columns.TreeListColumn Name;
+        private DevExpress.XtraTreeList.TreeList logSpreadsheet;
+        private System.Windows.Forms.Button testButton;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn Member;
         private DevExpress.XtraTreeList.Columns.TreeListColumn Number;
         private DevExpress.XtraTreeList.Columns.TreeListColumn Type;
         private DevExpress.XtraTreeList.Columns.TreeListColumn Reason;

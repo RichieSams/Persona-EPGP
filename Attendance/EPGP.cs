@@ -30,11 +30,12 @@ namespace Attendance
         private MySqlConnection lockConnection;
         private MySqlConnection logConnection;
         
-        // Table
+        // Tables
         public delegate void refreshNew();
         public refreshNew refreshDelegate;
         private Thread refreshThread;
         private DateTime tableModTime;
+        private Int32 tempIndex = 9000;
 
         // Settings
         private const double minGP = 5.0;
@@ -84,13 +85,15 @@ namespace Attendance
             string logConString = "server=personaguild.com; User Id=" + general_user_id + "; database=persona_log; Password=" + general_password;
             logConnection = new MySqlConnection(logConString);
 
-            // Fill the table for the first time and set mod time
+            // Fill the EPGP table for the first time and set mod time
             refreshNewerTable();
 
             // Formats columns to fit
             EPGPspreadsheet.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
             // Lock the table to editing
             EPGPspreadsheet.ReadOnly = true;
+
             // Formatting
             EPGPspreadsheet.Columns["Name"].Width = 75;
             EPGPspreadsheet.Columns["EP"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -110,6 +113,7 @@ namespace Attendance
             EPGPspreadsheet.Columns["LPR"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             EPGPspreadsheet.Columns["Present"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             EPGPspreadsheet.Columns["Standby"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
             // Highlight name on cell click
             EPGPspreadsheet.CellClick += Cell_Clicked;
 
@@ -124,6 +128,9 @@ namespace Attendance
                     refreshTbl.refresh(this);
                 });
             refreshThread.Start();
+
+            // Fill log table for the first time
+            updateLogTable();
 
             // Watch for change in log.txt file
             FileSystemWatcher logWatcher = new FileSystemWatcher();
@@ -324,21 +331,23 @@ namespace Attendance
             {
                 updateTable();
                 // Log
-                string memberCSV = "Members";
+                string memberCSV = "";
                 foreach (DataGridViewRow row in EPGPspreadsheet.Rows)
                 {
                     string tempstring = row.Cells[6].Value.ToString();
                     if ((row.Cells[6].Value.ToString() == "True") || (row.Cells[7].Value.ToString() == "True"))
                     {
-                        memberCSV += "," + row.Cells[0].Value.ToString();
+                        memberCSV += row.Cells[0].Value.ToString() + ",";
                     }
                 }
                 if (logConnection.State == ConnectionState.Closed) logConnection.Open();
                 // For some reason this threw a casting error when I pressed the sort button
-                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `officer`) VALUES ('" + memberCSV + "', '5', 'EP', 'raid-wide +5 EP', '" + officerName + "')";
+                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `officer`) VALUES ('" + memberCSV + "', '5', 'EP', 'Raid-wide', '" + officerName + "')";
                 MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
                 logCommand.ExecuteNonQuery();
                 if (logConnection.State == ConnectionState.Open) logConnection.Close();
+                // Update log table
+                updateLogTable();
             }
         }
 
@@ -348,20 +357,22 @@ namespace Attendance
             {
                 updateTable();
                 // Log
-                string memberCSV = "Members";
+                string memberCSV = "";
                 foreach (DataGridViewRow row in EPGPspreadsheet.Rows)
                 {
                     string tempstring = row.Cells[6].Value.ToString();
                     if ((row.Cells[6].Value.ToString() == "True") || (row.Cells[7].Value.ToString() == "True"))
                     {
-                        memberCSV += "," + row.Cells[0].Value.ToString();
+                        memberCSV += row.Cells[0].Value.ToString() + ",";
                     }
                 }
                 if (logConnection.State == ConnectionState.Closed) logConnection.Open();
-                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `officer`) VALUES ('" + memberCSV + "', '10', 'EP', 'raid-wide +10 EP', '" + officerName + "')";
+                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `officer`) VALUES ('" + memberCSV + "', '10', 'EP', 'Raid-wide', '" + officerName + "')";
                 MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
                 logCommand.ExecuteNonQuery();
                 if (logConnection.State == ConnectionState.Open) logConnection.Close();
+                // Update log table
+                updateLogTable();
             }
 
         }
@@ -755,7 +766,7 @@ namespace Attendance
 
         #endregion // Settings
 
-        #region Log Parser
+        #region Txt log and zone parsers
 
         private void textLogParser(object source, FileSystemEventArgs e)
         {
@@ -932,7 +943,43 @@ namespace Attendance
             lbl_currentZoneValue.Text = currentZone;
         }
 
-        #endregion // Log Parser
+        #endregion // Txt log and zone parsers
+
+        #region Log table
+
+        private void updateLogTable()
+        {
+            // Create DataTable from SQL
+            DataTable logTable = new DataTable();
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            if (logConnection.State == ConnectionState.Closed) logConnection.Open();
+            MySqlCommand logTableCommand = new MySqlCommand("SELECT id as ID, parent_id as parentID, name as Member, number as Number, type as Type, reason as Reason FROM log ORDER BY id DESC LIMIT 20", logConnection);
+            adapter.SelectCommand = logTableCommand;
+            adapter.Fill(logTable);
+            if (logConnection.State == ConnectionState.Open) logConnection.Close();
+            int i = 0;
+            while(i < logTable.Rows.Count)
+            {
+                DataRow row = logTable.Rows[i];
+                if (row["Member"].ToString().IndexOf(',') != -1)
+                {
+                    string[] membersArray = row["Member"].ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    logTable.Rows.Add(Int32.Parse(row["ID"].ToString()), 0, "Raid", Int32.Parse(row["Number"].ToString()), row["Type"].ToString(), row["Reason"].ToString());
+                    foreach (String s in membersArray)
+                    {
+                        logTable.Rows.Add(tempIndex++, Int32.Parse(row["ID"].ToString()), s, null, "", "");
+                    }
+                    logTable.Rows[i].Delete();
+                }
+                i++;
+            }
+            BindingSource bs = new BindingSource();
+            bs.DataSource = logTable;
+            logSpreadsheet.DataSource = bs;
+            
+        }
+
+        #endregion // Log table
 
         #region SQL
 
@@ -1024,11 +1071,14 @@ namespace Attendance
                 overlayForm.lbl_overlayPR.Text = "";
                 // Logging                
                 if (logConnection.State == ConnectionState.Closed) logConnection.Open();
+                string currentDate = DateTime.Today.Month.ToString() + "/" + DateTime.Today.Day.ToString() + "/" + DateTime.Today.Year.ToString();
                 // Need to make a way to get the item name whether it be exact or just general (chest, boots, etc.)
-                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `officer`) VALUES ('" + e.Row["Name"].ToString() + "', '" + ((double)e.ProposedValue - (double)e.Row[e.Column.Ordinal, DataRowVersion.Current]).ToString() + "', '" + e.Column.ColumnName.ToString() + "', 'test', '" + officerName + "')";
+                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `date`, `officer`) VALUES ('" + e.Row["Name"].ToString() + "', '" + ((double)e.ProposedValue - (double)e.Row[e.Column.Ordinal, DataRowVersion.Current]).ToString() + "', '" + e.Column.ColumnName.ToString() + "', 'test', '" + currentDate + "', '" + officerName + "')";
                 MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
                 logCommand.ExecuteNonQuery();
                 if (logConnection.State == ConnectionState.Open) logConnection.Close();
+                // Update log table
+                updateLogTable();
             }
             else
             {
@@ -1162,6 +1212,11 @@ namespace Attendance
                 // Didn't Work
                 ex.GetBaseException();
             }
+        }
+
+        private void testButton_Click(object sender, EventArgs e)
+        {
+            updateLogTable();
         }
     }
 
