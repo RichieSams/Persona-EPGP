@@ -324,7 +324,7 @@ namespace Attendance
             {
                 updateTable();
                 // Log
-                string memberCSV = "Members:";
+                string memberCSV = "Members";
                 foreach (DataGridViewRow row in EPGPspreadsheet.Rows)
                 {
                     string tempstring = row.Cells[6].Value.ToString();
@@ -348,7 +348,7 @@ namespace Attendance
             {
                 updateTable();
                 // Log
-                string memberCSV = "Members:";
+                string memberCSV = "Members";
                 foreach (DataGridViewRow row in EPGPspreadsheet.Rows)
                 {
                     string tempstring = row.Cells[6].Value.ToString();

@@ -46,6 +46,7 @@
             this.lbl_itemCostNames = new System.Windows.Forms.Label();
             this.lbl_itemCostTitle = new System.Windows.Forms.Label();
             this.adminTab = new System.Windows.Forms.TabPage();
+            this.undoButton = new System.Windows.Forms.Button();
             this.lbl_raidxmlDate = new System.Windows.Forms.Label();
             this.lbl_admin_users = new System.Windows.Forms.Label();
             this.lbl_raidxmlTitle = new System.Windows.Forms.Label();
@@ -77,7 +78,7 @@
             this.PRsortButton1 = new System.Windows.Forms.Button();
             this.EPGPspreadsheet = new System.Windows.Forms.DataGridView();
             this.btn_refreshTbl = new System.Windows.Forms.Button();
-            this.undoButton = new System.Windows.Forms.Button();
+            this.logTab = new System.Windows.Forms.TabPage();
             this.tabArea.SuspendLayout();
             this.infoTab.SuspendLayout();
             this.adminTab.SuspendLayout();
@@ -91,6 +92,7 @@
             this.tabArea.Controls.Add(this.infoTab);
             this.tabArea.Controls.Add(this.adminTab);
             this.tabArea.Controls.Add(this.settingsTab);
+            this.tabArea.Controls.Add(this.logTab);
             this.tabArea.Location = new System.Drawing.Point(496, 5);
             this.tabArea.Name = "tabArea";
             this.tabArea.SelectedIndex = 0;
@@ -123,6 +125,9 @@
             // 
             // lbl_currentZoneValue
             // 
+            this.lbl_currentZoneValue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_currentZoneValue.AutoSize = true;
             this.lbl_currentZoneValue.Location = new System.Drawing.Point(95, 535);
             this.lbl_currentZoneValue.Name = "lbl_currentZoneValue";
@@ -283,6 +288,17 @@
             this.adminTab.TabIndex = 1;
             this.adminTab.Text = "Admin";
             this.adminTab.UseVisualStyleBackColor = true;
+            // 
+            // undoButton
+            // 
+            this.undoButton.Location = new System.Drawing.Point(76, 394);
+            this.undoButton.Name = "undoButton";
+            this.undoButton.Size = new System.Drawing.Size(100, 30);
+            this.undoButton.TabIndex = 33;
+            this.undoButton.Text = "Undo";
+            this.undoButton.UseVisualStyleBackColor = true;
+            this.undoButton.Visible = false;
+            this.undoButton.Click += new System.EventHandler(this.undoButton_Click);
             // 
             // lbl_raidxmlDate
             // 
@@ -613,16 +629,15 @@
             this.btn_refreshTbl.UseVisualStyleBackColor = true;
             this.btn_refreshTbl.Click += new System.EventHandler(this.btn_refreshTbl_Click);
             // 
-            // undoButton
+            // logTab
             // 
-            this.undoButton.Location = new System.Drawing.Point(76, 394);
-            this.undoButton.Name = "undoButton";
-            this.undoButton.Size = new System.Drawing.Size(100, 30);
-            this.undoButton.TabIndex = 33;
-            this.undoButton.Text = "Undo";
-            this.undoButton.UseVisualStyleBackColor = true;
-            this.undoButton.Visible = false;
-            this.undoButton.Click += new System.EventHandler(this.undoButton_Click);
+            this.logTab.Location = new System.Drawing.Point(4, 22);
+            this.logTab.Name = "logTab";
+            this.logTab.Padding = new System.Windows.Forms.Padding(3);
+            this.logTab.Size = new System.Drawing.Size(252, 577);
+            this.logTab.TabIndex = 3;
+            this.logTab.Text = "Log";
+            this.logTab.UseVisualStyleBackColor = true;
             // 
             // guildManagement
             // 
@@ -707,6 +722,7 @@
         private System.Windows.Forms.Label lbl_admin_login;
         private System.Windows.Forms.Label lbl_raidxmlDate;
         private System.Windows.Forms.Button undoButton;
+        private System.Windows.Forms.TabPage logTab;
     }
 }
 
