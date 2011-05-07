@@ -20,5 +20,4 @@ C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.overlay.resourc
 C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.overlay.resources
 C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.addUserMessage.resources
 C:\Users\Adrian\Persona-EPGP\Attendance\bin\Debug\Attendance.exe.config
-C:\Users\Adrian\Persona-EPGP\Attendance\bin\Debug\HierarchicalGrid.dll
-C:\Users\Adrian\Persona-EPGP\Attendance\bin\Debug\HierarchicalGrid.pdb
+C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.exe.licenses

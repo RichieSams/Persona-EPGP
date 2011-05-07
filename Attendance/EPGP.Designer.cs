@@ -73,17 +73,24 @@
             this.lbl_rightClickText = new System.Windows.Forms.Label();
             this.lbl_leftClickText = new System.Windows.Forms.Label();
             this.overlayButton = new System.Windows.Forms.Button();
+            this.logTab = new System.Windows.Forms.TabPage();
+            this.treeList1 = new DevExpress.XtraTreeList.TreeList();
+            this.Name = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.Number = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.Type = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.Reason = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.lbl_sort1 = new System.Windows.Forms.Label();
             this.alphaSortButton1 = new System.Windows.Forms.Button();
             this.PRsortButton1 = new System.Windows.Forms.Button();
             this.EPGPspreadsheet = new System.Windows.Forms.DataGridView();
             this.btn_refreshTbl = new System.Windows.Forms.Button();
-            this.logTab = new System.Windows.Forms.TabPage();
             this.tabArea.SuspendLayout();
             this.infoTab.SuspendLayout();
             this.adminTab.SuspendLayout();
             this.settingsTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).BeginInit();
+            this.logTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.EPGPspreadsheet)).BeginInit();
             this.SuspendLayout();
             // 
@@ -576,6 +583,57 @@
             this.overlayButton.UseVisualStyleBackColor = true;
             this.overlayButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.overlayButton_Click);
             // 
+            // logTab
+            // 
+            this.logTab.Controls.Add(this.treeList1);
+            this.logTab.Location = new System.Drawing.Point(4, 22);
+            this.logTab.Name = "logTab";
+            this.logTab.Padding = new System.Windows.Forms.Padding(3);
+            this.logTab.Size = new System.Drawing.Size(252, 577);
+            this.logTab.TabIndex = 3;
+            this.logTab.Text = "Log";
+            this.logTab.UseVisualStyleBackColor = true;
+            // 
+            // treeList1
+            // 
+            this.treeList1.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
+            this.Name,
+            this.Number,
+            this.Type,
+            this.Reason});
+            this.treeList1.Location = new System.Drawing.Point(0, 1);
+            this.treeList1.Name = "treeList1";
+            this.treeList1.Size = new System.Drawing.Size(250, 574);
+            this.treeList1.TabIndex = 0;
+            // 
+            // Name
+            // 
+            this.Name.FieldName = "Name";
+            this.Name.Name = "Name";
+            this.Name.Visible = true;
+            this.Name.VisibleIndex = 0;
+            // 
+            // Number
+            // 
+            this.Number.FieldName = "Number";
+            this.Number.Name = "Number";
+            this.Number.Visible = true;
+            this.Number.VisibleIndex = 1;
+            // 
+            // Type
+            // 
+            this.Type.FieldName = "Type";
+            this.Type.Name = "Type";
+            this.Type.Visible = true;
+            this.Type.VisibleIndex = 2;
+            // 
+            // Reason
+            // 
+            this.Reason.FieldName = "Reason";
+            this.Reason.Name = "Reason";
+            this.Reason.Visible = true;
+            this.Reason.VisibleIndex = 3;
+            // 
             // lbl_sort1
             // 
             this.lbl_sort1.AutoSize = true;
@@ -629,16 +687,6 @@
             this.btn_refreshTbl.UseVisualStyleBackColor = true;
             this.btn_refreshTbl.Click += new System.EventHandler(this.btn_refreshTbl_Click);
             // 
-            // logTab
-            // 
-            this.logTab.Location = new System.Drawing.Point(4, 22);
-            this.logTab.Name = "logTab";
-            this.logTab.Padding = new System.Windows.Forms.Padding(3);
-            this.logTab.Size = new System.Drawing.Size(252, 577);
-            this.logTab.TabIndex = 3;
-            this.logTab.Text = "Log";
-            this.logTab.UseVisualStyleBackColor = true;
-            // 
             // guildManagement
             // 
             this.AllowDrop = true;
@@ -652,7 +700,6 @@
             this.Controls.Add(this.lbl_sort1);
             this.Controls.Add(this.EPGPspreadsheet);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "guildManagement";
             this.Text = "Persona Guild Management";
             this.Activated += new System.EventHandler(this.guildManagement_Activated);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.guildManagement_Close);
@@ -665,6 +712,8 @@
             this.settingsTab.ResumeLayout(false);
             this.settingsTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).EndInit();
+            this.logTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.EPGPspreadsheet)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -723,6 +772,11 @@
         private System.Windows.Forms.Label lbl_raidxmlDate;
         private System.Windows.Forms.Button undoButton;
         private System.Windows.Forms.TabPage logTab;
+        private DevExpress.XtraTreeList.TreeList treeList1;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn Name;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn Number;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn Type;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn Reason;
     }
 }
 
