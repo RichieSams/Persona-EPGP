@@ -64,10 +64,12 @@
             this.fiveEPbutton = new System.Windows.Forms.Button();
             this.txt_name = new System.Windows.Forms.TextBox();
             this.settingsTab = new System.Windows.Forms.TabPage();
+            this.lbl_currentDirValue = new System.Windows.Forms.Label();
+            this.lbl_currentDirTitle = new System.Windows.Forms.Label();
+            this.getDirButton = new System.Windows.Forms.Button();
             this.lbl_opacity = new System.Windows.Forms.Label();
             this.txt_opacity = new System.Windows.Forms.TextBox();
             this.opacitySlider = new System.Windows.Forms.TrackBar();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.lbl_logReminder = new System.Windows.Forms.Label();
             this.lbl_rightClickText = new System.Windows.Forms.Label();
             this.lbl_leftClickText = new System.Windows.Forms.Label();
@@ -473,10 +475,12 @@
             // 
             // settingsTab
             // 
+            this.settingsTab.Controls.Add(this.lbl_currentDirValue);
+            this.settingsTab.Controls.Add(this.lbl_currentDirTitle);
+            this.settingsTab.Controls.Add(this.getDirButton);
             this.settingsTab.Controls.Add(this.lbl_opacity);
             this.settingsTab.Controls.Add(this.txt_opacity);
             this.settingsTab.Controls.Add(this.opacitySlider);
-            this.settingsTab.Controls.Add(this.textBox2);
             this.settingsTab.Controls.Add(this.lbl_logReminder);
             this.settingsTab.Controls.Add(this.lbl_rightClickText);
             this.settingsTab.Controls.Add(this.lbl_leftClickText);
@@ -487,6 +491,38 @@
             this.settingsTab.TabIndex = 2;
             this.settingsTab.Text = "Settings";
             this.settingsTab.UseVisualStyleBackColor = true;
+            // 
+            // lbl_currentDirValue
+            // 
+            this.lbl_currentDirValue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_currentDirValue.AutoSize = true;
+            this.lbl_currentDirValue.Location = new System.Drawing.Point(41, 165);
+            this.lbl_currentDirValue.Name = "lbl_currentDirValue";
+            this.lbl_currentDirValue.Size = new System.Drawing.Size(171, 13);
+            this.lbl_currentDirValue.TabIndex = 28;
+            this.lbl_currentDirValue.Text = "C:\\Program Files (x86)\\RIFT Game";
+            // 
+            // lbl_currentDirTitle
+            // 
+            this.lbl_currentDirTitle.AutoSize = true;
+            this.lbl_currentDirTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_currentDirTitle.Location = new System.Drawing.Point(51, 145);
+            this.lbl_currentDirTitle.Name = "lbl_currentDirTitle";
+            this.lbl_currentDirTitle.Size = new System.Drawing.Size(150, 13);
+            this.lbl_currentDirTitle.TabIndex = 27;
+            this.lbl_currentDirTitle.Text = "Current RIFT directory is:";
+            // 
+            // getDirButton
+            // 
+            this.getDirButton.Location = new System.Drawing.Point(76, 187);
+            this.getDirButton.Name = "getDirButton";
+            this.getDirButton.Size = new System.Drawing.Size(100, 30);
+            this.getDirButton.TabIndex = 26;
+            this.getDirButton.Text = "Change";
+            this.getDirButton.UseVisualStyleBackColor = true;
+            this.getDirButton.Click += new System.EventHandler(this.getDirButton_Click);
             // 
             // lbl_opacity
             // 
@@ -520,16 +556,6 @@
             this.opacitySlider.TickFrequency = 0;
             this.opacitySlider.Value = 50;
             this.opacitySlider.ValueChanged += new System.EventHandler(this.opacitySlider_ValueChanged);
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(18, 199);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(216, 130);
-            this.textBox2.TabIndex = 22;
-            this.textBox2.Text = "-Info to show log, combatlog (what do you mean?)\r\n-Timer Refresh (currently hardc" +
-                "oded at 25-35 seconds randomly)\r\n";
             // 
             // lbl_logReminder
             // 
@@ -800,7 +826,6 @@
         private System.Windows.Forms.LinkLabel lbl_webLink;
         private System.Windows.Forms.Button btn_refreshTbl;
         private System.Windows.Forms.Label lbl_loggedIn;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label lbl_sort1;
         private System.Windows.Forms.Button alphaSortButton1;
         private System.Windows.Forms.Button PRsortButton1;
@@ -823,6 +848,9 @@
         private DevExpress.XtraTreeList.Columns.TreeListColumn Number;
         private DevExpress.XtraTreeList.Columns.TreeListColumn Type;
         private DevExpress.XtraTreeList.Columns.TreeListColumn Reason;
+        private System.Windows.Forms.Label lbl_currentDirValue;
+        private System.Windows.Forms.Label lbl_currentDirTitle;
+        private System.Windows.Forms.Button getDirButton;
     }
 }
 

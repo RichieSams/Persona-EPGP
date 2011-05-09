@@ -160,6 +160,9 @@ namespace Attendance
             // Moved here so rift directory is found
             // Display time of last raid.xml creation
             xmlAge();
+
+            // Set text in settings to current Rift directory
+            lbl_currentDirValue.Text = settingsRiftDir;
         }
 
         #endregion // Intialize
@@ -472,6 +475,12 @@ namespace Attendance
         #endregion // Admin
 
         #region Settings
+
+        private void getDirButton_Click(object sender, EventArgs e)
+        {
+            getRiftDir();
+            lbl_currentDirValue.Text = settingsRiftDir;
+        }
 
         private void overlayButton_Click(object sender, MouseEventArgs e)
         {
