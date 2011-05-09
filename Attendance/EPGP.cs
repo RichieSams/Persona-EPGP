@@ -11,6 +11,7 @@ using System.Xml;
 using System.IO;
 using System.Diagnostics;
 using System.Threading;
+using System.Timers;
 
 namespace Attendance
 {
@@ -130,7 +131,7 @@ namespace Attendance
             refreshThread.Start();
 
             // Fill log table for the first time
-            updateLogTable();
+            updateLogTable();           
 
             // Watch for change in log.txt file
             FileSystemWatcher logWatcher = new FileSystemWatcher();
@@ -163,6 +164,14 @@ namespace Attendance
 
             // Set text in settings to current Rift directory
             lbl_currentDirValue.Text = settingsRiftDir;
+            lbl_currentDirValue.Left = (this.settingsTab.Width / 2) - (lbl_currentDirValue.Width / 2);
+        }
+
+        private void logWatchElapse(object sender, ElapsedEventArgs e)
+        {
+            lbl_logWarningValue.Text = "/log might not be running";
+            lbl_logWarningValue.ForeColor = Color.Red;
+            lbl_logWarningValue.Left = (this.infoTab.Width / 2) - (lbl_logWarningValue.Width / 2);
         }
 
         #endregion // Intialize
@@ -436,6 +445,7 @@ namespace Attendance
         {
             TimeSpan xmlAgeTime = DateTime.Now.Subtract(File.GetLastWriteTime(settingsRiftDir + "\\raid.xml"));
             lbl_raidxmlDate.Text = xmlAgeTime.Days.ToString() + " days "  + xmlAgeTime.Hours.ToString() + " hours " + xmlAgeTime.Minutes.ToString() + " minutes ago";
+            lbl_raidxmlDate.Left = (this.adminTab.Width / 2) - (lbl_raidxmlDate.Width / 2);
             if (xmlAgeTime.Hours < 4)
             {
                 lbl_raidxmlDate.ForeColor = Color.Green;
@@ -480,6 +490,7 @@ namespace Attendance
         {
             getRiftDir();
             lbl_currentDirValue.Text = settingsRiftDir;
+            lbl_currentDirValue.Left = (this.settingsTab.Width / 2) - (lbl_currentDirValue.Width / 2);
         }
 
         private void overlayButton_Click(object sender, MouseEventArgs e)
@@ -780,6 +791,22 @@ namespace Attendance
 
         private void textLogParser(object source, FileSystemEventArgs e)
         {
+            // Change logWatch text to say /log is running
+            if (lbl_logWarningValue.Text != "/log is running")
+            {
+                lbl_logWarningValue.Text = "/log is running";
+                lbl_logWarningValue.ForeColor = Color.Green;
+                lbl_logWarningValue.Left = (this.infoTab.Width / 2) - (lbl_logWarningValue.Width / 2);
+            }
+
+            // Reset timer
+            if (logWatch.Enabled == true)
+            {
+                logWatch.Stop();
+                logWatch.Start();
+            }
+
+            // Try to open and parse log.txt file
             try
             {
                 FileStream fs = new FileStream("C:\\Program Files (x86)\\RIFT Game\\log.txt", FileMode.Open, FileAccess.Read);
@@ -808,6 +835,7 @@ namespace Attendance
                     string zoneString = lastLine.Substring(10, lastLine.Length - 10);
                     currentZone = zoneString.Substring(zoneString.IndexOf("[1. ") + 4, zoneString.IndexOf("]") - zoneString.IndexOf("[") - 4);
                     lbl_currentZoneValue.Text = currentZone;
+                    lbl_currentZoneValue.Left = (this.infoTab.Width / 2) - (lbl_currentZoneValue.Width / 2);
                 }
 
                 // Only do overlay text if the user is in a raid zone
@@ -951,6 +979,7 @@ namespace Attendance
             }
             currentZone = lines[userIndex].Substring(lines[userIndex].IndexOf("\t") + 1, lines[userIndex].IndexOf(" (") - lines[userIndex].IndexOf("\t") - 1);
             lbl_currentZoneValue.Text = currentZone;
+            lbl_currentZoneValue.Left = (this.infoTab.Width / 2) - (lbl_currentZoneValue.Width / 2);
         }
 
         #endregion // Txt log and zone parsers

@@ -29,8 +29,11 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(guildManagement));
+            this.logWatch = new System.Timers.Timer();
             this.tabArea = new System.Windows.Forms.TabControl();
             this.infoTab = new System.Windows.Forms.TabPage();
+            this.lbl_logWarningValue = new System.Windows.Forms.Label();
+            this.lbl_logWarningTitle = new System.Windows.Forms.Label();
             this.lbl_currentZoneValue = new System.Windows.Forms.Label();
             this.lbl_currentZoneTitle = new System.Windows.Forms.Label();
             this.lbl_webLink = new System.Windows.Forms.LinkLabel();
@@ -85,6 +88,7 @@
             this.PRsortButton1 = new System.Windows.Forms.Button();
             this.EPGPspreadsheet = new System.Windows.Forms.DataGridView();
             this.btn_refreshTbl = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.logWatch)).BeginInit();
             this.tabArea.SuspendLayout();
             this.infoTab.SuspendLayout();
             this.adminTab.SuspendLayout();
@@ -94,6 +98,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.logSpreadsheet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.EPGPspreadsheet)).BeginInit();
             this.SuspendLayout();
+            // 
+            // logWatch
+            // 
+            this.logWatch.Enabled = true;
+            this.logWatch.Interval = 60000D;
+            this.logWatch.SynchronizingObject = this;
+            this.logWatch.Elapsed += new System.Timers.ElapsedEventHandler(this.logWatchElapse);
             // 
             // tabArea
             // 
@@ -109,6 +120,8 @@
             // 
             // infoTab
             // 
+            this.infoTab.Controls.Add(this.lbl_logWarningValue);
+            this.infoTab.Controls.Add(this.lbl_logWarningTitle);
             this.infoTab.Controls.Add(this.lbl_currentZoneValue);
             this.infoTab.Controls.Add(this.lbl_currentZoneTitle);
             this.infoTab.Controls.Add(this.lbl_webLink);
@@ -131,13 +144,32 @@
             this.infoTab.Text = "Info";
             this.infoTab.UseVisualStyleBackColor = true;
             // 
+            // lbl_logWarningValue
+            // 
+            this.lbl_logWarningValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_logWarningValue.AutoSize = true;
+            this.lbl_logWarningValue.ForeColor = System.Drawing.Color.Red;
+            this.lbl_logWarningValue.Location = new System.Drawing.Point(64, 486);
+            this.lbl_logWarningValue.Name = "lbl_logWarningValue";
+            this.lbl_logWarningValue.Size = new System.Drawing.Size(125, 13);
+            this.lbl_logWarningValue.TabIndex = 31;
+            this.lbl_logWarningValue.Text = "/log might not be running";
+            // 
+            // lbl_logWarningTitle
+            // 
+            this.lbl_logWarningTitle.AutoSize = true;
+            this.lbl_logWarningTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_logWarningTitle.Location = new System.Drawing.Point(84, 465);
+            this.lbl_logWarningTitle.Name = "lbl_logWarningTitle";
+            this.lbl_logWarningTitle.Size = new System.Drawing.Size(85, 13);
+            this.lbl_logWarningTitle.TabIndex = 30;
+            this.lbl_logWarningTitle.Text = "Text Logging:";
+            // 
             // lbl_currentZoneValue
             // 
-            this.lbl_currentZoneValue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_currentZoneValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_currentZoneValue.AutoSize = true;
-            this.lbl_currentZoneValue.Location = new System.Drawing.Point(95, 535);
+            this.lbl_currentZoneValue.Location = new System.Drawing.Point(95, 419);
             this.lbl_currentZoneValue.Name = "lbl_currentZoneValue";
             this.lbl_currentZoneValue.Size = new System.Drawing.Size(63, 13);
             this.lbl_currentZoneValue.TabIndex = 29;
@@ -147,7 +179,7 @@
             // 
             this.lbl_currentZoneTitle.AutoSize = true;
             this.lbl_currentZoneTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_currentZoneTitle.Location = new System.Drawing.Point(84, 516);
+            this.lbl_currentZoneTitle.Location = new System.Drawing.Point(84, 400);
             this.lbl_currentZoneTitle.Name = "lbl_currentZoneTitle";
             this.lbl_currentZoneTitle.Size = new System.Drawing.Size(85, 13);
             this.lbl_currentZoneTitle.TabIndex = 28;
@@ -309,15 +341,14 @@
             // 
             // lbl_raidxmlDate
             // 
-            this.lbl_raidxmlDate.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_raidxmlDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_raidxmlDate.AutoSize = true;
             this.lbl_raidxmlDate.Location = new System.Drawing.Point(54, 221);
             this.lbl_raidxmlDate.Name = "lbl_raidxmlDate";
             this.lbl_raidxmlDate.Size = new System.Drawing.Size(145, 13);
             this.lbl_raidxmlDate.TabIndex = 32;
             this.lbl_raidxmlDate.Text = "0 days 0 hours 0 minutes ago";
+            this.lbl_raidxmlDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbl_raidxmlDate.Visible = false;
             // 
             // lbl_admin_users
@@ -494,15 +525,14 @@
             // 
             // lbl_currentDirValue
             // 
-            this.lbl_currentDirValue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_currentDirValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_currentDirValue.AutoSize = true;
             this.lbl_currentDirValue.Location = new System.Drawing.Point(41, 165);
             this.lbl_currentDirValue.Name = "lbl_currentDirValue";
             this.lbl_currentDirValue.Size = new System.Drawing.Size(171, 13);
             this.lbl_currentDirValue.TabIndex = 28;
             this.lbl_currentDirValue.Text = "C:\\Program Files (x86)\\RIFT Game";
+            this.lbl_currentDirValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_currentDirTitle
             // 
@@ -777,6 +807,7 @@
             this.Activated += new System.EventHandler(this.guildManagement_Activated);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.guildManagement_Close);
             this.Load += new System.EventHandler(this.guildManagement_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.logWatch)).EndInit();
             this.tabArea.ResumeLayout(false);
             this.infoTab.ResumeLayout(false);
             this.infoTab.PerformLayout();
@@ -795,6 +826,7 @@
 
         #endregion
 
+        private System.Timers.Timer logWatch;
         private System.Windows.Forms.TabControl tabArea;
         private System.Windows.Forms.TabPage infoTab;
         private System.Windows.Forms.DataGridView EPGPspreadsheet;
@@ -851,6 +883,8 @@
         private System.Windows.Forms.Label lbl_currentDirValue;
         private System.Windows.Forms.Label lbl_currentDirTitle;
         private System.Windows.Forms.Button getDirButton;
+        private System.Windows.Forms.Label lbl_logWarningValue;
+        private System.Windows.Forms.Label lbl_logWarningTitle;
     }
 }
 
