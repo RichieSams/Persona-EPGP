@@ -54,7 +54,6 @@
             this.lbl_admin_login = new System.Windows.Forms.Label();
             this.deleteUserButton = new System.Windows.Forms.Button();
             this.addUserButton = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.lbl_loggedIn = new System.Windows.Forms.Label();
             this.loginButton = new System.Windows.Forms.Button();
             this.attendanceButton = new System.Windows.Forms.Button();
@@ -279,7 +278,6 @@
             this.adminTab.Controls.Add(this.lbl_admin_login);
             this.adminTab.Controls.Add(this.deleteUserButton);
             this.adminTab.Controls.Add(this.addUserButton);
-            this.adminTab.Controls.Add(this.textBox1);
             this.adminTab.Controls.Add(this.lbl_loggedIn);
             this.adminTab.Controls.Add(this.loginButton);
             this.adminTab.Controls.Add(this.attendanceButton);
@@ -383,16 +381,6 @@
             this.addUserButton.UseVisualStyleBackColor = true;
             this.addUserButton.Visible = false;
             this.addUserButton.Click += new System.EventHandler(this.addUserButton_Click);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(17, 480);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(217, 65);
-            this.textBox1.TabIndex = 11;
-            this.textBox1.Text = "-Attach Raid filebrowser and get info to check last modified date then warn if ol" +
-                "d";
             // 
             // lbl_loggedIn
             // 
@@ -540,9 +528,8 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(216, 130);
             this.textBox2.TabIndex = 22;
-            this.textBox2.Text = "-More overlay options (anything else you can think of?)\r\n-Info to show log, comba" +
-                "tlog (what do you mean?)\r\n-Timer Refresh (currently hardcoded at 25-35 seconds r" +
-                "andomly)\r\n";
+            this.textBox2.Text = "-Info to show log, combatlog (what do you mean?)\r\n-Timer Refresh (currently hardc" +
+                "oded at 25-35 seconds randomly)\r\n";
             // 
             // lbl_logReminder
             // 
@@ -813,7 +800,6 @@
         private System.Windows.Forms.LinkLabel lbl_webLink;
         private System.Windows.Forms.Button btn_refreshTbl;
         private System.Windows.Forms.Label lbl_loggedIn;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label lbl_sort1;
         private System.Windows.Forms.Button alphaSortButton1;
