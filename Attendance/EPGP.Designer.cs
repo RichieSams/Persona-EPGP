@@ -65,7 +65,6 @@
             this.fiveEPbutton = new System.Windows.Forms.Button();
             this.txt_name = new System.Windows.Forms.TextBox();
             this.settingsTab = new System.Windows.Forms.TabPage();
-            this.testButton = new System.Windows.Forms.Button();
             this.lbl_opacity = new System.Windows.Forms.Label();
             this.txt_opacity = new System.Windows.Forms.TextBox();
             this.opacitySlider = new System.Windows.Forms.TrackBar();
@@ -299,7 +298,7 @@
             // 
             // undoButton
             // 
-            this.undoButton.Location = new System.Drawing.Point(76, 394);
+            this.undoButton.Location = new System.Drawing.Point(76, 288);
             this.undoButton.Name = "undoButton";
             this.undoButton.Size = new System.Drawing.Size(100, 30);
             this.undoButton.TabIndex = 33;
@@ -325,7 +324,7 @@
             // 
             this.lbl_admin_users.AutoSize = true;
             this.lbl_admin_users.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_admin_users.Location = new System.Drawing.Point(14, 303);
+            this.lbl_admin_users.Location = new System.Drawing.Point(14, 338);
             this.lbl_admin_users.Name = "lbl_admin_users";
             this.lbl_admin_users.Size = new System.Drawing.Size(39, 13);
             this.lbl_admin_users.TabIndex = 31;
@@ -365,7 +364,7 @@
             // 
             // deleteUserButton
             // 
-            this.deleteUserButton.Location = new System.Drawing.Point(134, 325);
+            this.deleteUserButton.Location = new System.Drawing.Point(132, 360);
             this.deleteUserButton.Name = "deleteUserButton";
             this.deleteUserButton.Size = new System.Drawing.Size(100, 30);
             this.deleteUserButton.TabIndex = 24;
@@ -376,7 +375,7 @@
             // 
             // addUserButton
             // 
-            this.addUserButton.Location = new System.Drawing.Point(23, 325);
+            this.addUserButton.Location = new System.Drawing.Point(21, 360);
             this.addUserButton.Name = "addUserButton";
             this.addUserButton.Size = new System.Drawing.Size(100, 30);
             this.addUserButton.TabIndex = 25;
@@ -392,8 +391,8 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(217, 65);
             this.textBox1.TabIndex = 11;
-            this.textBox1.Text = "-Add Log Stuff (Showing Log, Undo, etc)\r\n-Attach Raid filebrowser and get info to" +
-                " check last modified date then warn if old";
+            this.textBox1.Text = "-Attach Raid filebrowser and get info to check last modified date then warn if ol" +
+                "d";
             // 
             // lbl_loggedIn
             // 
@@ -417,7 +416,7 @@
             // 
             // attendanceButton
             // 
-            this.attendanceButton.Location = new System.Drawing.Point(74, 157);
+            this.attendanceButton.Location = new System.Drawing.Point(76, 157);
             this.attendanceButton.Name = "attendanceButton";
             this.attendanceButton.Size = new System.Drawing.Size(100, 30);
             this.attendanceButton.TabIndex = 9;
@@ -456,7 +455,7 @@
             // 
             // tenEPbutton
             // 
-            this.tenEPbutton.Location = new System.Drawing.Point(134, 252);
+            this.tenEPbutton.Location = new System.Drawing.Point(132, 252);
             this.tenEPbutton.Name = "tenEPbutton";
             this.tenEPbutton.Size = new System.Drawing.Size(100, 30);
             this.tenEPbutton.TabIndex = 8;
@@ -467,7 +466,7 @@
             // 
             // fiveEPbutton
             // 
-            this.fiveEPbutton.Location = new System.Drawing.Point(23, 252);
+            this.fiveEPbutton.Location = new System.Drawing.Point(21, 252);
             this.fiveEPbutton.Name = "fiveEPbutton";
             this.fiveEPbutton.Size = new System.Drawing.Size(100, 30);
             this.fiveEPbutton.TabIndex = 7;
@@ -486,7 +485,6 @@
             // 
             // settingsTab
             // 
-            this.settingsTab.Controls.Add(this.testButton);
             this.settingsTab.Controls.Add(this.lbl_opacity);
             this.settingsTab.Controls.Add(this.txt_opacity);
             this.settingsTab.Controls.Add(this.opacitySlider);
@@ -501,16 +499,6 @@
             this.settingsTab.TabIndex = 2;
             this.settingsTab.Text = "Settings";
             this.settingsTab.UseVisualStyleBackColor = true;
-            // 
-            // testButton
-            // 
-            this.testButton.Location = new System.Drawing.Point(70, 412);
-            this.testButton.Name = "testButton";
-            this.testButton.Size = new System.Drawing.Size(100, 30);
-            this.testButton.TabIndex = 1;
-            this.testButton.Text = "Test log function";
-            this.testButton.UseVisualStyleBackColor = true;
-            this.testButton.Click += new System.EventHandler(this.testButton_Click);
             // 
             // lbl_opacity
             // 
@@ -845,7 +833,6 @@
         private System.Windows.Forms.Button undoButton;
         private System.Windows.Forms.TabPage logTab;
         private DevExpress.XtraTreeList.TreeList logSpreadsheet;
-        private System.Windows.Forms.Button testButton;
         private DevExpress.XtraTreeList.Columns.TreeListColumn Member;
         private DevExpress.XtraTreeList.Columns.TreeListColumn Number;
         private DevExpress.XtraTreeList.Columns.TreeListColumn Type;

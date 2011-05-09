@@ -341,8 +341,8 @@ namespace Attendance
                     }
                 }
                 if (logConnection.State == ConnectionState.Closed) logConnection.Open();
-                // For some reason this threw a casting error when I pressed the sort button
-                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `officer`) VALUES ('" + memberCSV + "', '5', 'EP', 'Raid-wide', '" + officerName + "')";
+                string currentDate = DateTime.Today.Month.ToString() + "/" + DateTime.Today.Day.ToString() + "/" + DateTime.Today.Year.ToString();
+                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `date`, `officer`) VALUES ('" + memberCSV + "', '5', 'EP', 'Raid-wide', '" + currentDate + "', '" + officerName + "')";
                 MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
                 logCommand.ExecuteNonQuery();
                 if (logConnection.State == ConnectionState.Open) logConnection.Close();
@@ -367,7 +367,8 @@ namespace Attendance
                     }
                 }
                 if (logConnection.State == ConnectionState.Closed) logConnection.Open();
-                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `officer`) VALUES ('" + memberCSV + "', '10', 'EP', 'Raid-wide', '" + officerName + "')";
+                string currentDate = DateTime.Today.Month.ToString() + "/" + DateTime.Today.Day.ToString() + "/" + DateTime.Today.Year.ToString();
+                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `date`, `officer`) VALUES ('" + memberCSV + "', '10', 'EP', 'Raid-wide', '" + currentDate + "', '" + officerName + "')";
                 MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
                 logCommand.ExecuteNonQuery();
                 if (logConnection.State == ConnectionState.Open) logConnection.Close();
@@ -1205,6 +1206,7 @@ namespace Attendance
                     updateTable();
                     // Table has been modified since
                     tableModTime = dt;
+                    updateLogTable();
                 }
             }
             catch (MySqlException ex)
@@ -1212,11 +1214,6 @@ namespace Attendance
                 // Didn't Work
                 ex.GetBaseException();
             }
-        }
-
-        private void testButton_Click(object sender, EventArgs e)
-        {
-            updateLogTable();
         }
     }
 
