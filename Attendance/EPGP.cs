@@ -848,19 +848,23 @@ namespace Attendance
                 if ((currentZone == "Greenscale's Blight") || (currentZone == "River of Souls") || (currentZone == "Freemarch"))
                 {
                     // Non-raid speech lines are ignored           /////Idea: create channel for EPGP so the program doesn't have to read raid chatter
-                    if (lastLine.IndexOf("[Guild]") != -1) //change to [Raid] for release
+                    if (lastLine.IndexOf("[Raid]") != -1)
                     {
                         // Trim off the time stamp
                         string overlayString = lastLine.Substring(10, lastLine.Length - 10);
                         // Split into name and text
                         string[] logList = overlayString.Split(':');
                         // Check for phrase
-                        if ((logList[1] == " need") || (logList[1] == " greed"))
+                        if ((logList[1] == " need") || (logList[1] == " off spec") || (logList[1] == " offspec"))
                         {
+                            // Reset timer
+                            overlayReset.Stop();
+                            overlayReset.Start();
+
                             int tempInt = 0;
                             string tempString = string.Empty;
                             // Trim off [raid] and the brackets around the name
-                            logList[0] = logList[0].Substring(8, logList[0].Length - 9); //change to 7 and 8 when actually using [Raid] and not [Guild]
+                            logList[0] = logList[0].Substring(7, logList[0].Length - 8);
                             // Cycle through the names on the spreadsheet
                             while (tempInt < EPGPspreadsheet.RowCount)
                             {
@@ -877,22 +881,16 @@ namespace Attendance
                                             try
                                             {
                                                 overlayForm.lbl_overlayPR.Text = EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString().Substring(0, EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString().IndexOf('.') + 3);
-                                                // Reset timer
-                                                overlayReset.Stop();
-                                                overlayReset.Start();
                                             }
                                             // If it fails, use the whole thing
                                             catch (ArgumentOutOfRangeException)
                                             {
                                                 overlayForm.lbl_overlayPR.Text = EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString();
-                                                // Reset timer
-                                                overlayReset.Stop();
-                                                overlayReset.Start();
                                             }
                                         }
-                                        if (logList[1] == " greed")
+                                        if ((logList[1] == " off spec") || (logList[1] == " offspec"))
                                         {
-                                            overlayForm.lbl_overlayPR.Text = "Off spec";
+                                            overlayForm.lbl_overlayPR.Text = "Off Spec";
                                         }
                                     }
                                     // Otherwise, append a newline and the text to the end of the string
@@ -913,7 +911,7 @@ namespace Attendance
                                                 overlayForm.lbl_overlayPR.Text += "\n" + EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString();
                                             }
                                         }
-                                        if (logList[1] == " greed")
+                                        if ((logList[1] == " off spec") || (logList[1] == " offspec"))
                                         {
                                             overlayForm.lbl_overlayPR.Text += "\nOff Spec";
                                         }
