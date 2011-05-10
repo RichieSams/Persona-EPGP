@@ -60,6 +60,12 @@
     <Compile Include="addUserMessage.Designer.cs">
       <DependentUpon>addUserMessage.cs</DependentUpon>
     </Compile>
+    <Compile Include="changeReasonMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="changeReasonMessage.Designer.cs">
+      <DependentUpon>changeReasonMessage.cs</DependentUpon>
+    </Compile>
     <Compile Include="EPGP.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +82,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="addUserMessage.resx">
       <DependentUpon>addUserMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="changeReasonMessage.resx">
+      <DependentUpon>changeReasonMessage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EPGP.resx">
       <DependentUpon>EPGP.cs</DependentUpon>

@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(addUserMessage));
             this.lbl_addUser = new System.Windows.Forms.Label();
             this.txt_addUser = new System.Windows.Forms.TextBox();
-            this.okButton = new System.Windows.Forms.Button();
+            this.addUserOkButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lbl_addUser
@@ -52,22 +52,22 @@
             this.txt_addUser.TabIndex = 1;
             this.txt_addUser.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_addUser_KeyDown);
             // 
-            // okButton
+            // addUserOkButton
             // 
-            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Location = new System.Drawing.Point(107, 86);
-            this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(75, 25);
-            this.okButton.TabIndex = 2;
-            this.okButton.Text = "OK";
-            this.okButton.UseVisualStyleBackColor = true;
+            this.addUserOkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.addUserOkButton.Location = new System.Drawing.Point(107, 86);
+            this.addUserOkButton.Name = "addUserOkButton";
+            this.addUserOkButton.Size = new System.Drawing.Size(75, 25);
+            this.addUserOkButton.TabIndex = 2;
+            this.addUserOkButton.Text = "OK";
+            this.addUserOkButton.UseVisualStyleBackColor = true;
             // 
             // addUserMessage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(289, 132);
-            this.Controls.Add(this.okButton);
+            this.Controls.Add(this.addUserOkButton);
             this.Controls.Add(this.txt_addUser);
             this.Controls.Add(this.lbl_addUser);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -85,6 +85,6 @@
 
         private System.Windows.Forms.Label lbl_addUser;
         private System.Windows.Forms.TextBox txt_addUser;
-        private System.Windows.Forms.Button okButton;
+        private System.Windows.Forms.Button addUserOkButton;
     }
 }

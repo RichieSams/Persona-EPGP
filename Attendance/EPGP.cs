@@ -398,7 +398,6 @@ namespace Attendance
 
         private void addUserButton_Click(object sender, EventArgs e)
         {
-            string memberName = EPGPspreadsheet.SelectedCells[0].Value.ToString();
             addUserMessage addUserPopup = new addUserMessage();
             var result = addUserPopup.ShowDialog(this);
             if (result == DialogResult.OK)
@@ -1119,10 +1118,21 @@ namespace Attendance
                 overlayForm.lbl_overlayName.Text = "";
                 overlayForm.lbl_overlayPR.Text = "";
                 // Logging                
-                if (logConnection.State == ConnectionState.Closed) logConnection.Open();
+                changeReasonMessage changeReasonPopup = new changeReasonMessage();
+                var result = changeReasonPopup.ShowDialog(this);
+                string reason = string.Empty;
+                if (result == DialogResult.OK)
+                {
+                    reason = changeReasonPopup.Reason;
+                }
+                else
+                {
+                    reason = "Default";
+                    MessageBox.Show("Default reason used.", "Reason");
+                }
                 string currentDate = DateTime.Today.Month.ToString() + "/" + DateTime.Today.Day.ToString() + "/" + DateTime.Today.Year.ToString();
-                // Need to make a way to get the item name whether it be exact or just general (chest, boots, etc.)
-                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `date`, `officer`) VALUES ('" + e.Row["Name"].ToString() + "', '" + ((double)e.ProposedValue - (double)e.Row[e.Column.Ordinal, DataRowVersion.Current]).ToString() + "', '" + e.Column.ColumnName.ToString() + "', 'test', '" + currentDate + "', '" + officerName + "')";
+                if (logConnection.State == ConnectionState.Closed) logConnection.Open();
+                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `date`, `officer`) VALUES ('" + e.Row["Name"].ToString() + "', '" + ((double)e.ProposedValue - (double)e.Row[e.Column.Ordinal, DataRowVersion.Current]).ToString() + "', '" + e.Column.ColumnName.ToString() + "', '" + reason + "', '" + currentDate + "', '" + officerName + "')";
                 MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
                 logCommand.ExecuteNonQuery();
                 if (logConnection.State == ConnectionState.Open) logConnection.Close();

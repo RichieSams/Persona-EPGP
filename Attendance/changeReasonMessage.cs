@@ -9,29 +9,25 @@ using System.Windows.Forms;
 
 namespace Attendance
 {
-    public partial class addUserMessage : Form
+    public partial class changeReasonMessage : Form
     {
-        public addUserMessage()
+        public changeReasonMessage()
         {
             InitializeComponent();
-
         }
 
-        public string MemberName
+        public string Reason
         {
-            get { return txt_addUser.Text; }
+            get { return txt_changeReason.Text; }
         }
 
-        // Press 'OK' if enter is pressed
-        private void txt_addUser_KeyDown(object sender, KeyEventArgs e)
+        private void txt_changeReason_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                addUserOkButton.PerformClick();
+                reasonOkButton.PerformClick();
                 e.SuppressKeyPress = true;
             }
         }
-
-
     }
 }
