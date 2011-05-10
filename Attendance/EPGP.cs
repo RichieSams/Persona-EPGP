@@ -167,6 +167,10 @@ namespace Attendance
             lbl_currentDirValue.Left = (this.settingsTab.Width / 2) - (lbl_currentDirValue.Width / 2);
         }
 
+        #endregion // Intialize
+
+        #region Info
+
         private void logWatchElapse(object sender, ElapsedEventArgs e)
         {
             lbl_logWarningValue.Text = "/log might not be running";
@@ -174,9 +178,11 @@ namespace Attendance
             lbl_logWarningValue.Left = (this.infoTab.Width / 2) - (lbl_logWarningValue.Width / 2);
         }
 
-        #endregion // Intialize
-
-        #region Info
+        private void overlayResetElapse(object sender, EventArgs e)
+        {
+            overlayForm.lbl_overlayName.Text = "";
+            overlayForm.lbl_overlayPR.Text = "";
+        }
 
         private void lbl_webLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -799,7 +805,7 @@ namespace Attendance
                 lbl_logWarningValue.Left = (this.infoTab.Width / 2) - (lbl_logWarningValue.Width / 2);
             }
 
-            // Reset timer
+            // Reset logWatch timer
             if (logWatch.Enabled == true)
             {
                 logWatch.Stop();
@@ -871,11 +877,17 @@ namespace Attendance
                                             try
                                             {
                                                 overlayForm.lbl_overlayPR.Text = EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString().Substring(0, EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString().IndexOf('.') + 3);
+                                                // Reset timer
+                                                overlayReset.Stop();
+                                                overlayReset.Start();
                                             }
                                             // If it fails, use the whole thing
                                             catch (ArgumentOutOfRangeException)
                                             {
                                                 overlayForm.lbl_overlayPR.Text = EPGPspreadsheet.Rows[tempInt].Cells["PR"].Value.ToString();
+                                                // Reset timer
+                                                overlayReset.Stop();
+                                                overlayReset.Start();
                                             }
                                         }
                                         if (logList[1] == " greed")

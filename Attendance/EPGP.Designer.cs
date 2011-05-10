@@ -88,6 +88,7 @@
             this.PRsortButton1 = new System.Windows.Forms.Button();
             this.EPGPspreadsheet = new System.Windows.Forms.DataGridView();
             this.btn_refreshTbl = new System.Windows.Forms.Button();
+            this.overlayReset = new System.Timers.Timer();
             ((System.ComponentModel.ISupportInitialize)(this.logWatch)).BeginInit();
             this.tabArea.SuspendLayout();
             this.infoTab.SuspendLayout();
@@ -97,6 +98,7 @@
             this.logTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logSpreadsheet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.EPGPspreadsheet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.overlayReset)).BeginInit();
             this.SuspendLayout();
             // 
             // logWatch
@@ -149,7 +151,7 @@
             this.lbl_logWarningValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_logWarningValue.AutoSize = true;
             this.lbl_logWarningValue.ForeColor = System.Drawing.Color.Red;
-            this.lbl_logWarningValue.Location = new System.Drawing.Point(64, 486);
+            this.lbl_logWarningValue.Location = new System.Drawing.Point(64, 484);
             this.lbl_logWarningValue.Name = "lbl_logWarningValue";
             this.lbl_logWarningValue.Size = new System.Drawing.Size(125, 13);
             this.lbl_logWarningValue.TabIndex = 31;
@@ -159,7 +161,7 @@
             // 
             this.lbl_logWarningTitle.AutoSize = true;
             this.lbl_logWarningTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_logWarningTitle.Location = new System.Drawing.Point(84, 465);
+            this.lbl_logWarningTitle.Location = new System.Drawing.Point(84, 463);
             this.lbl_logWarningTitle.Name = "lbl_logWarningTitle";
             this.lbl_logWarningTitle.Size = new System.Drawing.Size(85, 13);
             this.lbl_logWarningTitle.TabIndex = 30;
@@ -634,7 +636,7 @@
             this.logTab.Padding = new System.Windows.Forms.Padding(3);
             this.logTab.Size = new System.Drawing.Size(252, 577);
             this.logTab.TabIndex = 3;
-            this.logTab.Text = "Log";
+            this.logTab.Text = "Change Log";
             this.logTab.UseVisualStyleBackColor = true;
             // 
             // logSpreadsheet
@@ -789,6 +791,13 @@
             this.btn_refreshTbl.UseVisualStyleBackColor = true;
             this.btn_refreshTbl.Click += new System.EventHandler(this.btn_refreshTbl_Click);
             // 
+            // overlayReset
+            // 
+            this.overlayReset.Enabled = true;
+            this.overlayReset.Interval = 10000D;
+            this.overlayReset.SynchronizingObject = this;
+            this.overlayReset.Elapsed += new System.Timers.ElapsedEventHandler(this.overlayResetElapse);
+            // 
             // guildManagement
             // 
             this.AllowDrop = true;
@@ -819,6 +828,7 @@
             this.logTab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.logSpreadsheet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.EPGPspreadsheet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.overlayReset)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -885,6 +895,7 @@
         private System.Windows.Forms.Button getDirButton;
         private System.Windows.Forms.Label lbl_logWarningValue;
         private System.Windows.Forms.Label lbl_logWarningTitle;
+        private System.Timers.Timer overlayReset;
     }
 }
 
