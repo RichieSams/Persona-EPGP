@@ -649,6 +649,7 @@
             this.logSpreadsheet.Location = new System.Drawing.Point(0, 1);
             this.logSpreadsheet.Name = "logSpreadsheet";
             this.logSpreadsheet.OptionsBehavior.Editable = false;
+            this.logSpreadsheet.OptionsBehavior.ResizeNodes = false;
             this.logSpreadsheet.OptionsMenu.EnableColumnMenu = false;
             this.logSpreadsheet.OptionsMenu.EnableFooterMenu = false;
             this.logSpreadsheet.OptionsView.ShowIndicator = false;
@@ -737,6 +738,7 @@
             this.Reason.OptionsColumn.ShowInCustomizationForm = false;
             this.Reason.Visible = true;
             this.Reason.VisibleIndex = 3;
+            this.Reason.Width = 27;
             // 
             // lbl_sort1
             // 

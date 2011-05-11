@@ -37,6 +37,7 @@ namespace Attendance
         private Thread refreshThread;
         private DateTime tableModTime;
         private Int32 tempIndex = 9000;
+        private Boolean logging = true;
 
         // Settings
         private const double minGP = 5.0;
@@ -473,17 +474,49 @@ namespace Attendance
             DataRow SQLrow = table.Rows[0];
             if (SQLrow["name"].ToString().IndexOf(',') == -1)
             {
-                foreach (DataGridViewRow DGVrow in EPGPspreadsheet.Rows)
+                if (SQLrow["name"].ToString() != "Everyone")
                 {
-                    if (SQLrow["name"].ToString() == DGVrow.Cells["Name"].Value.ToString())
+                    foreach (DataGridViewRow DGVrow in EPGPspreadsheet.Rows)
                     {
-                        DGVrow.Cells[SQLrow["type"].ToString()].Value = Double.Parse(DGVrow.Cells[SQLrow["type"].ToString()].Value.ToString()) - Double.Parse(SQLrow["number"].ToString());
+                        if (SQLrow["name"].ToString() == DGVrow.Cells["Name"].Value.ToString())
+                        {
+                            DGVrow.Cells[SQLrow["type"].ToString()].Value = Double.Parse(DGVrow.Cells[SQLrow["type"].ToString()].Value.ToString()) - Double.Parse(SQLrow["number"].ToString());
+                            break;
+                        }
                     }
+                }
+                else
+                {
+                    MessageBox.Show("Last change was a raid-wide decay; Can't undo", "Can't Undo");
                 }
             }
             else
             {
-                MessageBox.Show("Last change was a raid-wide EP gain; Can't undo", "Can't Undo");
+                // Temporarily disable logging
+                logging = false;
+                string[] members = SQLrow["name"].ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (String str in members)
+                {
+                    foreach (DataGridViewRow DGVrow in EPGPspreadsheet.Rows)
+                    {
+                        if (str == DGVrow.Cells["Name"].Value.ToString())
+                        {
+                            DGVrow.Cells[SQLrow["type"].ToString()].Value = Double.Parse(DGVrow.Cells[SQLrow["type"].ToString()].Value.ToString()) - Double.Parse(SQLrow["number"].ToString());
+                            break;
+                        }
+                    }
+                }
+                // Manually log 
+                if (logConnection.State == ConnectionState.Closed) logConnection.Open();
+                string currentDate = DateTime.Today.Month.ToString() + "/" + DateTime.Today.Day.ToString() + "/" + DateTime.Today.Year.ToString();
+                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `date`, `officer`) VALUES ('" + SQLrow["name"] + "', '-" + SQLrow["number"] + "', 'EP', 'Raid-wide', '" + currentDate + "', '" + officerName + "')";
+                MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
+                logCommand.ExecuteNonQuery();
+                if (logConnection.State == ConnectionState.Open) logConnection.Close();
+                // Update log table
+                updateLogTable();
+                // Re-enable logging
+                logging = true;
             }
         }
 
@@ -1023,6 +1056,7 @@ namespace Attendance
             }
             BindingSource bs = new BindingSource();
             bs.DataSource = logTable;
+            bs.Sort = "ID DESC";
             logSpreadsheet.DataSource = bs;
             
         }
@@ -1117,27 +1151,30 @@ namespace Attendance
                 resortTable(table);
                 overlayForm.lbl_overlayName.Text = "";
                 overlayForm.lbl_overlayPR.Text = "";
-                // Logging                
-                changeReasonMessage changeReasonPopup = new changeReasonMessage();
-                var result = changeReasonPopup.ShowDialog(this);
-                string reason = string.Empty;
-                if (result == DialogResult.OK)
+                // Logging
+                if ((logging)&&(!e.Column.ColumnName.Equals("Present"))&&(!e.Column.ColumnName.Equals("Standby")))
                 {
-                    reason = changeReasonPopup.Reason;
+                    changeReasonMessage changeReasonPopup = new changeReasonMessage();
+                    var result = changeReasonPopup.ShowDialog(this);
+                    string reason = string.Empty;
+                    if (result == DialogResult.OK)
+                    {
+                        reason = changeReasonPopup.Reason;
+                    }
+                    else
+                    {
+                        reason = "Default";
+                        MessageBox.Show("Default reason used.", "Reason");
+                    }
+                    string currentDate = DateTime.Today.Month.ToString() + "/" + DateTime.Today.Day.ToString() + "/" + DateTime.Today.Year.ToString();
+                    if (logConnection.State == ConnectionState.Closed) logConnection.Open();
+                    string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `date`, `officer`) VALUES ('" + e.Row["Name"].ToString() + "', '" + ((double)e.ProposedValue - (double)e.Row[e.Column.Ordinal, DataRowVersion.Current]).ToString() + "', '" + e.Column.ColumnName.ToString() + "', '" + reason + "', '" + currentDate + "', '" + officerName + "')";
+                    MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
+                    logCommand.ExecuteNonQuery();
+                    if (logConnection.State == ConnectionState.Open) logConnection.Close();
+                    // Update log table
+                    updateLogTable();
                 }
-                else
-                {
-                    reason = "Default";
-                    MessageBox.Show("Default reason used.", "Reason");
-                }
-                string currentDate = DateTime.Today.Month.ToString() + "/" + DateTime.Today.Day.ToString() + "/" + DateTime.Today.Year.ToString();
-                if (logConnection.State == ConnectionState.Closed) logConnection.Open();
-                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `date`, `officer`) VALUES ('" + e.Row["Name"].ToString() + "', '" + ((double)e.ProposedValue - (double)e.Row[e.Column.Ordinal, DataRowVersion.Current]).ToString() + "', '" + e.Column.ColumnName.ToString() + "', '" + reason + "', '" + currentDate + "', '" + officerName + "')";
-                MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
-                logCommand.ExecuteNonQuery();
-                if (logConnection.State == ConnectionState.Open) logConnection.Close();
-                // Update log table
-                updateLogTable();
             }
             else
             {
