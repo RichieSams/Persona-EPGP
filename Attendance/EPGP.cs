@@ -343,9 +343,10 @@ namespace Attendance
             xmlAge();
         }
 
+
+        // For this and 10 ep we need to find a way to know that no one is selected so it doesn't log a blank
         private void fiveEPbutton_Click(object sender, EventArgs e)
         {
-
             if (executeSQLUpdate("UPDATE EPGP SET ep=ep+5 WHERE present=1 OR standby=1", new object[] { }))
             {
                 updateTable();
