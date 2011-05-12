@@ -441,6 +441,7 @@ namespace Attendance
                     if (connection.State == ConnectionState.Open) connection.Close();
                     DataTable dt = (DataTable)((BindingSource)EPGPspreadsheet.DataSource).DataSource;
                     dt.Rows.RemoveAt(EPGPspreadsheet.SelectedCells[0].RowIndex);
+                    EPGPspreadsheet.Focus();
                 }
                 catch (MySqlException ex)
                 {
