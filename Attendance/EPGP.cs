@@ -411,6 +411,7 @@ namespace Attendance
                     addCommand.ExecuteNonQuery();
                     if (connection.State == ConnectionState.Open) connection.Close();
                     updateTable();
+                    EPGPspreadsheet.Focus();
                 }
                 catch (MySqlException ex)
                 {
@@ -420,7 +421,6 @@ namespace Attendance
 
         }
 
-        // This isn't functioning properly
         private void deleteUserButton_Click(object sender, EventArgs e)
         {
             string message = "Are you sure you want to delete " + EPGPspreadsheet.SelectedCells[0].Value.ToString() + "?";
