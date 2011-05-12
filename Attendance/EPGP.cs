@@ -343,8 +343,6 @@ namespace Attendance
             xmlAge();
         }
 
-
-        // For this and 10 ep we need to find a way to know that no one is selected so it doesn't log a blank
         private void fiveEPbutton_Click(object sender, EventArgs e)
         {
             if (executeSQLUpdate("UPDATE EPGP SET ep=ep+5 WHERE present=1 OR standby=1", new object[] { }))
@@ -359,6 +357,11 @@ namespace Attendance
                     {
                         memberCSV += row.Cells[0].Value.ToString() + ",";
                     }
+                }
+                if (memberCSV == "")
+                {
+                    MessageBox.Show("No one is present or on standby", "Error");
+                    return;
                 }
                 if (logConnection.State == ConnectionState.Closed) logConnection.Open();
                 string currentDate = DateTime.Today.Month.ToString() + "/" + DateTime.Today.Day.ToString() + "/" + DateTime.Today.Year.ToString();
@@ -385,6 +388,11 @@ namespace Attendance
                     {
                         memberCSV += row.Cells[0].Value.ToString() + ",";
                     }
+                }
+                if (memberCSV == "")
+                {
+                    MessageBox.Show("No one is present or on standby", "Error");
+                    return;
                 }
                 if (logConnection.State == ConnectionState.Closed) logConnection.Open();
                 string currentDate = DateTime.Today.Month.ToString() + "/" + DateTime.Today.Day.ToString() + "/" + DateTime.Today.Year.ToString();
