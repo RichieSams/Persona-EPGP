@@ -103,7 +103,7 @@
             // 
             // logWatch
             // 
-            this.logWatch.Enabled = true;
+            this.logWatch.Enabled = false;
             this.logWatch.Interval = 60000D;
             this.logWatch.SynchronizingObject = this;
             this.logWatch.Elapsed += new System.Timers.ElapsedEventHandler(this.logWatchElapse);
@@ -795,7 +795,7 @@
             // 
             // overlayReset
             // 
-            this.overlayReset.Enabled = true;
+            this.overlayReset.Enabled = false;
             this.overlayReset.Interval = 10000D;
             this.overlayReset.SynchronizingObject = this;
             this.overlayReset.Elapsed += new System.Timers.ElapsedEventHandler(this.overlayResetElapse);

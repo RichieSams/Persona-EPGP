@@ -147,15 +147,12 @@ namespace Attendance
         private void guildManagement_Activated(object sender, EventArgs e)
         {
             this.Activated -= guildManagement_Activated;
-
-            // This needs to stay here or the form doesn't show properly
-            // What do you mean by doesn't show properly?
-            // When I switched back to in on_load everything showed up correctly. Is there some instance where this wouldn't happen?
+            // Work-around to make the 'select rift directory' form show up correctly
 
             // Load settings
             loadSettings();
 
-            // Moved here so it's called after overlayForm has been created, ie. so it doesn't throw an error.
+            // Moved here so it's can reference to overlayForm
             // Find zone
             zoneParser();
 
@@ -166,6 +163,11 @@ namespace Attendance
             // Set text in settings to current Rift directory
             lbl_currentDirValue.Text = settingsRiftDir;
             lbl_currentDirValue.Left = (this.settingsTab.Width / 2) - (lbl_currentDirValue.Width / 2);
+
+            // Enable timers
+            // Had to move them here so they don't try to reference to something that isn't created yet
+            logWatch.Enabled = true;
+            overlayReset.Enabled = true;
         }
 
         #endregion // Intialize
@@ -275,6 +277,7 @@ namespace Attendance
                 lbl_loggedIn.Text = "Logged In as " + officerName;
                 lbl_loggedIn.ForeColor = Color.Green;
                 loggedIn = true;
+
                 // Stop Refreshing since we are the only ones editing
                 refreshThread.Abort();
             }
