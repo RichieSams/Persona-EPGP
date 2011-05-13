@@ -68,14 +68,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Attendance.exe" size="75776">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Attendance.exe" size="76288">
       <assemblyIdentity name="Attendance" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>hrdkwyldjGeOrE0I1+XNCXpn+k8=</dsig:DigestValue>
+        <dsig:DigestValue>j1XKpWFFOpKveopJ6n8niwLgsCQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
