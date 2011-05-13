@@ -68,24 +68,24 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Attendance.exe" size="76288">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Attendance.exe" size="75776">
       <assemblyIdentity name="Attendance" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>j1XKpWFFOpKveopJ6n8niwLgsCQ=</dsig:DigestValue>
+        <dsig:DigestValue>Fbe2lZBGE1BNmjheSmA2MTh3688=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="Attendance.exe.config" size="231">
+  <file name="Attendance.exe.config" size="215">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>dmOmI8CogSYemApVbLedDWr+MQM=</dsig:DigestValue>
+      <dsig:DigestValue>lHR4xbf04jUiEbqHro/cIrhUx3Q=</dsig:DigestValue>
     </hash>
   </file>
   <file name="icon.ico" size="4286">

@@ -4,7 +4,7 @@
   <description asmv2:iconFile="icon.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="Attendance" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
+    <assemblyIdentity name="Attendance" version="1.0.0.0" publicKeyToken="08DAA4F18DD5278B" language="neutral" processorArchitecture="x86" />
     <commandLine file="Attendance.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -68,14 +68,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Attendance.exe" size="75776">
-      <assemblyIdentity name="Attendance" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Attendance.exe" size="76288">
+      <assemblyIdentity name="Attendance" version="1.0.0.0" publicKeyToken="08DAA4F18DD5278B" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>Fbe2lZBGE1BNmjheSmA2MTh3688=</dsig:DigestValue>
+        <dsig:DigestValue>ngWWIg7Mc12es1hSUIm/1Dd8PEI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
