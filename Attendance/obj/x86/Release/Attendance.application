@@ -4,17 +4,18 @@
   <description asmv2:publisher="Microsoft" asmv2:product="Attendance" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <deployment install="true" mapFileExtensions="true" />
   <compatibleFrameworks xmlns="urn:schemas-microsoft-com:clickonce.v2">
+    <framework targetVersion="4.0" profile="Client" supportedRuntime="4.0.30319" />
     <framework targetVersion="4.0" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Attendance.exe.manifest" size="5463">
+    <dependentAssembly dependencyType="install" codebase="Attendance.exe.manifest" size="5395">
       <assemblyIdentity name="Attendance.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="x86" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>lU6NVokAs9KdCYvEe+t+pux8i2Y=</dsig:DigestValue>
+        <dsig:DigestValue>THQxk0ry2i0fEwZJhmhnbn6pYu8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

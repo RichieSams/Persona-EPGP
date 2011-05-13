@@ -277,7 +277,7 @@ namespace Attendance
                 // Stop Refreshing since we are the only ones editing
                 refreshThread.Abort();
             }
-            catch (MySqlException ex)
+            catch (MySqlException)
             {
                 //Show popup that login failed
                 MessageBox.Show("Invalid login information");
@@ -331,7 +331,7 @@ namespace Attendance
 
                 updateTable();
             }
-            catch (MySqlException ex)
+            catch (MySqlException)
             {
                 // Didn't work
             }
@@ -420,7 +420,7 @@ namespace Attendance
                     updateTable();
                     EPGPspreadsheet.Focus();
                 }
-                catch (MySqlException ex)
+                catch (MySqlException)
                 {
                     MessageBox.Show("Member already exists.", "Add User", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -449,7 +449,7 @@ namespace Attendance
                     EPGPspreadsheet.Rows.Remove(EPGPspreadsheet.CurrentRow);
                     EPGPspreadsheet.Focus();
                 }
-                catch (MySqlException ex)
+                catch (MySqlException)
                 {
                     MessageBox.Show("Delete failed.", "Delete User", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -710,7 +710,7 @@ namespace Attendance
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     // Reset Settings
                     xml.Close();
@@ -964,7 +964,7 @@ namespace Attendance
                     }
                 }
             }
-            catch (IOException ex)
+            catch (IOException)
             {
                 return;
             }
@@ -1092,7 +1092,7 @@ namespace Attendance
 
                 return true;
             }
-            catch (MySqlException ex)
+            catch (MySqlException)
             {
                 // Didn't work
                 return false;
@@ -1203,7 +1203,7 @@ namespace Attendance
                 {
                     Double.Parse(e.FormattedValue.ToString());
                 }
-                catch (FormatException ex)
+                catch (FormatException)
                 {
                     MessageBox.Show("Only numberic values are allowed.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     e.Cancel = true;
@@ -1256,7 +1256,7 @@ namespace Attendance
 
                 return true;
             }
-            catch (MySqlException ex)
+            catch (MySqlException)
             {
                 // Didn't work
                 return false;

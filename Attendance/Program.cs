@@ -13,9 +13,16 @@ namespace Attendance
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new guildManagement());
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new guildManagement());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.GetBaseException().Message, "Exception");
+            }
         }
     }
 }
