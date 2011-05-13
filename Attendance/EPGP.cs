@@ -196,19 +196,15 @@ namespace Attendance
         private void alphaSortButton_Click(object sender, EventArgs e)
         {
             BindingSource bs = (BindingSource)EPGPspreadsheet.DataSource;
-            //DataTable table = (DataTable)bs.DataSource;
-            //table.ColumnChanged -= Column_Changed; // Don't need these you can delete when you see
             bs.Sort = "Name ASC";
-            //table.ColumnChanged += Column_Changed; // Don't need these you can delete when you see
+            EPGPspreadsheet.Focus();
         }
 
         private void PRsortButton_Click(object sender, EventArgs e)
         {
             BindingSource bs = (BindingSource)EPGPspreadsheet.DataSource;
-            //DataTable table = (DataTable)bs.DataSource;
-            //table.ColumnChanged -= Column_Changed; // Don't need these you can delete when you see
             bs.Sort = "Present DESC, Standby DESC, PR DESC, Name ASC";
-            //table.ColumnChanged += Column_Changed; // Don't need these you can delete when you see
+            EPGPspreadsheet.Focus();
         }
 
         #endregion // Info
@@ -307,7 +303,7 @@ namespace Attendance
                 {
                     if (reader.Name == "Name")
                     {
-                        if (reader.Read())
+                        if ((reader.Read()) && (reader.Value != ""))
                         {
                             raidArray[tempInt++] = reader.Value;
                         }
@@ -450,8 +446,7 @@ namespace Attendance
                     MySqlCommand deleteCommand = new MySqlCommand("DELETE FROM EPGP WHERE name = '" + EPGPspreadsheet.SelectedCells[0].Value.ToString() + "'", connection);
                     deleteCommand.ExecuteNonQuery();
                     if (connection.State == ConnectionState.Open) connection.Close();
-                    DataTable dt = (DataTable)((BindingSource)EPGPspreadsheet.DataSource).DataSource;
-                    dt.Rows.RemoveAt(EPGPspreadsheet.SelectedCells[0].RowIndex);
+                    EPGPspreadsheet.Rows.Remove(EPGPspreadsheet.CurrentRow);
                     EPGPspreadsheet.Focus();
                 }
                 catch (MySqlException ex)
@@ -1171,7 +1166,7 @@ namespace Attendance
                     changeReasonMessage changeReasonPopup = new changeReasonMessage();
                     var result = changeReasonPopup.ShowDialog(this);
                     string reason = string.Empty;
-                    if (result == DialogResult.OK)
+                    if ((result == DialogResult.OK) && (changeReasonPopup.Reason != ""))
                     {
                         reason = changeReasonPopup.Reason;
                     }
