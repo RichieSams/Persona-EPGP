@@ -21,7 +21,7 @@ namespace Attendance
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.GetBaseException().Message, "Exception");
+                MessageBox.Show(ex.Message , "Exception");
             }
         }
     }
