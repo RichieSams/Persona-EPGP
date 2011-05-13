@@ -103,7 +103,6 @@
             // 
             // logWatch
             // 
-            this.logWatch.Enabled = false;
             this.logWatch.Interval = 60000D;
             this.logWatch.SynchronizingObject = this;
             this.logWatch.Elapsed += new System.Timers.ElapsedEventHandler(this.logWatchElapse);
@@ -114,7 +113,7 @@
             this.tabArea.Controls.Add(this.adminTab);
             this.tabArea.Controls.Add(this.settingsTab);
             this.tabArea.Controls.Add(this.logTab);
-            this.tabArea.Location = new System.Drawing.Point(496, 5);
+            this.tabArea.Location = new System.Drawing.Point(496, 4);
             this.tabArea.Name = "tabArea";
             this.tabArea.SelectedIndex = 0;
             this.tabArea.Size = new System.Drawing.Size(260, 603);
@@ -777,10 +776,10 @@
             this.EPGPspreadsheet.AllowUserToResizeColumns = false;
             this.EPGPspreadsheet.AllowUserToResizeRows = false;
             this.EPGPspreadsheet.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.EPGPspreadsheet.Location = new System.Drawing.Point(5, 5);
+            this.EPGPspreadsheet.Location = new System.Drawing.Point(4, 4);
             this.EPGPspreadsheet.Name = "EPGPspreadsheet";
             this.EPGPspreadsheet.RowHeadersVisible = false;
-            this.EPGPspreadsheet.Size = new System.Drawing.Size(489, 575);
+            this.EPGPspreadsheet.Size = new System.Drawing.Size(490, 575);
             this.EPGPspreadsheet.TabIndex = 1;
             // 
             // btn_refreshTbl
@@ -795,7 +794,6 @@
             // 
             // overlayReset
             // 
-            this.overlayReset.Enabled = false;
             this.overlayReset.Interval = 10000D;
             this.overlayReset.SynchronizingObject = this;
             this.overlayReset.Elapsed += new System.Timers.ElapsedEventHandler(this.overlayResetElapse);

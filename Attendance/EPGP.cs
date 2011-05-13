@@ -856,7 +856,7 @@ namespace Attendance
             // Try to open and parse log.txt file
             try
             {
-                FileStream fs = new FileStream("C:\\Program Files (x86)\\RIFT Game\\log.txt", FileMode.Open, FileAccess.Read);
+                FileStream fs = new FileStream(settingsRiftDir + "\\log.txt", FileMode.Open, FileAccess.Read);
                 StreamReader reader = new StreamReader(fs);
                 string linesBlock;
                 // Try to get the last 1024 bytes of data from the file
