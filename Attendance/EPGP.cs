@@ -38,6 +38,7 @@ namespace Attendance
         private DateTime tableModTime;
         private Int32 tempIndex = 9000;
         private Boolean logging = true;
+        FileSystemWatcher logWatcher = null;
 
         // Settings
         private const double minGP = 5.0;
@@ -73,7 +74,7 @@ namespace Attendance
         {
             if (lockConnection != null && lockConnection.State == ConnectionState.Open) lockConnection.Close();
             saveSettings();
-            refreshThread.Abort();
+            if (refreshThread != null) refreshThread.Abort();
             Application.Exit();
         }
 
@@ -99,25 +100,33 @@ namespace Attendance
 
             // This is what throws the nullReferenceException because the table doesn't exist
 
-            //// Formatting
-            //EPGPspreadsheet.Columns["Name"].Width = 75;
-            //EPGPspreadsheet.Columns["EP"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            //EPGPspreadsheet.Columns["EP"].DefaultCellStyle.Format = "0.00";
-            //EPGPspreadsheet.Columns["EP"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            //EPGPspreadsheet.Columns["GP"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            //EPGPspreadsheet.Columns["GP"].DefaultCellStyle.Format = "0.00";
-            //EPGPspreadsheet.Columns["GP"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            //EPGPspreadsheet.Columns["PR"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            //EPGPspreadsheet.Columns["PR"].DefaultCellStyle.Format = "0.00";
-            //EPGPspreadsheet.Columns["PR"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            //EPGPspreadsheet.Columns["LGP"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            //EPGPspreadsheet.Columns["LGP"].DefaultCellStyle.Format = "0.00";
-            //EPGPspreadsheet.Columns["LGP"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            //EPGPspreadsheet.Columns["LPR"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            //EPGPspreadsheet.Columns["LPR"].DefaultCellStyle.Format = "0.00";
-            //EPGPspreadsheet.Columns["LPR"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            //EPGPspreadsheet.Columns["Present"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            //EPGPspreadsheet.Columns["Standby"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            // Formatting
+            try
+            {
+                EPGPspreadsheet.Columns["Name"].Width = 75;
+                EPGPspreadsheet.Columns["EP"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                EPGPspreadsheet.Columns["EP"].DefaultCellStyle.Format = "0.00";
+                EPGPspreadsheet.Columns["EP"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                EPGPspreadsheet.Columns["GP"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                EPGPspreadsheet.Columns["GP"].DefaultCellStyle.Format = "0.00";
+                EPGPspreadsheet.Columns["GP"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                EPGPspreadsheet.Columns["PR"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                EPGPspreadsheet.Columns["PR"].DefaultCellStyle.Format = "0.00";
+                EPGPspreadsheet.Columns["PR"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                EPGPspreadsheet.Columns["LGP"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                EPGPspreadsheet.Columns["LGP"].DefaultCellStyle.Format = "0.00";
+                EPGPspreadsheet.Columns["LGP"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                EPGPspreadsheet.Columns["LPR"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                EPGPspreadsheet.Columns["LPR"].DefaultCellStyle.Format = "0.00";
+                EPGPspreadsheet.Columns["LPR"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                EPGPspreadsheet.Columns["Present"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                EPGPspreadsheet.Columns["Standby"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show("You do not have access to the database. Ask the administrator for permission.", "Permission Denied");
+                this.Close();
+            }
 
             // Highlight name on cell click
             EPGPspreadsheet.CellClick += Cell_Clicked;
@@ -136,15 +145,7 @@ namespace Attendance
 
             // This currently throws a SQL error when not on our computers
             // Fill log table for the first time 
-            //updateLogTable();
-
-            // Watch for change in log.txt file
-            FileSystemWatcher logWatcher = new FileSystemWatcher();
-            logWatcher.Path = "C:\\Program Files (x86)\\RIFT Game";
-            logWatcher.Filter = "Log.txt";
-            logWatcher.Changed += new FileSystemEventHandler(textLogParser);
-            logWatcher.Created += new FileSystemEventHandler(textLogParser);
-            logWatcher.EnableRaisingEvents = true;
+            updateLogTable();
 
         }
 
@@ -155,6 +156,22 @@ namespace Attendance
 
             // Load settings
             loadSettings();
+
+            // Watch for change in log.txt file
+            try
+            {
+                logWatcher = new FileSystemWatcher();
+                logWatcher.Path = this.settingsRiftDir;//"C:\\Program Files (x86)\\RIFT Game";
+                logWatcher.Filter = "Log.txt";
+                logWatcher.Changed += new FileSystemEventHandler(textLogParser);
+                logWatcher.Created += new FileSystemEventHandler(textLogParser);
+                logWatcher.EnableRaisingEvents = true;
+            }
+            catch (Exception ex)
+            {
+                // Log didn't start
+                logWatcher = null;
+            }
 
             // Moved here so it's can reference to overlayForm
             // Find zone
@@ -777,6 +794,20 @@ namespace Attendance
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 settingsRiftDir = fbd.SelectedPath;
+                try
+                {
+                    logWatcher = new FileSystemWatcher();
+                    logWatcher.Path = this.settingsRiftDir;
+                    logWatcher.Filter = "Log.txt";
+                    logWatcher.Changed += new FileSystemEventHandler(textLogParser);
+                    logWatcher.Created += new FileSystemEventHandler(textLogParser);
+                    logWatcher.EnableRaisingEvents = true;
+                }
+                catch (Exception ex)
+                {
+                    // Log didn't start
+                    logWatcher = null;
+                }
                 return true;
             }
             else
@@ -1043,35 +1074,41 @@ namespace Attendance
 
         private void updateLogTable()
         {
-            // Create DataTable from SQL
-            DataTable logTable = new DataTable();
-            MySqlDataAdapter adapter = new MySqlDataAdapter();
-            if (logConnection.State == ConnectionState.Closed) logConnection.Open();
-            MySqlCommand logTableCommand = new MySqlCommand("SELECT id as ID, parent_id as parentID, name as Member, number as Number, type as Type, reason as Reason FROM log ORDER BY id DESC LIMIT 20", logConnection);
-            adapter.SelectCommand = logTableCommand;
-            adapter.Fill(logTable);
-            if (logConnection.State == ConnectionState.Open) logConnection.Close();
-            int i = 0;
-            while(i < logTable.Rows.Count)
+            try
             {
-                DataRow row = logTable.Rows[i];
-                if (row["Member"].ToString().IndexOf(',') != -1)
+                // Create DataTable from SQL
+                DataTable logTable = new DataTable();
+                MySqlDataAdapter adapter = new MySqlDataAdapter();
+                if (logConnection.State == ConnectionState.Closed) logConnection.Open();
+                MySqlCommand logTableCommand = new MySqlCommand("SELECT id as ID, parent_id as parentID, name as Member, number as Number, type as Type, reason as Reason FROM log ORDER BY id DESC LIMIT 20", logConnection);
+                adapter.SelectCommand = logTableCommand;
+                adapter.Fill(logTable);
+                if (logConnection.State == ConnectionState.Open) logConnection.Close();
+                int i = 0;
+                while (i < logTable.Rows.Count)
                 {
-                    string[] membersArray = row["Member"].ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    logTable.Rows.Add(Int32.Parse(row["ID"].ToString()), 0, "Raid", Int32.Parse(row["Number"].ToString()), row["Type"].ToString(), row["Reason"].ToString());
-                    foreach (String s in membersArray)
+                    DataRow row = logTable.Rows[i];
+                    if (row["Member"].ToString().IndexOf(',') != -1)
                     {
-                        logTable.Rows.Add(tempIndex++, Int32.Parse(row["ID"].ToString()), s, null, "", "");
+                        string[] membersArray = row["Member"].ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                        logTable.Rows.Add(Int32.Parse(row["ID"].ToString()), 0, "Raid", Int32.Parse(row["Number"].ToString()), row["Type"].ToString(), row["Reason"].ToString());
+                        foreach (String s in membersArray)
+                        {
+                            logTable.Rows.Add(tempIndex++, Int32.Parse(row["ID"].ToString()), s, null, "", "");
+                        }
+                        logTable.Rows[i].Delete();
                     }
-                    logTable.Rows[i].Delete();
+                    i++;
                 }
-                i++;
+                BindingSource bs = new BindingSource();
+                bs.DataSource = logTable;
+                bs.Sort = "ID DESC";
+                logSpreadsheet.DataSource = bs;
             }
-            BindingSource bs = new BindingSource();
-            bs.DataSource = logTable;
-            bs.Sort = "ID DESC";
-            logSpreadsheet.DataSource = bs;
-            
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Could not retrieve log table information.", "Log Error");
+            }
         }
 
         #endregion // Log table
