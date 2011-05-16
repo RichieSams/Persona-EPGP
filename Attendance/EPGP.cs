@@ -164,9 +164,9 @@ namespace Attendance
                 logWatcher.Created += new FileSystemEventHandler(textLogParser);
                 logWatcher.EnableRaisingEvents = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // Log didn't start
+                MessageBox.Show("RIFT is not installed. In game functionality is blocked. Install RIFT and restart Attendance to use in game functionality", "RIFT not installed");
                 logWatcher = null;
             }
 
@@ -918,7 +918,7 @@ namespace Attendance
                 }
 
                 // Only do overlay text if the user is in a raid zone
-                if ((currentZone == "Greenscale's Blight") || (currentZone == "River of Souls") || (currentZone == "Freemarch"))
+                if ((currentZone == "Greenscale's Blight") || (currentZone == "River of Souls"))
                 {
                     // Non-raid speech lines are ignored           /////Idea: create channel for EPGP so the program doesn't have to read raid chatter
                     if (lastLine.IndexOf("[Raid]") != -1)
@@ -996,7 +996,7 @@ namespace Attendance
                     }
                 }
             }
-            catch (IOException)
+            catch (IOException ex)
             {
                 return;
             }
@@ -1004,65 +1004,72 @@ namespace Attendance
 
         private void zoneParser()
         {
-            FileStream fs = File.OpenRead(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\RIFT\\recents.cfg");
-            StreamReader reader = new StreamReader(fs);
-            string linesBlock;
-            int userIndex = -1;
-            linesBlock = reader.ReadToEnd();
-            fs.Close();
-            reader.Close();
-            // Split into lines
-            string[] lines = linesBlock.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            Boolean correctSection = false;
-            string loginTime = " 000000000000000000";
-            string userNumber = "";
-
-            // Read lines to find the last login section
-            for (int i = 0; i < (lines.Length - 1); i++)
+            try
             {
-                if (lines[i] == "[Realm]")
-                {
-                    correctSection = false;
-                    break;
-                }
+                FileStream fs = File.OpenRead(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\RIFT\\recents.cfg");
+                StreamReader reader = new StreamReader(fs);
+                string linesBlock;
+                int userIndex = -1;
+                linesBlock = reader.ReadToEnd();
+                fs.Close();
+                reader.Close();
+                // Split into lines
+                string[] lines = linesBlock.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                Boolean correctSection = false;
+                string loginTime = " 000000000000000000";
+                string userNumber = "";
 
-                if (correctSection == true)
+                // Read lines to find the last login section
+                for (int i = 0; i < (lines.Length - 1); i++)
                 {
-                    string[] tempString = lines[i].Split('=');
-                    if (tempString[1].CompareTo(loginTime) > 0)
+                    if (lines[i] == "[Realm]")
                     {
-                        loginTime = tempString[1];
-                        userNumber = tempString[0];
+                        correctSection = false;
+                        break;
                     }
+
+                    if (correctSection == true)
+                    {
+                        string[] tempString = lines[i].Split('=');
+                        if (tempString[1].CompareTo(loginTime) > 0)
+                        {
+                            loginTime = tempString[1];
+                            userNumber = tempString[0];
+                        }
+                    }
+
+                    if (lines[i] == "[LastLoginTime]") correctSection = true;
                 }
 
-                if (lines[i] == "[LastLoginTime]") correctSection = true;
-            }
+                // Read lines to find the Description section
+                for (int i = 0; i < (lines.Length - 1); i++)
+                {
+                    if (lines[i] == "[LastLoginTime]")
+                    {
+                        correctSection = false;
+                        break;
+                    }
 
-            // Read lines to find the Description section
-            for (int i = 0; i < (lines.Length - 1); i++)
+                    if (correctSection == true)
+                    {
+                        string[] tempString = lines[i].Split('=');
+                        if (tempString[0] == userNumber)
+                        {
+                            userIndex = i;
+                        }
+                    }
+
+                    if (lines[i] == "[Description]") correctSection = true;
+
+                }
+                currentZone = lines[userIndex].Substring(lines[userIndex].IndexOf("\t") + 1, lines[userIndex].IndexOf(" (") - lines[userIndex].IndexOf("\t") - 1);
+                lbl_currentZoneValue.Text = currentZone;
+                lbl_currentZoneValue.Left = (this.infoTab.Width / 2) - (lbl_currentZoneValue.Width / 2);
+            }
+            catch (IOException)
             {
-                if (lines[i] == "[LastLoginTime]")
-                {
-                    correctSection = false;
-                    break;
-                }
-
-                if (correctSection == true)
-                {
-                    string[] tempString = lines[i].Split('=');
-                    if (tempString[0] == userNumber)
-                    {
-                        userIndex = i;
-                    }
-                }
-
-                if (lines[i] == "[Description]") correctSection = true;
-
+                return;
             }
-            currentZone = lines[userIndex].Substring(lines[userIndex].IndexOf("\t") + 1, lines[userIndex].IndexOf(" (") - lines[userIndex].IndexOf("\t") - 1);
-            lbl_currentZoneValue.Text = currentZone;
-            lbl_currentZoneValue.Left = (this.infoTab.Width / 2) - (lbl_currentZoneValue.Width / 2);
         }
 
         #endregion // Txt log and zone parsers
