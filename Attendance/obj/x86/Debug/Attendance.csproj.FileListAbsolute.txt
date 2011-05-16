@@ -26,3 +26,20 @@ C:\Users\Adrian\Persona-EPGP\Attendance\bin\Debug\Attendance.exe.manifest
 C:\Users\Adrian\Persona-EPGP\Attendance\bin\Debug\Attendance.application
 C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.exe.manifest
 C:\Users\Adrian\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.application
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\bin\Debug\Attendance.exe.config
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.addUserMessage.resources
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.changeReasonMessage.resources
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.exe.licenses
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\bin\Debug\Attendance.exe.manifest
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\bin\Debug\Attendance.application
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\bin\Debug\DevExpress.Data.v10.2.dll
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\bin\Debug\DevExpress.Utils.v10.2.dll
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\bin\Debug\DevExpress.XtraEditors.v10.2.dll
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\bin\Debug\DevExpress.XtraTreeList.v10.2.dll
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\bin\Debug\MySql.Data.dll
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\bin\Debug\DevExpress.Data.v10.2.xml
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\bin\Debug\DevExpress.Utils.v10.2.xml
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\bin\Debug\DevExpress.XtraEditors.v10.2.xml
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\bin\Debug\DevExpress.XtraTreeList.v10.2.xml
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.exe.manifest
+C:\Users\Derek\Documents\Visual Studio 2010\Projects\Persona-EPGP\Attendance\obj\x86\Debug\Attendance.application

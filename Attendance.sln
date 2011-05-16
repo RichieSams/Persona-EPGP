@@ -62,6 +62,7 @@ Global
 		{6CE7A601-3492-4C32-A02E-34B32911B363}.Release|Mixed Platforms.ActiveCfg = Release
 		{6CE7A601-3492-4C32-A02E-34B32911B363}.Release|Mixed Platforms.Build.0 = Release
 		{6CE7A601-3492-4C32-A02E-34B32911B363}.Release|x86.ActiveCfg = Release
+		{6CE7A601-3492-4C32-A02E-34B32911B363}.Release|x86.Build.0 = Release
 		{6CE7A601-3492-4C32-A02E-34B32911B363}.SingleImage|Any CPU.ActiveCfg = Release
 		{6CE7A601-3492-4C32-A02E-34B32911B363}.SingleImage|Mixed Platforms.ActiveCfg = Release
 		{6CE7A601-3492-4C32-A02E-34B32911B363}.SingleImage|x86.ActiveCfg = Release
