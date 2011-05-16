@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPGP", "Attendance\EPGP.csproj", "{93843B96-85A9-48F7-9C86-9FFAD48AD7E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPGP", "EPGP\EPGP.csproj", "{93843B96-85A9-48F7-9C86-9FFAD48AD7E1}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "EPGP Setup", "EPGP Setup\EPGP Setup.vdproj", "{28FED454-DD72-49D1-A97E-8C1E3AF221ED}"
 EndProject
@@ -60,6 +60,7 @@ Global
 		{28FED454-DD72-49D1-A97E-8C1E3AF221ED}.DVD-5|x86.ActiveCfg = Debug
 		{28FED454-DD72-49D1-A97E-8C1E3AF221ED}.Release|Any CPU.ActiveCfg = Release
 		{28FED454-DD72-49D1-A97E-8C1E3AF221ED}.Release|Mixed Platforms.ActiveCfg = Release
+		{28FED454-DD72-49D1-A97E-8C1E3AF221ED}.Release|Mixed Platforms.Build.0 = Release
 		{28FED454-DD72-49D1-A97E-8C1E3AF221ED}.Release|x86.ActiveCfg = Release
 		{28FED454-DD72-49D1-A97E-8C1E3AF221ED}.SingleImage|Any CPU.ActiveCfg = Release
 		{28FED454-DD72-49D1-A97E-8C1E3AF221ED}.SingleImage|Mixed Platforms.ActiveCfg = Release

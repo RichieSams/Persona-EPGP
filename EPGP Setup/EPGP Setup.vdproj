@@ -15,7 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_201E9EBD55C94E3B9FE22946B2684F69"
+        "MsmKey" = "8:_3835C9160E8C4FA0A08AA40A480FB8AE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -28,7 +28,7 @@
         "Entry"
         {
         "MsmKey" = "8:_7A4255E03DC95465A842DF55D35B10BA"
-        "OwnerKey" = "8:_201E9EBD55C94E3B9FE22946B2684F69"
+        "OwnerKey" = "8:_7F92B097B707407299AEAAFB8D924C57"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -46,25 +46,25 @@
         "Entry"
         {
         "MsmKey" = "8:_7AF44D6710E049FD1685DF662E257828"
-        "OwnerKey" = "8:_201E9EBD55C94E3B9FE22946B2684F69"
+        "OwnerKey" = "8:_7F92B097B707407299AEAAFB8D924C57"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_880466AE4EE6444C9E18270B1B2C5E05"
+        "MsmKey" = "8:_7F92B097B707407299AEAAFB8D924C57"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_C9A4DE5B32C449D49FB0177E4356AE35"
-        "OwnerKey" = "8:_201E9EBD55C94E3B9FE22946B2684F69"
+        "OwnerKey" = "8:_7F92B097B707407299AEAAFB8D924C57"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_C9A4DE5B32C449D49FB0177E4356AE35"
-        "OwnerKey" = "8:_7A4255E03DC95465A842DF55D35B10BA"
+        "OwnerKey" = "8:_D8C34B4D1008850FEE630CAF01700B01"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -76,13 +76,13 @@
         "Entry"
         {
         "MsmKey" = "8:_C9A4DE5B32C449D49FB0177E4356AE35"
-        "OwnerKey" = "8:_D8C34B4D1008850FEE630CAF01700B01"
+        "OwnerKey" = "8:_7A4255E03DC95465A842DF55D35B10BA"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_CCE0B314243633F23A1F700C0771AA39"
-        "OwnerKey" = "8:_201E9EBD55C94E3B9FE22946B2684F69"
+        "OwnerKey" = "8:_7F92B097B707407299AEAAFB8D924C57"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -94,19 +94,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C9A4DE5B32C449D49FB0177E4356AE35"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_5EEAA0B43EFC436B977F718396DF902F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_201E9EBD55C94E3B9FE22946B2684F69"
+        "OwnerKey" = "8:_7F92B097B707407299AEAAFB8D924C57"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -133,6 +127,12 @@
         "OwnerKey" = "8:_7A4255E03DC95465A842DF55D35B10BA"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C9A4DE5B32C449D49FB0177E4356AE35"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -151,13 +151,21 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\EPGP Setup.msi"
+        "OutputFilename" = "8:Release\\Persona Guild Managment Setup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -167,6 +175,27 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -196,21 +225,10 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_201E9EBD55C94E3B9FE22946B2684F69"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3835C9160E8C4FA0A08AA40A480FB8AE"
             {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Persona EPGP, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
-                "ScatterAssemblies"
-                {
-                    "_201E9EBD55C94E3B9FE22946B2684F69"
-                    {
-                    "Name" = "8:Persona EPGP.exe"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\Attendance\\bin\\Release\\Persona EPGP.exe"
-            "TargetName" = "8:"
+            "SourcePath" = "8:..\\EPGP\\icon.ico"
+            "TargetName" = "8:icon.ico"
             "Tag" = "8:"
             "Folder" = "8:_0A29F84F63F344ECBD004173F8C4733E"
             "Condition" = "8:"
@@ -320,10 +338,21 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_880466AE4EE6444C9E18270B1B2C5E05"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7F92B097B707407299AEAAFB8D924C57"
             {
-            "SourcePath" = "8:..\\Attendance\\icon.ico"
-            "TargetName" = "8:icon.ico"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Persona Guild Management, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_7F92B097B707407299AEAAFB8D924C57"
+                    {
+                    "Name" = "8:Persona Guild Management.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\EPGP\\bin\\Release\\Persona Guild Management.exe"
+            "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_0A29F84F63F344ECBD004173F8C4733E"
             "Condition" = "8:"
@@ -471,6 +500,17 @@
             "Property" = "8:ProgramMenuFolder"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_4444C598C22E4515A41B24E8D337733F"
+                    {
+                    "Name" = "8:Kold and Aila Inc"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_9A3A5164E21044B3B6924E4B7A94AD42"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
         }
@@ -488,9 +528,9 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Persona EPGP"
+        "ProductName" = "8:Persona Guild Management"
         "ProductCode" = "8:{5806EC0E-9FC1-45CC-AD4E-57E61348C795}"
-        "PackageCode" = "8:{A8FCC34B-3ACD-4A83-B8E7-0BA822C7781C}"
+        "PackageCode" = "8:{298706FB-B79C-40E1-9CF1-1B6D3341A495}"
         "UpgradeCode" = "8:{0F662D51-B836-428E-B173-750DCDA0BD53}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -498,10 +538,10 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Microsoft"
+        "Manufacturer" = "8:Kold and Aila Inc."
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:Persona EPGP"
+        "Title" = "8:Persona Guild Management"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Kold and Aila Inc."
         "Keywords" = "8:"
@@ -610,6 +650,34 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_1F735553B0F54EC4915F6CABAE368EFB"
+            {
+            "Name" = "8:Persona Guild Management"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_7F92B097B707407299AEAAFB8D924C57"
+            "Folder" = "8:_4444C598C22E4515A41B24E8D337733F"
+            "WorkingFolder" = "8:_0A29F84F63F344ECBD004173F8C4733E"
+            "Icon" = "8:_3835C9160E8C4FA0A08AA40A480FB8AE"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_C86CA4FCB0CF47F78FBA38EBF5DA3AF0"
+            {
+            "Name" = "8:Persona Guild Management"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_7F92B097B707407299AEAAFB8D924C57"
+            "Folder" = "8:_56CE2CF54EB84A6D978123C2E6E51B42"
+            "WorkingFolder" = "8:_0A29F84F63F344ECBD004173F8C4733E"
+            "Icon" = "8:_3835C9160E8C4FA0A08AA40A480FB8AE"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
