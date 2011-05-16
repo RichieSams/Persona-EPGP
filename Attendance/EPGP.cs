@@ -88,7 +88,6 @@ namespace Attendance
             string logConString = "server=personaguild.com; User Id=" + general_user_id + "; database=persona_log; Password=" + general_password;
             logConnection = new MySqlConnection(logConString);
 
-            // This isn't doing anything when not on our computers. I mean, the table isn't being created or filled.
             // Fill the EPGP table for the first time and set mod time
             refreshNewerTable();
 
@@ -97,8 +96,6 @@ namespace Attendance
 
             // Lock the table to editing
             EPGPspreadsheet.ReadOnly = true;
-
-            // This is what throws the nullReferenceException because the table doesn't exist
 
             // Formatting
             try
