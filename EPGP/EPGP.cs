@@ -166,7 +166,7 @@ namespace EPGP
             }
             catch (Exception)
             {
-                MessageBox.Show("RIFT is not installed. In game functionality is blocked. Install RIFT and restart Attendance to use in game functionality", "RIFT not installed");
+                MessageBox.Show("RIFT is not installed. In game functionality is blocked. Install RIFT and restart Persona Guild Management to use in game functionality.", "RIFT not installed");
                 logWatcher = null;
             }
 
@@ -267,7 +267,7 @@ namespace EPGP
                 // Otherwise, throw an error and return
                 else
                 {
-                    MessageBox.Show("An officer is already logged in");
+                    MessageBox.Show("An officer is already logged in.", "Can't log in");
                     return loggedIn;
                 }
 
@@ -298,7 +298,7 @@ namespace EPGP
             catch (MySqlException)
             {
                 //Show popup that login failed
-                MessageBox.Show("Invalid login information");
+                MessageBox.Show("Invalid login information", "Login failed");
             }
             finally
             {
@@ -321,7 +321,7 @@ namespace EPGP
                 {
                     if (reader.Name == "Name")
                     {
-                        if ((reader.Read()) && (reader.Value != ""))
+                        if (reader.Read())
                         {
                             raidArray[tempInt++] = reader.Value;
                         }
@@ -342,8 +342,11 @@ namespace EPGP
 
                 foreach (String s in raidArray)
                 {
-                    command.CommandText = "INSERT INTO EPGP (`name`, `present`) VALUES ('" + s + "', 1) ON DUPLICATE KEY UPDATE present=1,standby=0";
-                    command.ExecuteNonQuery();
+                    if (s != "")
+                    {
+                        command.CommandText = "INSERT INTO EPGP (`name`, `present`) VALUES ('" + s + "', 1) ON DUPLICATE KEY UPDATE present=1,standby=0";
+                        command.ExecuteNonQuery();
+                    }
                 }
                 trans.Commit();
 
@@ -377,7 +380,7 @@ namespace EPGP
                 }
                 if (memberCSV == "")
                 {
-                    MessageBox.Show("No one is present or on standby", "Error");
+                    MessageBox.Show("No one is present or on standby.", "Error");
                     return;
                 }
                 if (logConnection.State == ConnectionState.Closed) logConnection.Open();
@@ -408,7 +411,7 @@ namespace EPGP
                 }
                 if (memberCSV == "")
                 {
-                    MessageBox.Show("No one is present or on standby", "Error");
+                    MessageBox.Show("No one is present or on standby.", "Error");
                     return;
                 }
                 if (logConnection.State == ConnectionState.Closed) logConnection.Open();
@@ -845,7 +848,7 @@ namespace EPGP
             }
             catch
             {
-                MessageBox.Show("Invalid entry. Enter an integer between 0 - 100");
+                MessageBox.Show("Enter an integer between 0 - 100", "Invalid entry");
                 txt_opacity.Text = "50";
                 opacitySlider.Value = 50;
                 settingsOverlayOpacity = 0.5;
@@ -1218,7 +1221,7 @@ namespace EPGP
                     else
                     {
                         reason = "Default";
-                        MessageBox.Show("Default reason used.", "Reason");
+                        MessageBox.Show("Default reason used", "Reason");
                     }
                     string currentDate = DateTime.Today.Month.ToString() + "/" + DateTime.Today.Day.ToString() + "/" + DateTime.Today.Year.ToString();
                     if (logConnection.State == ConnectionState.Closed) logConnection.Open();
