@@ -79,69 +79,75 @@ namespace Attendance
 
         private void guildManagement_Load(object sender, EventArgs e)
         {
-            // Set up general connection to pull table
-            string genConString = "server=personaguild.com; User Id=" + general_user_id + "; database=persona_EPGP; Password=" + general_password;
-            connection = new MySqlConnection(genConString);
+            try
+            {
+                // Set up general connection to pull table
+                string genConString = "server=personaguild.com; User Id=" + general_user_id + "; database=persona_EPGP; Password=" + general_password;
+                connection = new MySqlConnection(genConString);
 
-            // Set up logging connection
-            string logConString = "server=personaguild.com; User Id=" + general_user_id + "; database=persona_log; Password=" + general_password;
-            logConnection = new MySqlConnection(logConString);
+                // Set up logging connection
+                string logConString = "server=personaguild.com; User Id=" + general_user_id + "; database=persona_log; Password=" + general_password;
+                logConnection = new MySqlConnection(logConString);
 
-            // Fill the EPGP table for the first time and set mod time
-            refreshNewerTable();
+                // Fill the EPGP table for the first time and set mod time
+                refreshNewerTable();
 
-            // Formats columns to fit
-            EPGPspreadsheet.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                // Formats columns to fit
+                EPGPspreadsheet.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // Lock the table to editing
-            EPGPspreadsheet.ReadOnly = true;
+                // Lock the table to editing
+                EPGPspreadsheet.ReadOnly = true;
 
-            // Formatting
-            EPGPspreadsheet.Columns["Name"].Width = 75;
-            EPGPspreadsheet.Columns["EP"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            EPGPspreadsheet.Columns["EP"].DefaultCellStyle.Format = "0.00";
-            EPGPspreadsheet.Columns["EP"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            EPGPspreadsheet.Columns["GP"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            EPGPspreadsheet.Columns["GP"].DefaultCellStyle.Format = "0.00";
-            EPGPspreadsheet.Columns["GP"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            EPGPspreadsheet.Columns["PR"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            EPGPspreadsheet.Columns["PR"].DefaultCellStyle.Format = "0.00";
-            EPGPspreadsheet.Columns["PR"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            EPGPspreadsheet.Columns["LGP"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            EPGPspreadsheet.Columns["LGP"].DefaultCellStyle.Format = "0.00";
-            EPGPspreadsheet.Columns["LGP"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            EPGPspreadsheet.Columns["LPR"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            EPGPspreadsheet.Columns["LPR"].DefaultCellStyle.Format = "0.00";
-            EPGPspreadsheet.Columns["LPR"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            EPGPspreadsheet.Columns["Present"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            EPGPspreadsheet.Columns["Standby"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                // Formatting
+                EPGPspreadsheet.Columns["Name"].Width = 75;
+                EPGPspreadsheet.Columns["EP"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                EPGPspreadsheet.Columns["EP"].DefaultCellStyle.Format = "0.00";
+                EPGPspreadsheet.Columns["EP"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                EPGPspreadsheet.Columns["GP"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                EPGPspreadsheet.Columns["GP"].DefaultCellStyle.Format = "0.00";
+                EPGPspreadsheet.Columns["GP"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                EPGPspreadsheet.Columns["PR"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                EPGPspreadsheet.Columns["PR"].DefaultCellStyle.Format = "0.00";
+                EPGPspreadsheet.Columns["PR"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                EPGPspreadsheet.Columns["LGP"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                EPGPspreadsheet.Columns["LGP"].DefaultCellStyle.Format = "0.00";
+                EPGPspreadsheet.Columns["LGP"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                EPGPspreadsheet.Columns["LPR"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                EPGPspreadsheet.Columns["LPR"].DefaultCellStyle.Format = "0.00";
+                EPGPspreadsheet.Columns["LPR"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                EPGPspreadsheet.Columns["Present"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                EPGPspreadsheet.Columns["Standby"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            // Highlight name on cell click
-            EPGPspreadsheet.CellClick += Cell_Clicked;
+                // Highlight name on cell click
+                EPGPspreadsheet.CellClick += Cell_Clicked;
 
-            // Link
-            lbl_webLink.Links[0].LinkData = lbl_webLink.Text;
+                // Link
+                lbl_webLink.Links[0].LinkData = lbl_webLink.Text;
 
-            // Refresh Table Timer
-            refreshDelegate = new refreshNew(refreshNewerTable);
-            refreshTable refreshTbl = new refreshTable();
-            refreshThread = new Thread(delegate()
-                {
-                    refreshTbl.refresh(this);
-                });
-            refreshThread.Start();
+                // Refresh Table Timer
+                refreshDelegate = new refreshNew(refreshNewerTable);
+                refreshTable refreshTbl = new refreshTable();
+                refreshThread = new Thread(delegate()
+                    {
+                        refreshTbl.refresh(this);
+                    });
+                refreshThread.Start();
 
-            // Fill log table for the first time
-            updateLogTable();           
+                // Fill log table for the first time
+                updateLogTable();
 
-            // Watch for change in log.txt file
-            FileSystemWatcher logWatcher = new FileSystemWatcher();
-            logWatcher.Path = "C:\\Program Files (x86)\\RIFT Game";
-            logWatcher.Filter = "Log.txt";
-            logWatcher.Changed += new FileSystemEventHandler(textLogParser);
-            logWatcher.Created += new FileSystemEventHandler(textLogParser);
-            logWatcher.EnableRaisingEvents = true;
-
+                // Watch for change in log.txt file
+                FileSystemWatcher logWatcher = new FileSystemWatcher();
+                logWatcher.Path = "C:\\Program Files (x86)\\RIFT Game";
+                logWatcher.Filter = "Log.txt";
+                logWatcher.Changed += new FileSystemEventHandler(textLogParser);
+                logWatcher.Created += new FileSystemEventHandler(textLogParser);
+                logWatcher.EnableRaisingEvents = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Exception");
+            }
         }
 
         private void guildManagement_Activated(object sender, EventArgs e)
