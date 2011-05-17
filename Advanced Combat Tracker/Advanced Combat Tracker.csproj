@@ -1,0 +1,370 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectType>local</ProjectType>
+    <ProjectVersion>7.10.377</ProjectVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D2CA7B9B-C21A-4AD7-BB17-1CF8FC54DC9E}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <AssemblyName>Advanced Combat Tracker</AssemblyName>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="GammaJul.LgLcd" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Speech" />
+    <Reference Include="Microsoft.JScript" />
+    <Reference Include="ICSharpCode.SharpZipLib" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Core" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Global.cs" />
+    <Compile Include="Advanced_Combat_Tracker\FormUpdater.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\FormByCombatantLookup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\FormSpellTimersPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\OptionsDrawer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_WebServer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_ColorMisc.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_ColorGraphing.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\IO_ImportLog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\FormActMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_TextExports.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_ImportExport.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_DataCorrectionRedirect.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\IO_ExportHtml.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\FormSpellTimers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\FormResistsDeathReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_TableZone.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_TableEnc.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_TableCombatant.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_SelectiveParsing.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_LcdMono.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_Graphing.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_FileHTML.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_ColorUserInterface.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\ActGlobals.cs" />
+    <Compile Include="Advanced_Combat_Tracker\Options_TableDamageType.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_DataCorrectionMisc.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ListViewXP_Style\LVS_EX.cs" />
+    <Compile Include="ListViewXP_Style\LVM.cs" />
+    <Compile Include="ListViewXP_Style\WM.cs" />
+    <Compile Include="ListViewXP_Style\ListViewXP.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\FormPerformanceWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_Odbc.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_EncCulling.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_XmlShare.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\ChatShareEntry.cs" />
+    <Compile Include="Advanced_Combat_Tracker\XmlShareEntry.cs" />
+    <Compile Include="Advanced_Combat_Tracker\Options_Misc.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\IO_XmlFile.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\IO_Odbc.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\FormXmlSettingsIO.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\FormAlliesEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_MainTableGen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_LcdGeneral.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\IO_ImportAct.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\FormImportProgress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\FormSpellRecastCalc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\FormMiniParse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\FormAvoidanceReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_TableAttackType.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_Sound.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\IO_ImportClip.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\FormEncounterLogs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\FormEncounterVcr.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\DrawingHelpers.cs" />
+    <Compile Include="Advanced_Combat_Tracker\FormSqlQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\ActLoader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\SettingsSerializer.cs" />
+    <Compile Include="Advanced_Combat_Tracker\FormCombatantSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\ColorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\FormTimeLine.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_XmlSubs.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_MiniParse.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_DataCorrectionRename.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\IO_ExportAct.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\FormExportFormat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Options_LcdColor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\FontColorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\Properties\Resources.cs" />
+    <Compile Include="Advanced_Combat_Tracker\LogFileChangedDelegate.cs" />
+    <Compile Include="Advanced_Combat_Tracker\ClipboardEventDelegate.cs" />
+    <Compile Include="Advanced_Combat_Tracker\ClipboardEventArgs.cs" />
+    <Compile Include="Advanced_Combat_Tracker\SpellTimerEventDelegate.cs" />
+    <Compile Include="Advanced_Combat_Tracker\LcdButtonPressedEventDelegate.cs" />
+    <Compile Include="Advanced_Combat_Tracker\LcdUpdateEventDelegate.cs" />
+    <Compile Include="Advanced_Combat_Tracker\LcdUpdateEventArgs.cs" />
+    <Compile Include="Advanced_Combat_Tracker\UrlRequestEventDelegate.cs" />
+    <Compile Include="Advanced_Combat_Tracker\UrlRequestEventArgs.cs" />
+    <Compile Include="Advanced_Combat_Tracker\LogLineEventDelegate.cs" />
+    <Compile Include="Advanced_Combat_Tracker\LogLineEventArgs.cs" />
+    <Compile Include="Advanced_Combat_Tracker\CombatToggleEventDelegate.cs" />
+    <Compile Include="Advanced_Combat_Tracker\CombatToggleEventArgs.cs" />
+    <Compile Include="Advanced_Combat_Tracker\CombatActionDelegate.cs" />
+    <Compile Include="Advanced_Combat_Tracker\CombatActionEventArgs.cs" />
+    <Compile Include="Advanced_Combat_Tracker\MacroExportSetting.cs" />
+    <Compile Include="Advanced_Combat_Tracker\ActPluginData.cs" />
+    <Compile Include="Advanced_Combat_Tracker\LocalizationObject.cs" />
+    <Compile Include="Advanced_Combat_Tracker\WebIndexLink.cs" />
+    <Compile Include="Advanced_Combat_Tracker\HistoryRecord.cs" />
+    <Compile Include="Advanced_Combat_Tracker\IActPluginV1.cs" />
+    <Compile Include="Advanced_Combat_Tracker\VcrEncounter.cs" />
+    <Compile Include="Advanced_Combat_Tracker\VcrCombatant.cs" />
+    <Compile Include="Advanced_Combat_Tracker\VcrEvent.cs" />
+    <Compile Include="Advanced_Combat_Tracker\TimelineEvent.cs" />
+    <Compile Include="Advanced_Combat_Tracker\ToolTipGrid.cs" />
+    <Compile Include="Advanced_Combat_Tracker\ToolTipRect.cs" />
+    <Compile Include="Advanced_Combat_Tracker\CustomTriggerSoundTypeEnum.cs" />
+    <Compile Include="Advanced_Combat_Tracker\CustomTrigger.cs" />
+    <Compile Include="Advanced_Combat_Tracker\EncounterHTMLEntry.cs" />
+    <Compile Include="Advanced_Combat_Tracker\HitDist.cs" />
+    <Compile Include="Advanced_Combat_Tracker\SampleData.cs" />
+    <Compile Include="Advanced_Combat_Tracker\TimerMod.cs" />
+    <Compile Include="Advanced_Combat_Tracker\TimerFrame.cs" />
+    <Compile Include="Advanced_Combat_Tracker\SpellTimer.cs" />
+    <Compile Include="Advanced_Combat_Tracker\TimerData.cs" />
+    <Compile Include="Advanced_Combat_Tracker\LogLineEntry.cs" />
+    <Compile Include="Advanced_Combat_Tracker\TextExportFormatOptions.cs" />
+    <Compile Include="Advanced_Combat_Tracker\StrFloat.cs" />
+    <Compile Include="Advanced_Combat_Tracker\Dnum.cs" />
+    <Compile Include="Advanced_Combat_Tracker\SwingTypeEnum.cs" />
+    <Compile Include="Advanced_Combat_Tracker\MasterSwing.cs" />
+    <Compile Include="Advanced_Combat_Tracker\AttackTypeTypeEnum.cs" />
+    <Compile Include="Advanced_Combat_Tracker\AttackType.cs" />
+    <Compile Include="Advanced_Combat_Tracker\DamageTypeData.cs" />
+    <Compile Include="Advanced_Combat_Tracker\CombatantData.cs" />
+    <Compile Include="Advanced_Combat_Tracker\EncounterData.cs" />
+    <Compile Include="Advanced_Combat_Tracker\ZoneData.cs" />
+    <Compile Include="Advanced_Combat_Tracker\ThreadInvokes.cs" />
+    <Compile Include="Advanced_Combat_Tracker\FormStartupWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Advanced_Combat_Tracker\PluginDownloadInfo.cs" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.eq2ui_mainhud_browser.xml" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.table-depth1.png" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.table-depth2.png" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.table-depth3.png" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.html.png" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.bullet.png" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.reorder.ico" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.table-depth4.png" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.+.bmp" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.table-depth5.png" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.actHtml.js" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.actHtml.css" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.act16a.ico" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.act16b.ico" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.-.bmp" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.lcdcolor-splash.png" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.g_PH.png" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker._clipboard.swf" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.plus.png" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.minus.png" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormatExample.act" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.LCDStart.png" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_SelectiveParsing.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormSpellTimersPanel.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_ImportExport.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_DataCorrectionMisc.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormSpellRecastCalc.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_TableEnc.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_MainTableGen.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_Graphing.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_WebServer.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_TextExports.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormXmlSettingsIO.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormExportFormat.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_LcdColor.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_EncCulling.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_ColorMisc.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_ColorGraphing.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormEncounterVcr.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.OptionsDrawer.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_DataCorrectionRedirect.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormSpellTimers.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.IO_ImportClip.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_Odbc.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.IO_Odbc.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormImportProgress.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_XmlSubs.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_TableAttackType.resources" />
+    <EmbeddedResource Include="ListViewXP_Style.ListViewXP.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_LcdMono.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormPerformanceWizard.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormUpdater.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormActMain.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.IO_ImportAct.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_MiniParse.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormSqlQuery.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.IO_ExportHtml.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormEncounterLogs.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormResistsDeathReport.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.IO_ExportAct.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_Sound.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FontColorControl.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.IO_XmlFile.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Properties.Resources.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_TableZone.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_TableCombatant.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_Misc.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_FileHTML.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.IO_ImportLog.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_LcdGeneral.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_ColorUserInterface.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormByCombatantLookup.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_TableDamageType.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_DataCorrectionRename.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormStartupWizard.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.ActLoader.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.Options_XmlShare.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormCombatantSearch.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormMiniParse.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormTimeLine.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormAvoidanceReport.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.FormAlliesEdit.resources" />
+    <EmbeddedResource Include="Advanced_Combat_Tracker.ColorControl.resources" />
+  </ItemGroup>
+</Project>
