@@ -119,7 +119,7 @@ namespace EPGP
                 EPGPspreadsheet.Columns["Present"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 EPGPspreadsheet.Columns["Standby"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
-            catch (NullReferenceException ex)
+            catch (NullReferenceException)
             {
                 MessageBox.Show("You do not have access to the database. Ask the administrator for permission.", "Permission Denied");
                 this.Close();
@@ -803,7 +803,7 @@ namespace EPGP
                     logWatcher.Created += new FileSystemEventHandler(textLogParser);
                     logWatcher.EnableRaisingEvents = true;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     // Log didn't start
                     logWatcher = null;
@@ -931,7 +931,7 @@ namespace EPGP
                         // Split into name and text
                         string[] logList = overlayString.Split(':');
                         // Check for phrase
-                        if ((logList[1] == " need") || (logList[1] == " off spec") || (logList[1] == " offspec"))
+                        if ((logList[1].IndexOf("need") > 0) || (logList[1].IndexOf("off spec") > 0) || (logList[1].IndexOf("offspec") > 0))
                         {
                             // Reset timer
                             overlayReset.Stop();
@@ -999,7 +999,7 @@ namespace EPGP
                     }
                 }
             }
-            catch (IOException ex)
+            catch (IOException)
             {
                 return;
             }
@@ -1112,7 +1112,7 @@ namespace EPGP
                 bs.Sort = "ID DESC";
                 logSpreadsheet.DataSource = bs;
             }
-            catch (MySqlException ex)
+            catch (MySqlException)
             {
                 MessageBox.Show("Could not retrieve log table information.", "Log Error");
             }
@@ -1217,6 +1217,10 @@ namespace EPGP
                     if ((result == DialogResult.OK) && (changeReasonPopup.Reason != ""))
                     {
                         reason = changeReasonPopup.Reason;
+                        if (reason.IndexOf("'") > 0)
+                        {
+                            reason = reason.Remove(reason.IndexOf("'"), 1);
+                        }
                     }
                     else
                     {
