@@ -344,7 +344,7 @@ namespace EPGP
                 {
                     if (s != "")
                     {
-                        command.CommandText = "INSERT INTO EPGP (`name`, `present`) VALUES ('" + s + "', 1) ON DUPLICATE KEY UPDATE present=1,standby=0";
+                        command.CommandText = "INSERT INTO EPGP (name, present) VALUES ('" + s + "', 1) ON DUPLICATE KEY UPDATE present=1,standby=0";
                         command.ExecuteNonQuery();
                     }
                 }
@@ -385,7 +385,7 @@ namespace EPGP
                 }
                 if (logConnection.State == ConnectionState.Closed) logConnection.Open();
                 string currentDate = DateTime.Today.Month.ToString() + "/" + DateTime.Today.Day.ToString() + "/" + DateTime.Today.Year.ToString();
-                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `date`, `officer`) VALUES ('" + memberCSV + "', '5', 'EP', 'Raid-wide', '" + currentDate + "', '" + officerName + "')";
+                string logSQLstring = "INSERT INTO log (name, number, type, reason, date, officer) VALUES ('" + memberCSV + "', '5', 'EP', 'Raid-wide', '" + currentDate + "', '" + officerName + "')";
                 MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
                 logCommand.ExecuteNonQuery();
                 if (logConnection.State == ConnectionState.Open) logConnection.Close();
@@ -416,7 +416,7 @@ namespace EPGP
                 }
                 if (logConnection.State == ConnectionState.Closed) logConnection.Open();
                 string currentDate = DateTime.Today.Month.ToString() + "/" + DateTime.Today.Day.ToString() + "/" + DateTime.Today.Year.ToString();
-                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `date`, `officer`) VALUES ('" + memberCSV + "', '10', 'EP', 'Raid-wide', '" + currentDate + "', '" + officerName + "')";
+                string logSQLstring = "INSERT INTO log (name, number, type, reason, date, officer) VALUES ('" + memberCSV + "', '10', 'EP', 'Raid-wide', '" + currentDate + "', '" + officerName + "')";
                 MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
                 logCommand.ExecuteNonQuery();
                 if (logConnection.State == ConnectionState.Open) logConnection.Close();
@@ -435,7 +435,7 @@ namespace EPGP
                 try
                 {
                     if (connection.State == ConnectionState.Closed) connection.Open();
-                    MySqlCommand addCommand = new MySqlCommand("INSERT INTO EPGP (`name`) VALUES ('" + addUserPopup.MemberName + "')", connection);
+                    MySqlCommand addCommand = new MySqlCommand("INSERT INTO EPGP (name) VALUES ('" + addUserPopup.MemberName + "')", connection);
                     addCommand.ExecuteNonQuery();
                     if (connection.State == ConnectionState.Open) connection.Close();
                     updateTable();
@@ -539,7 +539,7 @@ namespace EPGP
                 // Manually log 
                 if (logConnection.State == ConnectionState.Closed) logConnection.Open();
                 string currentDate = DateTime.Today.Month.ToString() + "/" + DateTime.Today.Day.ToString() + "/" + DateTime.Today.Year.ToString();
-                string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `date`, `officer`) VALUES ('" + SQLrow["name"] + "', '-" + SQLrow["number"] + "', 'EP', 'Raid-wide', '" + currentDate + "', '" + officerName + "')";
+                string logSQLstring = "INSERT INTO log (name, number, type, reason, date, officer) VALUES ('" + SQLrow["name"] + "', '-" + SQLrow["number"] + "', 'EP', 'Raid-wide', '" + currentDate + "', '" + officerName + "')";
                 MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
                 logCommand.ExecuteNonQuery();
                 if (logConnection.State == ConnectionState.Open) logConnection.Close();
@@ -1229,7 +1229,7 @@ namespace EPGP
                     }
                     string currentDate = DateTime.Today.Month.ToString() + "/" + DateTime.Today.Day.ToString() + "/" + DateTime.Today.Year.ToString();
                     if (logConnection.State == ConnectionState.Closed) logConnection.Open();
-                    string logSQLstring = "INSERT INTO log (`name`, `number`, `type`, `reason`, `date`, `officer`) VALUES ('" + e.Row["Name"].ToString() + "', '" + ((double)e.ProposedValue - (double)e.Row[e.Column.Ordinal, DataRowVersion.Current]).ToString() + "', '" + e.Column.ColumnName.ToString() + "', '" + reason + "', '" + currentDate + "', '" + officerName + "')";
+                    string logSQLstring = "INSERT INTO log (name, number, type, reason, date, officer) VALUES ('" + e.Row["Name"].ToString() + "', '" + ((double)e.ProposedValue - (double)e.Row[e.Column.Ordinal, DataRowVersion.Current]).ToString() + "', '" + e.Column.ColumnName.ToString() + "', '" + reason + "', '" + currentDate + "', '" + officerName + "')";
                     MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
                     logCommand.ExecuteNonQuery();
                     if (logConnection.State == ConnectionState.Open) logConnection.Close();
