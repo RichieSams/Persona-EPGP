@@ -49,6 +49,8 @@
             this.lbl_itemCostNames = new System.Windows.Forms.Label();
             this.lbl_itemCostTitle = new System.Windows.Forms.Label();
             this.adminTab = new System.Windows.Forms.TabPage();
+            this.raiderStatusButton = new System.Windows.Forms.Button();
+            this.onTimeButton = new System.Windows.Forms.Button();
             this.undoButton = new System.Windows.Forms.Button();
             this.lbl_raidxmlDate = new System.Windows.Forms.Label();
             this.lbl_admin_users = new System.Windows.Forms.Label();
@@ -89,6 +91,11 @@
             this.EPGPspreadsheet = new System.Windows.Forms.DataGridView();
             this.btn_refreshTbl = new System.Windows.Forms.Button();
             this.overlayReset = new System.Timers.Timer();
+            this.lbl_keyTitle = new System.Windows.Forms.Label();
+            this.lbl_blueKey = new System.Windows.Forms.Label();
+            this.lbl_blackKey = new System.Windows.Forms.Label();
+            this.lbl_raider = new System.Windows.Forms.Label();
+            this.lbl_member = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.logWatch)).BeginInit();
             this.tabArea.SuspendLayout();
             this.infoTab.SuspendLayout();
@@ -121,6 +128,11 @@
             // 
             // infoTab
             // 
+            this.infoTab.Controls.Add(this.lbl_member);
+            this.infoTab.Controls.Add(this.lbl_raider);
+            this.infoTab.Controls.Add(this.lbl_blackKey);
+            this.infoTab.Controls.Add(this.lbl_blueKey);
+            this.infoTab.Controls.Add(this.lbl_keyTitle);
             this.infoTab.Controls.Add(this.lbl_logWarningValue);
             this.infoTab.Controls.Add(this.lbl_logWarningTitle);
             this.infoTab.Controls.Add(this.lbl_currentZoneValue);
@@ -150,7 +162,7 @@
             this.lbl_logWarningValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_logWarningValue.AutoSize = true;
             this.lbl_logWarningValue.ForeColor = System.Drawing.Color.Red;
-            this.lbl_logWarningValue.Location = new System.Drawing.Point(64, 484);
+            this.lbl_logWarningValue.Location = new System.Drawing.Point(64, 539);
             this.lbl_logWarningValue.Name = "lbl_logWarningValue";
             this.lbl_logWarningValue.Size = new System.Drawing.Size(125, 13);
             this.lbl_logWarningValue.TabIndex = 31;
@@ -160,7 +172,7 @@
             // 
             this.lbl_logWarningTitle.AutoSize = true;
             this.lbl_logWarningTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_logWarningTitle.Location = new System.Drawing.Point(84, 463);
+            this.lbl_logWarningTitle.Location = new System.Drawing.Point(84, 518);
             this.lbl_logWarningTitle.Name = "lbl_logWarningTitle";
             this.lbl_logWarningTitle.Size = new System.Drawing.Size(85, 13);
             this.lbl_logWarningTitle.TabIndex = 30;
@@ -170,7 +182,7 @@
             // 
             this.lbl_currentZoneValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_currentZoneValue.AutoSize = true;
-            this.lbl_currentZoneValue.Location = new System.Drawing.Point(95, 419);
+            this.lbl_currentZoneValue.Location = new System.Drawing.Point(95, 481);
             this.lbl_currentZoneValue.Name = "lbl_currentZoneValue";
             this.lbl_currentZoneValue.Size = new System.Drawing.Size(63, 13);
             this.lbl_currentZoneValue.TabIndex = 29;
@@ -180,7 +192,7 @@
             // 
             this.lbl_currentZoneTitle.AutoSize = true;
             this.lbl_currentZoneTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_currentZoneTitle.Location = new System.Drawing.Point(84, 400);
+            this.lbl_currentZoneTitle.Location = new System.Drawing.Point(84, 462);
             this.lbl_currentZoneTitle.Name = "lbl_currentZoneTitle";
             this.lbl_currentZoneTitle.Size = new System.Drawing.Size(85, 13);
             this.lbl_currentZoneTitle.TabIndex = 28;
@@ -190,7 +202,7 @@
             // 
             this.lbl_webLink.AutoSize = true;
             this.lbl_webLink.LinkArea = new System.Windows.Forms.LinkArea(0, 34);
-            this.lbl_webLink.Location = new System.Drawing.Point(29, 359);
+            this.lbl_webLink.Location = new System.Drawing.Point(29, 423);
             this.lbl_webLink.Name = "lbl_webLink";
             this.lbl_webLink.Size = new System.Drawing.Size(194, 13);
             this.lbl_webLink.TabIndex = 24;
@@ -202,7 +214,7 @@
             // 
             this.lbl_learnMore.AutoSize = true;
             this.lbl_learnMore.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_learnMore.Location = new System.Drawing.Point(89, 344);
+            this.lbl_learnMore.Location = new System.Drawing.Point(89, 408);
             this.lbl_learnMore.Name = "lbl_learnMore";
             this.lbl_learnMore.Size = new System.Drawing.Size(75, 13);
             this.lbl_learnMore.TabIndex = 22;
@@ -211,7 +223,7 @@
             // lbl_GPminValue
             // 
             this.lbl_GPminValue.AutoSize = true;
-            this.lbl_GPminValue.Location = new System.Drawing.Point(165, 307);
+            this.lbl_GPminValue.Location = new System.Drawing.Point(165, 301);
             this.lbl_GPminValue.Name = "lbl_GPminValue";
             this.lbl_GPminValue.Size = new System.Drawing.Size(31, 13);
             this.lbl_GPminValue.TabIndex = 15;
@@ -221,7 +233,7 @@
             // 
             this.lbl_GPminTitle.AutoSize = true;
             this.lbl_GPminTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_GPminTitle.Location = new System.Drawing.Point(146, 290);
+            this.lbl_GPminTitle.Location = new System.Drawing.Point(146, 284);
             this.lbl_GPminTitle.Name = "lbl_GPminTitle";
             this.lbl_GPminTitle.Size = new System.Drawing.Size(80, 13);
             this.lbl_GPminTitle.TabIndex = 14;
@@ -230,7 +242,7 @@
             // lbl_decayValue
             // 
             this.lbl_decayValue.AutoSize = true;
-            this.lbl_decayValue.Location = new System.Drawing.Point(25, 307);
+            this.lbl_decayValue.Location = new System.Drawing.Point(25, 301);
             this.lbl_decayValue.Name = "lbl_decayValue";
             this.lbl_decayValue.Size = new System.Drawing.Size(94, 13);
             this.lbl_decayValue.TabIndex = 13;
@@ -240,7 +252,7 @@
             // 
             this.lbl_decayTitle.AutoSize = true;
             this.lbl_decayTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_decayTitle.Location = new System.Drawing.Point(33, 290);
+            this.lbl_decayTitle.Location = new System.Drawing.Point(33, 284);
             this.lbl_decayTitle.Name = "lbl_decayTitle";
             this.lbl_decayTitle.Size = new System.Drawing.Size(90, 13);
             this.lbl_decayTitle.TabIndex = 12;
@@ -249,7 +261,7 @@
             // lbl_EPgainsValues
             // 
             this.lbl_EPgainsValues.AutoSize = true;
-            this.lbl_EPgainsValues.Location = new System.Drawing.Point(163, 210);
+            this.lbl_EPgainsValues.Location = new System.Drawing.Point(163, 211);
             this.lbl_EPgainsValues.Name = "lbl_EPgainsValues";
             this.lbl_EPgainsValues.Size = new System.Drawing.Size(53, 52);
             this.lbl_EPgainsValues.TabIndex = 11;
@@ -258,7 +270,7 @@
             // lbl_EPgainsNames
             // 
             this.lbl_EPgainsNames.AutoSize = true;
-            this.lbl_EPgainsNames.Location = new System.Drawing.Point(37, 210);
+            this.lbl_EPgainsNames.Location = new System.Drawing.Point(37, 211);
             this.lbl_EPgainsNames.Name = "lbl_EPgainsNames";
             this.lbl_EPgainsNames.Size = new System.Drawing.Size(124, 52);
             this.lbl_EPgainsNames.TabIndex = 10;
@@ -268,7 +280,7 @@
             // 
             this.lbl_EPgainsTitle.AutoSize = true;
             this.lbl_EPgainsTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_EPgainsTitle.Location = new System.Drawing.Point(95, 193);
+            this.lbl_EPgainsTitle.Location = new System.Drawing.Point(95, 194);
             this.lbl_EPgainsTitle.Name = "lbl_EPgainsTitle";
             this.lbl_EPgainsTitle.Size = new System.Drawing.Size(63, 13);
             this.lbl_EPgainsTitle.TabIndex = 9;
@@ -305,6 +317,8 @@
             // 
             // adminTab
             // 
+            this.adminTab.Controls.Add(this.raiderStatusButton);
+            this.adminTab.Controls.Add(this.onTimeButton);
             this.adminTab.Controls.Add(this.undoButton);
             this.adminTab.Controls.Add(this.lbl_raidxmlDate);
             this.adminTab.Controls.Add(this.lbl_admin_users);
@@ -328,6 +342,28 @@
             this.adminTab.TabIndex = 1;
             this.adminTab.Text = "Admin";
             this.adminTab.UseVisualStyleBackColor = true;
+            // 
+            // raiderStatusButton
+            // 
+            this.raiderStatusButton.Location = new System.Drawing.Point(69, 396);
+            this.raiderStatusButton.Name = "raiderStatusButton";
+            this.raiderStatusButton.Size = new System.Drawing.Size(115, 30);
+            this.raiderStatusButton.TabIndex = 35;
+            this.raiderStatusButton.Text = "Raider Status Toggle";
+            this.raiderStatusButton.UseVisualStyleBackColor = true;
+            this.raiderStatusButton.Visible = false;
+            this.raiderStatusButton.Click += new System.EventHandler(this.raiderStatusButton_Click);
+            // 
+            // onTimeButton
+            // 
+            this.onTimeButton.Location = new System.Drawing.Point(132, 157);
+            this.onTimeButton.Name = "onTimeButton";
+            this.onTimeButton.Size = new System.Drawing.Size(100, 30);
+            this.onTimeButton.TabIndex = 34;
+            this.onTimeButton.Text = "On Time";
+            this.onTimeButton.UseVisualStyleBackColor = true;
+            this.onTimeButton.Visible = false;
+            this.onTimeButton.Click += new System.EventHandler(this.onTimeButton_Click);
             // 
             // undoButton
             // 
@@ -438,7 +474,7 @@
             // 
             // attendanceButton
             // 
-            this.attendanceButton.Location = new System.Drawing.Point(76, 157);
+            this.attendanceButton.Location = new System.Drawing.Point(21, 157);
             this.attendanceButton.Name = "attendanceButton";
             this.attendanceButton.Size = new System.Drawing.Size(100, 30);
             this.attendanceButton.TabIndex = 9;
@@ -798,6 +834,54 @@
             this.overlayReset.SynchronizingObject = this;
             this.overlayReset.Elapsed += new System.Timers.ElapsedEventHandler(this.overlayResetElapse);
             // 
+            // lbl_keyTitle
+            // 
+            this.lbl_keyTitle.AutoSize = true;
+            this.lbl_keyTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_keyTitle.Location = new System.Drawing.Point(110, 335);
+            this.lbl_keyTitle.Name = "lbl_keyTitle";
+            this.lbl_keyTitle.Size = new System.Drawing.Size(32, 13);
+            this.lbl_keyTitle.TabIndex = 32;
+            this.lbl_keyTitle.Text = "Key:";
+            // 
+            // lbl_blueKey
+            // 
+            this.lbl_blueKey.AutoSize = true;
+            this.lbl_blueKey.BackColor = System.Drawing.Color.Blue;
+            this.lbl_blueKey.Location = new System.Drawing.Point(96, 354);
+            this.lbl_blueKey.Name = "lbl_blueKey";
+            this.lbl_blueKey.Size = new System.Drawing.Size(10, 13);
+            this.lbl_blueKey.TabIndex = 33;
+            this.lbl_blueKey.Text = " ";
+            // 
+            // lbl_blackKey
+            // 
+            this.lbl_blackKey.AutoSize = true;
+            this.lbl_blackKey.BackColor = System.Drawing.Color.Black;
+            this.lbl_blackKey.Location = new System.Drawing.Point(96, 372);
+            this.lbl_blackKey.Name = "lbl_blackKey";
+            this.lbl_blackKey.Size = new System.Drawing.Size(10, 13);
+            this.lbl_blackKey.TabIndex = 34;
+            this.lbl_blackKey.Text = " ";
+            // 
+            // lbl_raider
+            // 
+            this.lbl_raider.AutoSize = true;
+            this.lbl_raider.Location = new System.Drawing.Point(112, 354);
+            this.lbl_raider.Name = "lbl_raider";
+            this.lbl_raider.Size = new System.Drawing.Size(38, 13);
+            this.lbl_raider.TabIndex = 35;
+            this.lbl_raider.Text = "Raider";
+            // 
+            // lbl_member
+            // 
+            this.lbl_member.AutoSize = true;
+            this.lbl_member.Location = new System.Drawing.Point(112, 372);
+            this.lbl_member.Name = "lbl_member";
+            this.lbl_member.Size = new System.Drawing.Size(45, 13);
+            this.lbl_member.TabIndex = 36;
+            this.lbl_member.Text = "Member";
+            // 
             // guildManagement
             // 
             this.AllowDrop = true;
@@ -896,6 +980,13 @@
         private System.Windows.Forms.Label lbl_logWarningValue;
         private System.Windows.Forms.Label lbl_logWarningTitle;
         private System.Timers.Timer overlayReset;
+        private System.Windows.Forms.Button onTimeButton;
+        private System.Windows.Forms.Button raiderStatusButton;
+        private System.Windows.Forms.Label lbl_member;
+        private System.Windows.Forms.Label lbl_raider;
+        private System.Windows.Forms.Label lbl_blackKey;
+        private System.Windows.Forms.Label lbl_blueKey;
+        private System.Windows.Forms.Label lbl_keyTitle;
     }
 }
 

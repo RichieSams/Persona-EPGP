@@ -118,6 +118,10 @@ namespace EPGP
                 EPGPspreadsheet.Columns["LPR"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                 EPGPspreadsheet.Columns["Present"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 EPGPspreadsheet.Columns["Standby"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                EPGPspreadsheet.Columns["Posted"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                EPGPspreadsheet.Columns["Raider"].Visible = false;
+
+                raiderNameColor();
             }
             catch (NullReferenceException)
             {
@@ -188,6 +192,11 @@ namespace EPGP
             overlayReset.Enabled = true;
         }
 
+        private void versionCheck()
+        {
+
+        }
+
         #endregion // Intialize
 
         #region Info
@@ -215,6 +224,7 @@ namespace EPGP
         {
             BindingSource bs = (BindingSource)EPGPspreadsheet.DataSource;
             bs.Sort = "Name ASC";
+            raiderNameColor();
             EPGPspreadsheet.Focus();
         }
 
@@ -222,6 +232,7 @@ namespace EPGP
         {
             BindingSource bs = (BindingSource)EPGPspreadsheet.DataSource;
             bs.Sort = "Present DESC, Standby DESC, PR DESC, Name ASC";
+            raiderNameColor();
             EPGPspreadsheet.Focus();
         }
 
@@ -283,6 +294,8 @@ namespace EPGP
                 addUserButton.Show();
                 deleteUserButton.Show();
                 undoButton.Show();
+                onTimeButton.Show();
+                raiderStatusButton.Show();
                 EPGPspreadsheet.ReadOnly = false;
                 EPGPspreadsheet.Columns["Name"].ReadOnly = true;
                 EPGPspreadsheet.Columns["PR"].ReadOnly = true;
@@ -361,6 +374,48 @@ namespace EPGP
                 if (connection.State == ConnectionState.Open) connection.Close();
             }
             xmlAge();
+            EPGPspreadsheet.Focus();
+        }
+
+        private void onTimeButton_Click(object sender, EventArgs e)
+        {
+            if (executeSQLUpdate("UPDATE EPGP SET ep=ep+5 WHERE present=1 OR standby=1", new object[] { }) && executeSQLUpdate("UPDATE EPGP SET ep=ep-50 WHERE raider=1 AND posted=0 AND present=0 AND standby=0", new object[] { }))
+            {
+                updateTable();
+                // Log
+                string presentCSV = "";
+                string absentCSV = "";
+                foreach (DataGridViewRow row in EPGPspreadsheet.Rows)
+                {
+                    if (((Boolean)row.Cells["Present"].Value == true) || ((Boolean)row.Cells["Standby"].Value == true))
+                    {
+                        presentCSV += row.Cells["Name"].Value.ToString() + ",";
+                        continue;
+                    }
+                    if (((Boolean)row.Cells["Raider"].Value == true) && ((Boolean)row.Cells["Present"].Value == false) && ((Boolean)row.Cells["Standby"].Value == false) && ((Boolean)row.Cells["Posted"].Value == false))
+                    {
+                        absentCSV += row.Cells["Name"].Value.ToString() + ",";
+                    }
+                }
+                if (logConnection.State == ConnectionState.Closed) logConnection.Open();
+                string currentDate = DateTime.Today.Month.ToString() + "/" + DateTime.Today.Day.ToString() + "/" + DateTime.Today.Year.ToString();
+                if (presentCSV != "")
+                {
+                    string presentSQLstring = "INSERT INTO log (name, number, type, reason, date, officer) VALUES ('" + presentCSV + "', '5', 'EP', 'On Time', '" + currentDate + "', '" + officerName + "')";
+                    MySqlCommand presentCommand = new MySqlCommand(presentSQLstring, logConnection);
+                    presentCommand.ExecuteNonQuery();
+                }
+                if (absentCSV != "")
+                {
+                    string absentSQLstring = "INSERT INTO log (name, number, type, reason, date, officer) VALUES ('" + absentCSV + "', '-50', 'EP', 'Absent', '" + currentDate + "', '" + officerName + "')";
+                    MySqlCommand absentCommand = new MySqlCommand(absentSQLstring, logConnection);
+                    absentCommand.ExecuteNonQuery();
+                }
+                if (logConnection.State == ConnectionState.Open) logConnection.Close();
+                // Update log table
+                updateLogTable();
+            }
+            EPGPspreadsheet.Focus();
         }
 
         private void fiveEPbutton_Click(object sender, EventArgs e)
@@ -372,10 +427,9 @@ namespace EPGP
                 string memberCSV = "";
                 foreach (DataGridViewRow row in EPGPspreadsheet.Rows)
                 {
-                    string tempstring = row.Cells[6].Value.ToString();
-                    if ((row.Cells[6].Value.ToString() == "True") || (row.Cells[7].Value.ToString() == "True"))
+                    if (((Boolean)row.Cells["Present"].Value == true) || ((Boolean)row.Cells["Standby"].Value == true))
                     {
-                        memberCSV += row.Cells[0].Value.ToString() + ",";
+                        memberCSV += row.Cells["Name"].Value.ToString() + ",";
                     }
                 }
                 if (memberCSV == "")
@@ -392,6 +446,7 @@ namespace EPGP
                 // Update log table
                 updateLogTable();
             }
+            EPGPspreadsheet.Focus();
         }
 
         private void tenEPbutton_Click(object sender, EventArgs e)
@@ -403,10 +458,9 @@ namespace EPGP
                 string memberCSV = "";
                 foreach (DataGridViewRow row in EPGPspreadsheet.Rows)
                 {
-                    string tempstring = row.Cells[6].Value.ToString();
-                    if ((row.Cells[6].Value.ToString() == "True") || (row.Cells[7].Value.ToString() == "True"))
+                    if (((Boolean)row.Cells["Present"].Value == true) || ((Boolean)row.Cells["Standby"].Value == true))
                     {
-                        memberCSV += row.Cells[0].Value.ToString() + ",";
+                        memberCSV += row.Cells["Name"].Value.ToString() + ",";
                     }
                 }
                 if (memberCSV == "")
@@ -423,7 +477,7 @@ namespace EPGP
                 // Update log table
                 updateLogTable();
             }
-
+            EPGPspreadsheet.Focus();
         }
 
         private void addUserButton_Click(object sender, EventArgs e)
@@ -439,19 +493,18 @@ namespace EPGP
                     addCommand.ExecuteNonQuery();
                     if (connection.State == ConnectionState.Open) connection.Close();
                     updateTable();
-                    EPGPspreadsheet.Focus();
                 }
                 catch (MySqlException)
                 {
                     MessageBox.Show("Member already exists.", "Add User", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-
+            EPGPspreadsheet.Focus();
         }
 
         private void deleteUserButton_Click(object sender, EventArgs e)
         {
-            string message = "Are you sure you want to delete " + EPGPspreadsheet.SelectedCells[0].Value.ToString() + "?";
+            string message = "Are you sure you want to delete " + EPGPspreadsheet.Rows[EPGPspreadsheet.SelectedCells[0].RowIndex].Cells["Name"].Value.ToString() + "?";
             var result = MessageBox.Show(message, "Delete User", MessageBoxButtons.YesNo);
 
             // If the no button was pressed, return
@@ -464,17 +517,32 @@ namespace EPGP
                 try
                 {
                     if (connection.State == ConnectionState.Closed) connection.Open();
-                    MySqlCommand deleteCommand = new MySqlCommand("DELETE FROM EPGP WHERE name = '" + EPGPspreadsheet.SelectedCells[0].Value.ToString() + "'", connection);
+                    MySqlCommand deleteCommand = new MySqlCommand("DELETE FROM EPGP WHERE name = '" + EPGPspreadsheet.Rows[EPGPspreadsheet.SelectedCells[0].RowIndex].Cells["Name"].Value.ToString() + "'", connection);
                     deleteCommand.ExecuteNonQuery();
                     if (connection.State == ConnectionState.Open) connection.Close();
                     EPGPspreadsheet.Rows.Remove(EPGPspreadsheet.CurrentRow);
-                    EPGPspreadsheet.Focus();
                 }
                 catch (MySqlException)
                 {
                     MessageBox.Show("Delete failed.", "Delete User", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            EPGPspreadsheet.Focus();
+        }
+
+        private void raiderStatusButton_Click(object sender, EventArgs e)
+        {
+            if ((Boolean)EPGPspreadsheet.Rows[EPGPspreadsheet.SelectedCells[0].RowIndex].Cells["Raider"].Value == true)
+            {
+                EPGPspreadsheet.Rows[EPGPspreadsheet.SelectedCells[0].RowIndex].Cells["Raider"].Value = false;
+                EPGPspreadsheet.Rows[EPGPspreadsheet.SelectedCells[0].RowIndex].Cells["Name"].Style.ForeColor = Color.Black;
+            }
+            else
+            {
+                EPGPspreadsheet.Rows[EPGPspreadsheet.SelectedCells[0].RowIndex].Cells["Raider"].Value = true;
+                EPGPspreadsheet.Rows[EPGPspreadsheet.SelectedCells[0].RowIndex].Cells["Name"].Style.ForeColor = Color.Blue;
+            }
+            EPGPspreadsheet.Focus();
         }
 
         private void xmlAge()
@@ -482,7 +550,7 @@ namespace EPGP
             TimeSpan xmlAgeTime = DateTime.Now.Subtract(File.GetLastWriteTime(settingsRiftDir + "\\raid.xml"));
             lbl_raidxmlDate.Text = xmlAgeTime.Days.ToString() + " days "  + xmlAgeTime.Hours.ToString() + " hours " + xmlAgeTime.Minutes.ToString() + " minutes ago";
             lbl_raidxmlDate.Left = (this.adminTab.Width / 2) - (lbl_raidxmlDate.Width / 2);
-            if (xmlAgeTime.Hours < 4)
+            if ((xmlAgeTime.Hours < 4) && (xmlAgeTime.Days == 0))
             {
                 lbl_raidxmlDate.ForeColor = Color.Green;
             }
@@ -1155,6 +1223,17 @@ namespace EPGP
 
         #region Table
 
+        private void raiderNameColor()
+        {
+            foreach (DataGridViewRow row in EPGPspreadsheet.Rows)
+            {
+                if ((Boolean)row.Cells["Raider"].Value == true)
+                {
+                    row.Cells["Name"].Style.ForeColor = Color.Blue;
+                }
+            }
+        }
+
         private void Cell_Clicked(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -1191,7 +1270,7 @@ namespace EPGP
             {
                 if ((Boolean)e.Row["Present"] == true)
                 {
-                    if ((Boolean)e.Row["Present"] == true) e.Row["Standby"] = false;
+                    e.Row["Standby"] = false;
                 }
                 success = executeSQLUpdate("UPDATE EPGP SET present=@1,standby=@2 WHERE name=@3", new object[] { ((bool)e.Row["Present"] ? 1 : 0), ((bool)e.Row["Standby"] ? 1 : 0), name });
             }
@@ -1199,9 +1278,17 @@ namespace EPGP
             {
                 if ((Boolean)e.Row["Standby"] == true)
                 {
-                    if ((Boolean)e.Row["Standby"] == true) e.Row["Present"] = false;
+                    e.Row["Present"] = false;
                 }
                 success = executeSQLUpdate("UPDATE EPGP SET present=@1,standby=@2 WHERE name=@3", new object[] { ((bool)e.Row["Present"] ? 1 : 0), ((bool)e.Row["Standby"] ? 1 : 0), name });
+            }
+            else if (e.Column.ColumnName.Equals("Posted"))
+            {
+                success = executeSQLUpdate("UPDATE EPGP SET posted=@1 WHERE name=@2", new object[] { ((bool)e.Row["Posted"] ? 1 : 0), name });
+            }
+            else if (e.Column.ColumnName.Equals("Raider"))
+            {
+                success = executeSQLUpdate("UPDATE EPGP SET raider=@1 WHERE name=@2", new object[] { ((bool)e.Row["Raider"] ? 1 : 0), name });
             }
             if (success)
             {
@@ -1209,7 +1296,7 @@ namespace EPGP
                 overlayForm.lbl_overlayName.Text = "";
                 overlayForm.lbl_overlayPR.Text = "";
                 // Logging
-                if ((logging)&&(!e.Column.ColumnName.Equals("Present"))&&(!e.Column.ColumnName.Equals("Standby")))
+                if ((logging) && (!e.Column.ColumnName.Equals("Present")) && (!e.Column.ColumnName.Equals("Standby")) && (!e.Column.ColumnName.Equals("Posted")) && (!e.Column.ColumnName.Equals("Raider")))
                 {
                     changeReasonMessage changeReasonPopup = new changeReasonMessage();
                     var result = changeReasonPopup.ShowDialog(this);
@@ -1279,7 +1366,7 @@ namespace EPGP
                 MySql.Data.Types.MySqlDateTime sqlDt = new MySql.Data.Types.MySqlDateTime(tableModTime);
                 String sqlTimeStamp = "'" + sqlDt.Year + "-" + sqlDt.Month + "-" + sqlDt.Day + " " + sqlDt.Hour + ":" + sqlDt.Minute + ":" + sqlDt.Second + "'";
 
-                command.CommandText = "SELECT name as Name, ep as EP, gp as GP, ep/gp as PR, lgp as LGP, ep/lgp as LPR, present as Present, standby as Standby "+
+                command.CommandText = "SELECT name as Name, ep as EP, gp as GP, ep/gp as PR, lgp as LGP, ep/lgp as LPR, present as Present, standby as Standby, posted as Posted, raider as Raider "+
                                       "FROM EPGP "+
                                       "WHERE lastUpdateTime>"+sqlTimeStamp+" "+
                                       "ORDER BY Present DESC, Standby DESC, PR DESC, Name ASC";
@@ -1306,6 +1393,8 @@ namespace EPGP
                 }
                 table.ColumnChanged += Column_Changed;
 
+                raiderNameColor();
+
                 return true;
             }
             catch (MySqlException)
@@ -1325,11 +1414,7 @@ namespace EPGP
             if (!loggedIn)
             {
                 BindingSource bs = (BindingSource)EPGPspreadsheet.DataSource;
-                //if (bs.Sort == "")
-                    bs.Sort = "Present DESC, Standby DESC, PR DESC, Name ASC";
-                //else
-                //    bs.Sort = bs.Sort.ToString();
-                // This is throwing an error saying bs.Sort object isn't defined
+                bs.Sort = "Present DESC, Standby DESC, PR DESC, Name ASC";
             }
         }
 

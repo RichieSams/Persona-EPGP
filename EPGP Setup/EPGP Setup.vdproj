@@ -355,7 +355,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Persona Guild Management, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:Persona Guild Management, Version=1.0.8.0, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
                     "_7F92B097B707407299AEAAFB8D924C57"
@@ -543,7 +543,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Persona Guild Management"
         "ProductCode" = "8:{5806EC0E-9FC1-45CC-AD4E-57E61348C795}"
-        "PackageCode" = "8:{86044184-684D-4FDD-B0D6-443A1523D961}"
+        "PackageCode" = "8:{66E07C4A-510A-4B00-AA58-56824C937ADF}"
         "UpgradeCode" = "8:{0F662D51-B836-428E-B173-750DCDA0BD53}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
