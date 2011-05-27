@@ -37,7 +37,7 @@
             // 
             this.lbl_overlayName.AutoSize = true;
             this.lbl_overlayName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_overlayName.Location = new System.Drawing.Point(28, 27);
+            this.lbl_overlayName.Location = new System.Drawing.Point(34, 13);
             this.lbl_overlayName.Name = "lbl_overlayName";
             this.lbl_overlayName.Size = new System.Drawing.Size(83, 17);
             this.lbl_overlayName.TabIndex = 0;
@@ -47,7 +47,7 @@
             // 
             this.lbl_overlayPR.AutoSize = true;
             this.lbl_overlayPR.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_overlayPR.Location = new System.Drawing.Point(134, 27);
+            this.lbl_overlayPR.Location = new System.Drawing.Point(140, 13);
             this.lbl_overlayPR.Name = "lbl_overlayPR";
             this.lbl_overlayPR.Size = new System.Drawing.Size(44, 17);
             this.lbl_overlayPR.TabIndex = 1;
@@ -58,7 +58,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(219, 172);
+            this.ClientSize = new System.Drawing.Size(219, 272);
             this.Controls.Add(this.lbl_overlayPR);
             this.Controls.Add(this.lbl_overlayName);
             this.ForeColor = System.Drawing.Color.White;
