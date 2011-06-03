@@ -32,6 +32,11 @@
             this.logWatch = new System.Timers.Timer();
             this.tabArea = new System.Windows.Forms.TabControl();
             this.infoTab = new System.Windows.Forms.TabPage();
+            this.lbl_member = new System.Windows.Forms.Label();
+            this.lbl_raider = new System.Windows.Forms.Label();
+            this.lbl_blackKey = new System.Windows.Forms.Label();
+            this.lbl_blueKey = new System.Windows.Forms.Label();
+            this.lbl_keyTitle = new System.Windows.Forms.Label();
             this.lbl_logWarningValue = new System.Windows.Forms.Label();
             this.lbl_logWarningTitle = new System.Windows.Forms.Label();
             this.lbl_currentZoneValue = new System.Windows.Forms.Label();
@@ -86,16 +91,12 @@
             this.Type = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.Reason = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.lbl_sort1 = new System.Windows.Forms.Label();
-            this.alphaSortButton1 = new System.Windows.Forms.Button();
-            this.PRsortButton1 = new System.Windows.Forms.Button();
+            this.alphaSortButton = new System.Windows.Forms.Button();
+            this.PRsortButton = new System.Windows.Forms.Button();
             this.EPGPspreadsheet = new System.Windows.Forms.DataGridView();
             this.btn_refreshTbl = new System.Windows.Forms.Button();
             this.overlayReset = new System.Timers.Timer();
-            this.lbl_keyTitle = new System.Windows.Forms.Label();
-            this.lbl_blueKey = new System.Windows.Forms.Label();
-            this.lbl_blackKey = new System.Windows.Forms.Label();
-            this.lbl_raider = new System.Windows.Forms.Label();
-            this.lbl_member = new System.Windows.Forms.Label();
+            this.LPRsortButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.logWatch)).BeginInit();
             this.tabArea.SuspendLayout();
             this.infoTab.SuspendLayout();
@@ -156,6 +157,54 @@
             this.infoTab.TabIndex = 0;
             this.infoTab.Text = "Info";
             this.infoTab.UseVisualStyleBackColor = true;
+            // 
+            // lbl_member
+            // 
+            this.lbl_member.AutoSize = true;
+            this.lbl_member.Location = new System.Drawing.Point(112, 372);
+            this.lbl_member.Name = "lbl_member";
+            this.lbl_member.Size = new System.Drawing.Size(45, 13);
+            this.lbl_member.TabIndex = 36;
+            this.lbl_member.Text = "Member";
+            // 
+            // lbl_raider
+            // 
+            this.lbl_raider.AutoSize = true;
+            this.lbl_raider.Location = new System.Drawing.Point(112, 354);
+            this.lbl_raider.Name = "lbl_raider";
+            this.lbl_raider.Size = new System.Drawing.Size(38, 13);
+            this.lbl_raider.TabIndex = 35;
+            this.lbl_raider.Text = "Raider";
+            // 
+            // lbl_blackKey
+            // 
+            this.lbl_blackKey.AutoSize = true;
+            this.lbl_blackKey.BackColor = System.Drawing.Color.Black;
+            this.lbl_blackKey.Location = new System.Drawing.Point(96, 372);
+            this.lbl_blackKey.Name = "lbl_blackKey";
+            this.lbl_blackKey.Size = new System.Drawing.Size(10, 13);
+            this.lbl_blackKey.TabIndex = 34;
+            this.lbl_blackKey.Text = " ";
+            // 
+            // lbl_blueKey
+            // 
+            this.lbl_blueKey.AutoSize = true;
+            this.lbl_blueKey.BackColor = System.Drawing.Color.Blue;
+            this.lbl_blueKey.Location = new System.Drawing.Point(96, 354);
+            this.lbl_blueKey.Name = "lbl_blueKey";
+            this.lbl_blueKey.Size = new System.Drawing.Size(10, 13);
+            this.lbl_blueKey.TabIndex = 33;
+            this.lbl_blueKey.Text = " ";
+            // 
+            // lbl_keyTitle
+            // 
+            this.lbl_keyTitle.AutoSize = true;
+            this.lbl_keyTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_keyTitle.Location = new System.Drawing.Point(110, 335);
+            this.lbl_keyTitle.Name = "lbl_keyTitle";
+            this.lbl_keyTitle.Size = new System.Drawing.Size(32, 13);
+            this.lbl_keyTitle.TabIndex = 32;
+            this.lbl_keyTitle.Text = "Key:";
             // 
             // lbl_logWarningValue
             // 
@@ -785,25 +834,25 @@
             this.lbl_sort1.TabIndex = 27;
             this.lbl_sort1.Text = "Sort By";
             // 
-            // alphaSortButton1
+            // alphaSortButton
             // 
-            this.alphaSortButton1.Location = new System.Drawing.Point(56, 583);
-            this.alphaSortButton1.Name = "alphaSortButton1";
-            this.alphaSortButton1.Size = new System.Drawing.Size(80, 25);
-            this.alphaSortButton1.TabIndex = 26;
-            this.alphaSortButton1.Text = "Alphabetical";
-            this.alphaSortButton1.UseVisualStyleBackColor = true;
-            this.alphaSortButton1.Click += new System.EventHandler(this.alphaSortButton_Click);
+            this.alphaSortButton.Location = new System.Drawing.Point(56, 583);
+            this.alphaSortButton.Name = "alphaSortButton";
+            this.alphaSortButton.Size = new System.Drawing.Size(80, 25);
+            this.alphaSortButton.TabIndex = 26;
+            this.alphaSortButton.Text = "Alphabetical";
+            this.alphaSortButton.UseVisualStyleBackColor = true;
+            this.alphaSortButton.Click += new System.EventHandler(this.alphaSortButton_Click);
             // 
-            // PRsortButton1
+            // PRsortButton
             // 
-            this.PRsortButton1.Location = new System.Drawing.Point(142, 583);
-            this.PRsortButton1.Name = "PRsortButton1";
-            this.PRsortButton1.Size = new System.Drawing.Size(80, 25);
-            this.PRsortButton1.TabIndex = 25;
-            this.PRsortButton1.Text = "PR";
-            this.PRsortButton1.UseVisualStyleBackColor = true;
-            this.PRsortButton1.Click += new System.EventHandler(this.PRsortButton_Click);
+            this.PRsortButton.Location = new System.Drawing.Point(142, 583);
+            this.PRsortButton.Name = "PRsortButton";
+            this.PRsortButton.Size = new System.Drawing.Size(80, 25);
+            this.PRsortButton.TabIndex = 25;
+            this.PRsortButton.Text = "PR";
+            this.PRsortButton.UseVisualStyleBackColor = true;
+            this.PRsortButton.Click += new System.EventHandler(this.PRsortButton_Click);
             // 
             // EPGPspreadsheet
             // 
@@ -834,53 +883,15 @@
             this.overlayReset.SynchronizingObject = this;
             this.overlayReset.Elapsed += new System.Timers.ElapsedEventHandler(this.overlayResetElapse);
             // 
-            // lbl_keyTitle
+            // LPRsortButton
             // 
-            this.lbl_keyTitle.AutoSize = true;
-            this.lbl_keyTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_keyTitle.Location = new System.Drawing.Point(110, 335);
-            this.lbl_keyTitle.Name = "lbl_keyTitle";
-            this.lbl_keyTitle.Size = new System.Drawing.Size(32, 13);
-            this.lbl_keyTitle.TabIndex = 32;
-            this.lbl_keyTitle.Text = "Key:";
-            // 
-            // lbl_blueKey
-            // 
-            this.lbl_blueKey.AutoSize = true;
-            this.lbl_blueKey.BackColor = System.Drawing.Color.Blue;
-            this.lbl_blueKey.Location = new System.Drawing.Point(96, 354);
-            this.lbl_blueKey.Name = "lbl_blueKey";
-            this.lbl_blueKey.Size = new System.Drawing.Size(10, 13);
-            this.lbl_blueKey.TabIndex = 33;
-            this.lbl_blueKey.Text = " ";
-            // 
-            // lbl_blackKey
-            // 
-            this.lbl_blackKey.AutoSize = true;
-            this.lbl_blackKey.BackColor = System.Drawing.Color.Black;
-            this.lbl_blackKey.Location = new System.Drawing.Point(96, 372);
-            this.lbl_blackKey.Name = "lbl_blackKey";
-            this.lbl_blackKey.Size = new System.Drawing.Size(10, 13);
-            this.lbl_blackKey.TabIndex = 34;
-            this.lbl_blackKey.Text = " ";
-            // 
-            // lbl_raider
-            // 
-            this.lbl_raider.AutoSize = true;
-            this.lbl_raider.Location = new System.Drawing.Point(112, 354);
-            this.lbl_raider.Name = "lbl_raider";
-            this.lbl_raider.Size = new System.Drawing.Size(38, 13);
-            this.lbl_raider.TabIndex = 35;
-            this.lbl_raider.Text = "Raider";
-            // 
-            // lbl_member
-            // 
-            this.lbl_member.AutoSize = true;
-            this.lbl_member.Location = new System.Drawing.Point(112, 372);
-            this.lbl_member.Name = "lbl_member";
-            this.lbl_member.Size = new System.Drawing.Size(45, 13);
-            this.lbl_member.TabIndex = 36;
-            this.lbl_member.Text = "Member";
+            this.LPRsortButton.Location = new System.Drawing.Point(228, 583);
+            this.LPRsortButton.Name = "LPRsortButton";
+            this.LPRsortButton.Size = new System.Drawing.Size(80, 25);
+            this.LPRsortButton.TabIndex = 28;
+            this.LPRsortButton.Text = "LPR";
+            this.LPRsortButton.UseVisualStyleBackColor = true;
+            this.LPRsortButton.Click += new System.EventHandler(this.LPRsortButton_Click);
             // 
             // guildManagement
             // 
@@ -888,10 +899,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(759, 612);
+            this.Controls.Add(this.LPRsortButton);
             this.Controls.Add(this.btn_refreshTbl);
             this.Controls.Add(this.tabArea);
-            this.Controls.Add(this.PRsortButton1);
-            this.Controls.Add(this.alphaSortButton1);
+            this.Controls.Add(this.PRsortButton);
+            this.Controls.Add(this.alphaSortButton);
             this.Controls.Add(this.lbl_sort1);
             this.Controls.Add(this.EPGPspreadsheet);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -953,8 +965,8 @@
         private System.Windows.Forms.Button btn_refreshTbl;
         private System.Windows.Forms.Label lbl_loggedIn;
         private System.Windows.Forms.Label lbl_sort1;
-        private System.Windows.Forms.Button alphaSortButton1;
-        private System.Windows.Forms.Button PRsortButton1;
+        private System.Windows.Forms.Button alphaSortButton;
+        private System.Windows.Forms.Button PRsortButton;
         private System.Windows.Forms.Label lbl_opacity;
         private System.Windows.Forms.TextBox txt_opacity;
         private System.Windows.Forms.TrackBar opacitySlider;
@@ -987,6 +999,7 @@
         private System.Windows.Forms.Label lbl_blackKey;
         private System.Windows.Forms.Label lbl_blueKey;
         private System.Windows.Forms.Label lbl_keyTitle;
+        private System.Windows.Forms.Button LPRsortButton;
     }
 }
 

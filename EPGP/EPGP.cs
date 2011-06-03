@@ -236,6 +236,14 @@ namespace EPGP
             EPGPspreadsheet.Focus();
         }
 
+        private void LPRsortButton_Click(object sender, EventArgs e)
+        {
+            BindingSource bs = (BindingSource)EPGPspreadsheet.DataSource;
+            bs.Sort = "Present DESC, Standby DESC, LPR DESC, Name ASC";
+            raiderNameColor();
+            EPGPspreadsheet.Focus();
+        }
+
         #endregion // Info
 
         #region Admin
