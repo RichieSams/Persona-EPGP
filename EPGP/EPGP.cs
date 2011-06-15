@@ -12,6 +12,9 @@ using System.IO;
 using System.Diagnostics;
 using System.Threading;
 using System.Timers;
+using System.Net;
+using System.Security.Cryptography;
+using System.Collections.Specialized;
 
 namespace EPGP
 {
@@ -21,15 +24,23 @@ namespace EPGP
         #region Variables
 
         // Administrator
-        private const String general_user_id = "persona_admin";
-        private const String general_password = "ilike333";
         private Boolean loggedIn;
-        private string officerName;
+        private String write_password;
+        private String guildID;
+        private String login_name;
+        private String login_pass;
+
+        // Web Client
+        private WebClient client = new WebClient();
+        string k;
+        byte[] result;
 
         // MySql Connections
-        private MySqlConnection connection;
+        private MySqlConnection readEPGPconnection;
+        private MySqlConnection writeEPGPconnection;
         private MySqlConnection lockConnection;
-        private MySqlConnection logConnection;
+        private MySqlConnection readLogConnection;
+        private MySqlConnection writeLogConnection;
         
         // Tables
         public delegate void refreshNew();
@@ -43,6 +54,7 @@ namespace EPGP
         // Settings
         private const double minGP = 5.0;
         private const String settingsPath = "settings.xml";
+
         // Defaults
         public int settingsOverlayX = 100;
         public int settingsOverlayY = 100;
@@ -72,7 +84,13 @@ namespace EPGP
 
         private void guildManagement_Close(object sender, FormClosedEventArgs e)
         {
-            if (lockConnection != null && lockConnection.State == ConnectionState.Open) lockConnection.Close();
+            if (loggedIn)
+            {
+                if (lockConnection.State == ConnectionState.Closed) lockConnection.Open();
+                MySqlCommand unlockCommand = new MySqlCommand("UPDATE locks SET locked=0 WHERE guildID='" + guildID + "'", lockConnection);
+                unlockCommand.ExecuteNonQuery();
+                lockConnection.Close();
+            }
             saveSettings();
             if (refreshThread != null) refreshThread.Abort();
             Application.Exit();
@@ -80,13 +98,11 @@ namespace EPGP
 
         private void guildManagement_Load(object sender, EventArgs e)
         {
-            // Set up general connection to pull table
-            string genConString = "server=personaguild.com; User Id=" + general_user_id + "; database=persona_EPGP; Password=" + general_password;
-            connection = new MySqlConnection(genConString);
-
-            // Set up logging connection
-            string logConString = "server=personaguild.com; User Id=" + general_user_id + "; database=persona_log; Password=" + general_password;
-            logConnection = new MySqlConnection(logConString);
+            // Set up general connections to pull EPGP and log tables
+            string readEPGPConString = "server=personaguild.com; User Id=persona_read; database=persona_EPGP; Password=kr7OI=&J&,!F2BrHsC";
+            string readLogConString = "server=personaguild.com; User Id=persona_read; database=persona_log; Password=kr7OI=&J&,!F2BrHsC";
+            readEPGPconnection = new MySqlConnection(readEPGPConString);
+            readLogConnection = new MySqlConnection(readLogConString);
 
             // Fill the EPGP table for the first time and set mod time
             refreshNewerTable();
@@ -264,69 +280,147 @@ namespace EPGP
 
         private bool loginFunction()
         {
-            try
-            {
-                string login_name = txt_name.Text;
-                string login_pass = txt_pass.Text;
-                string lockConString = "server=personaguild.com; User Id=persona_" + login_name + "; database=persona_lock; Password=" + login_pass;
-                lockConnection = new MySqlConnection(lockConString);
-                // Try to connect to SQL using login info
-                lockConnection.Open();
-                // Try to grab lock
-                MySqlCommand checkCommand = new MySqlCommand("SHOW OPEN TABLES WHERE In_use > 0", lockConnection);
-                MySqlCommand lockCommand = new MySqlCommand("LOCK TABLES locktable WRITE", lockConnection);
-                MySqlDataReader dataReader;
-                dataReader = checkCommand.ExecuteReader();
-                // If query returns null, lock sql
-                if (!dataReader.Read())
-                {
-                    dataReader.Close();
-                    lockCommand.ExecuteNonQuery();
-                }
-                // Otherwise, throw an error and return
-                else
-                {
-                    MessageBox.Show("An officer is already logged in.", "Can't log in");
-                    return loggedIn;
-                }
+            login_name = txt_name.Text;
+            login_pass = txt_pass.Text;
 
-                // If successful, save name of the officer, show admin buttons, unlock table, and format logged in text
-                officerName = login_name;
-                lbl_admin_epfunc.Show();
-                attendanceButton.Show();
-                lbl_raidxmlTitle.Show();
-                lbl_raidxmlDate.Show();
-                fiveEPbutton.Show();
-                tenEPbutton.Show();
-                lbl_admin_users.Show();
-                addUserButton.Show();
-                deleteUserButton.Show();
-                undoButton.Show();
-                onTimeButton.Show();
-                raiderStatusButton.Show();
-                EPGPspreadsheet.ReadOnly = false;
-                EPGPspreadsheet.Columns["Name"].ReadOnly = true;
-                EPGPspreadsheet.Columns["PR"].ReadOnly = true;
-                EPGPspreadsheet.Columns["LPR"].ReadOnly = true;
-                EPGPspreadsheet.CellValidating += EPGPspreadsheet_CellValidating;
-                lbl_loggedIn.Text = "Logged In as " + officerName;
-                lbl_loggedIn.ForeColor = Color.Green;
-                loggedIn = true;
+            // Hashing of password for security
+            MD5 md5 = new MD5CryptoServiceProvider();
+            byte[] interHash = md5.ComputeHash(System.Text.Encoding.Default.GetBytes(login_pass + login_name));
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < interHash.Length; i++)
+            {
+                sb.Append(interHash[i].ToString("x2"));
+            }
+            string interStr = sb.ToString();
+            byte[] finalHash = md5.ComputeHash(System.Text.Encoding.Default.GetBytes(login_pass + interStr));
+            sb.Clear();
+            for (int i = 0; i < finalHash.Length; i++)
+            {
+                sb.Append(finalHash[i].ToString("x2"));
+            }
+            string passMD5 = sb.ToString();
 
-                // Stop Refreshing since we are the only ones editing
-                refreshThread.Abort();
-            }
-            catch (MySqlException)
+            // Set values to pass to php file
+            NameValueCollection nvcLoginInfo = new NameValueCollection();
+            nvcLoginInfo.Add("username", login_name);
+            nvcLoginInfo.Add("pass", passMD5);
+
+            // Call php
+            result = client.UploadValues("http://personaguild.com/pgm/login.php", nvcLoginInfo);
+            k = Encoding.UTF8.GetString(result, 0, result.Length);
+
+            // Check echos
+            String[] returnArgs = k.Split(',');
+            switch (returnArgs[0])
             {
-                //Show popup that login failed
-                MessageBox.Show("Invalid login information", "Login failed");
+                case "true":
+                    var enc_write_password = Convert.FromBase64String(returnArgs[1]);
+
+                    var encoding = new UTF8Encoding();
+                    var IV = encoding.GetBytes("45287112549354892144548565456541");
+                    var Key = encoding.GetBytes("anjueolkdiwpoida");
+
+                    using (var rj = new RijndaelManaged())
+                    {
+                        try
+                        {
+                            rj.Padding = PaddingMode.PKCS7;
+                            rj.Mode = CipherMode.CBC;
+                            rj.KeySize = 256;
+                            rj.BlockSize = 256;
+                            rj.Key = Key;
+                            rj.IV = IV;
+                            var ms = new MemoryStream(enc_write_password);
+
+                            using (var cs = new CryptoStream(ms, rj.CreateDecryptor(Key, IV), CryptoStreamMode.Read))
+                            {
+                                using (var sr = new StreamReader(cs))
+                                {
+                                    String decryptedStr = sr.ReadLine();
+                                    String[] splitDecStr = decryptedStr.Split(',');
+                                    write_password = splitDecStr[0];
+                                    guildID = splitDecStr[1];
+                                }
+                            }
+                        }
+                        finally
+                        {
+                            rj.Clear();
+                        }
+                    }
+
+                    // Create Lock Connection
+                    string lockConString = "server=personaguild.com; User Id=persona_write; database=persona_pgm; Password=" + write_password;
+                    lockConnection = new MySqlConnection(lockConString);
+
+                    // Try to grab lock
+                    if (lockConnection.State == ConnectionState.Closed) lockConnection.Open();
+                    MySqlCommand checkCommand = new MySqlCommand("SELECT locked FROM locks WHERE GuildID='" + guildID + "' AND locked=0", lockConnection);
+                    MySqlCommand lockCommand = new MySqlCommand("UPDATE locks SET locked=1 WHERE guildID='" + guildID + "'", lockConnection);
+                    MySqlDataReader dataReader;
+                    dataReader = checkCommand.ExecuteReader();
+                    // If query doesn't return null, lock sql
+                    if (dataReader.Read())
+                    {
+                        dataReader.Close();
+                        lockCommand.ExecuteNonQuery();
+
+                        // Show admin buttons, unlock editing of app table, and format logged in text
+                        lbl_admin_epfunc.Show();
+                        attendanceButton.Show();
+                        lbl_raidxmlTitle.Show();
+                        lbl_raidxmlDate.Show();
+                        fiveEPbutton.Show();
+                        tenEPbutton.Show();
+                        lbl_admin_users.Show();
+                        addUserButton.Show();
+                        deleteUserButton.Show();
+                        undoButton.Show();
+                        onTimeButton.Show();
+                        raiderStatusButton.Show();
+                        EPGPspreadsheet.ReadOnly = false;
+                        EPGPspreadsheet.Columns["Name"].ReadOnly = true;
+                        EPGPspreadsheet.Columns["PR"].ReadOnly = true;
+                        EPGPspreadsheet.Columns["LPR"].ReadOnly = true;
+                        EPGPspreadsheet.CellValidating += EPGPspreadsheet_CellValidating;
+                        lbl_loggedIn.Text = "Logged In as " + login_name;
+                        lbl_loggedIn.ForeColor = Color.Green;
+                        loggedIn = true;
+
+                        // Set up write connections
+                        string writeEPGPconString = "server=personaguild.com; User Id=persona_write; database=persona_log; Password=" + write_password;
+                        string writeLogConString = "server=personaguild.com; User Id=persona_write; database=persona_log; Password=" + write_password;
+                        writeLogConnection = new MySqlConnection(writeLogConString);
+                        writeEPGPconnection = new MySqlConnection(writeEPGPconString);
+
+                        // Stop Refreshing since we are the only ones editing
+                        refreshThread.Abort();
+                    }
+                    // Otherwise, notify user and break
+                    else
+                    {
+                        MessageBox.Show("An officer is already logged in.", "Can't log in");
+                        login_name = string.Empty;
+                        login_pass = string.Empty;
+                        break;
+                    }
+                    break;
+
+                case "false":
+                    MessageBox.Show("Invalid login information", "Login failed");
+                    login_name = string.Empty;
+                    login_pass = string.Empty;
+                    break;
+
+                case "FAILURE":
+                    MessageBox.Show("login.php threw an error. Please contact an administrator with the circumstances that caused this error.", "PHP file error");
+                    break;
             }
-            finally
-            {
-                // Clear login text boxes
-                txt_name.Text = "";
-                txt_pass.Text = "";
-            }
+           
+            // Clear login text boxes
+            txt_name.Text = "";
+            txt_pass.Text = "";
+            
             return loggedIn;
         }
 
@@ -353,12 +447,12 @@ namespace EPGP
             // Update SQL
             try
             {
-                if (connection.State == ConnectionState.Closed) connection.Open();
+                if (writeEPGPconnection.State == ConnectionState.Closed) writeEPGPconnection.Open();
 
-                MySqlCommand command = connection.CreateCommand();
-                MySqlTransaction trans = connection.BeginTransaction();
+                MySqlCommand command = writeEPGPconnection.CreateCommand();
+                MySqlTransaction trans = writeEPGPconnection.BeginTransaction();
 
-                command.Connection = connection;
+                command.Connection = writeEPGPconnection;
                 command.Transaction = trans;
 
                 foreach (String s in raidArray)
@@ -379,7 +473,7 @@ namespace EPGP
             }
             finally
             {
-                if (connection.State == ConnectionState.Open) connection.Close();
+                if (writeEPGPconnection.State == ConnectionState.Open) writeEPGPconnection.Close();
             }
             xmlAge();
             EPGPspreadsheet.Focus();
@@ -405,21 +499,21 @@ namespace EPGP
                         absentCSV += row.Cells["Name"].Value.ToString() + ",";
                     }
                 }
-                if (logConnection.State == ConnectionState.Closed) logConnection.Open();
+                if (writeLogConnection.State == ConnectionState.Closed) writeLogConnection.Open();
                 string currentDate = DateTime.Today.Month.ToString() + "/" + DateTime.Today.Day.ToString() + "/" + DateTime.Today.Year.ToString();
                 if (presentCSV != "")
                 {
-                    string presentSQLstring = "INSERT INTO log (name, number, type, reason, date, officer) VALUES ('" + presentCSV + "', '5', 'EP', 'On Time', '" + currentDate + "', '" + officerName + "')";
-                    MySqlCommand presentCommand = new MySqlCommand(presentSQLstring, logConnection);
+                    string presentSQLstring = "INSERT INTO log (name, number, type, reason, date, officer) VALUES ('" + presentCSV + "', '5', 'EP', 'On Time', '" + currentDate + "', '" + login_name + "')";
+                    MySqlCommand presentCommand = new MySqlCommand(presentSQLstring, writeLogConnection);
                     presentCommand.ExecuteNonQuery();
                 }
                 if (absentCSV != "")
                 {
-                    string absentSQLstring = "INSERT INTO log (name, number, type, reason, date, officer) VALUES ('" + absentCSV + "', '-50', 'EP', 'Absent', '" + currentDate + "', '" + officerName + "')";
-                    MySqlCommand absentCommand = new MySqlCommand(absentSQLstring, logConnection);
+                    string absentSQLstring = "INSERT INTO log (name, number, type, reason, date, officer) VALUES ('" + absentCSV + "', '-50', 'EP', 'Absent', '" + currentDate + "', '" + login_name + "')";
+                    MySqlCommand absentCommand = new MySqlCommand(absentSQLstring, writeLogConnection);
                     absentCommand.ExecuteNonQuery();
                 }
-                if (logConnection.State == ConnectionState.Open) logConnection.Close();
+                if (writeLogConnection.State == ConnectionState.Open) writeLogConnection.Close();
                 // Update log table
                 updateLogTable();
             }
@@ -432,6 +526,22 @@ namespace EPGP
             {
                 updateTable();
                 // Log
+                changeReasonMessage changeReasonPopup = new changeReasonMessage();
+                var result = changeReasonPopup.ShowDialog(this);
+                string reason = string.Empty;
+                if ((result == DialogResult.OK) && (changeReasonPopup.Reason != ""))
+                {
+                    reason = changeReasonPopup.Reason;
+                    if (reason.IndexOf("'") > 0)
+                    {
+                        reason = reason.Remove(reason.IndexOf("'"), 1);
+                    }
+                }
+                else
+                {
+                    reason = "Default";
+                    MessageBox.Show("Default reason used", "Reason");
+                }
                 string memberCSV = "";
                 foreach (DataGridViewRow row in EPGPspreadsheet.Rows)
                 {
@@ -445,12 +555,12 @@ namespace EPGP
                     MessageBox.Show("No one is present or on standby.", "Error");
                     return;
                 }
-                if (logConnection.State == ConnectionState.Closed) logConnection.Open();
+                if (writeLogConnection.State == ConnectionState.Closed) writeLogConnection.Open();
                 string currentDate = DateTime.Today.Month.ToString() + "/" + DateTime.Today.Day.ToString() + "/" + DateTime.Today.Year.ToString();
-                string logSQLstring = "INSERT INTO log (name, number, type, reason, date, officer) VALUES ('" + memberCSV + "', '5', 'EP', 'Raid-wide', '" + currentDate + "', '" + officerName + "')";
-                MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
+                string logSQLstring = "INSERT INTO log (name, number, type, reason, date, officer) VALUES ('" + memberCSV + "', '5', 'EP', '" + reason + "', '" + currentDate + "', '" + login_name + "')";
+                MySqlCommand logCommand = new MySqlCommand(logSQLstring, writeLogConnection);
                 logCommand.ExecuteNonQuery();
-                if (logConnection.State == ConnectionState.Open) logConnection.Close();
+                if (writeLogConnection.State == ConnectionState.Open) writeLogConnection.Close();
                 // Update log table
                 updateLogTable();
             }
@@ -463,6 +573,22 @@ namespace EPGP
             {
                 updateTable();
                 // Log
+                changeReasonMessage changeReasonPopup = new changeReasonMessage();
+                var result = changeReasonPopup.ShowDialog(this);
+                string reason = string.Empty;
+                if ((result == DialogResult.OK) && (changeReasonPopup.Reason != ""))
+                {
+                    reason = changeReasonPopup.Reason;
+                    if (reason.IndexOf("'") > 0)
+                    {
+                        reason = reason.Remove(reason.IndexOf("'"), 1);
+                    }
+                }
+                else
+                {
+                    reason = "Default";
+                    MessageBox.Show("Default reason used", "Reason");
+                }
                 string memberCSV = "";
                 foreach (DataGridViewRow row in EPGPspreadsheet.Rows)
                 {
@@ -476,12 +602,12 @@ namespace EPGP
                     MessageBox.Show("No one is present or on standby.", "Error");
                     return;
                 }
-                if (logConnection.State == ConnectionState.Closed) logConnection.Open();
+                if (writeLogConnection.State == ConnectionState.Closed) writeLogConnection.Open();
                 string currentDate = DateTime.Today.Month.ToString() + "/" + DateTime.Today.Day.ToString() + "/" + DateTime.Today.Year.ToString();
-                string logSQLstring = "INSERT INTO log (name, number, type, reason, date, officer) VALUES ('" + memberCSV + "', '10', 'EP', 'Raid-wide', '" + currentDate + "', '" + officerName + "')";
-                MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
+                string logSQLstring = "INSERT INTO log (name, number, type, reason, date, officer) VALUES ('" + memberCSV + "', '10', 'EP', '" + reason + "', '" + currentDate + "', '" + login_name + "')";
+                MySqlCommand logCommand = new MySqlCommand(logSQLstring, writeLogConnection);
                 logCommand.ExecuteNonQuery();
-                if (logConnection.State == ConnectionState.Open) logConnection.Close();
+                if (writeLogConnection.State == ConnectionState.Open) writeLogConnection.Close();
                 // Update log table
                 updateLogTable();
             }
@@ -496,10 +622,10 @@ namespace EPGP
             {
                 try
                 {
-                    if (connection.State == ConnectionState.Closed) connection.Open();
-                    MySqlCommand addCommand = new MySqlCommand("INSERT INTO EPGP (name) VALUES ('" + addUserPopup.MemberName + "')", connection);
+                    if (writeEPGPconnection.State == ConnectionState.Closed) writeEPGPconnection.Open();
+                    MySqlCommand addCommand = new MySqlCommand("INSERT INTO EPGP (name) VALUES ('" + addUserPopup.MemberName + "')", writeEPGPconnection);
                     addCommand.ExecuteNonQuery();
-                    if (connection.State == ConnectionState.Open) connection.Close();
+                    if (writeEPGPconnection.State == ConnectionState.Open) writeEPGPconnection.Close();
                     updateTable();
                 }
                 catch (MySqlException)
@@ -524,10 +650,10 @@ namespace EPGP
             {
                 try
                 {
-                    if (connection.State == ConnectionState.Closed) connection.Open();
-                    MySqlCommand deleteCommand = new MySqlCommand("DELETE FROM EPGP WHERE name = '" + EPGPspreadsheet.Rows[EPGPspreadsheet.SelectedCells[0].RowIndex].Cells["Name"].Value.ToString() + "'", connection);
+                    if (writeEPGPconnection.State == ConnectionState.Closed) writeEPGPconnection.Open();
+                    MySqlCommand deleteCommand = new MySqlCommand("DELETE FROM EPGP WHERE name = '" + EPGPspreadsheet.Rows[EPGPspreadsheet.SelectedCells[0].RowIndex].Cells["Name"].Value.ToString() + "'", writeEPGPconnection);
                     deleteCommand.ExecuteNonQuery();
-                    if (connection.State == ConnectionState.Open) connection.Close();
+                    if (writeEPGPconnection.State == ConnectionState.Open) writeEPGPconnection.Close();
                     EPGPspreadsheet.Rows.Remove(EPGPspreadsheet.CurrentRow);
                 }
                 catch (MySqlException)
@@ -572,11 +698,11 @@ namespace EPGP
         {
             DataTable table = new DataTable();
             MySqlDataAdapter adapter = new MySqlDataAdapter();
-            if (logConnection.State == ConnectionState.Closed) logConnection.Open();
-            MySqlCommand undoCommand = new MySqlCommand("SELECT * FROM log ORDER BY id DESC LIMIT 1", logConnection);
+            if (writeLogConnection.State == ConnectionState.Closed) writeLogConnection.Open();
+            MySqlCommand undoCommand = new MySqlCommand("SELECT * FROM log ORDER BY id DESC LIMIT 1", writeLogConnection);
             adapter.SelectCommand = undoCommand;
             adapter.Fill(table);
-            if (logConnection.State == ConnectionState.Open) logConnection.Close();
+            if (writeLogConnection.State == ConnectionState.Open) writeLogConnection.Close();
             DataRow SQLrow = table.Rows[0];
             if (SQLrow["name"].ToString().IndexOf(',') == -1)
             {
@@ -613,12 +739,12 @@ namespace EPGP
                     }
                 }
                 // Manually log 
-                if (logConnection.State == ConnectionState.Closed) logConnection.Open();
+                if (writeLogConnection.State == ConnectionState.Closed) writeLogConnection.Open();
                 string currentDate = DateTime.Today.Month.ToString() + "/" + DateTime.Today.Day.ToString() + "/" + DateTime.Today.Year.ToString();
-                string logSQLstring = "INSERT INTO log (name, number, type, reason, date, officer) VALUES ('" + SQLrow["name"] + "', '-" + SQLrow["number"] + "', 'EP', 'Raid-wide', '" + currentDate + "', '" + officerName + "')";
-                MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
+                string logSQLstring = "INSERT INTO log (name, number, type, reason, date, officer) VALUES ('" + SQLrow["name"] + "', '-" + SQLrow["number"] + "', 'EP', 'Raid-wide', '" + currentDate + "', '" + login_name + "')";
+                MySqlCommand logCommand = new MySqlCommand(logSQLstring, writeLogConnection);
                 logCommand.ExecuteNonQuery();
-                if (logConnection.State == ConnectionState.Open) logConnection.Close();
+                if (writeLogConnection.State == ConnectionState.Open) writeLogConnection.Close();
                 // Update log table
                 updateLogTable();
                 // Re-enable logging
@@ -1162,11 +1288,11 @@ namespace EPGP
                 // Create DataTable from SQL
                 DataTable logTable = new DataTable();
                 MySqlDataAdapter adapter = new MySqlDataAdapter();
-                if (logConnection.State == ConnectionState.Closed) logConnection.Open();
-                MySqlCommand logTableCommand = new MySqlCommand("SELECT id as ID, parent_id as parentID, name as Member, number as Number, type as Type, reason as Reason FROM log ORDER BY id DESC LIMIT 20", logConnection);
+                if (readLogConnection.State == ConnectionState.Closed) readLogConnection.Open();
+                MySqlCommand logTableCommand = new MySqlCommand("SELECT id as ID, parent_id as parentID, name as Member, number as Number, type as Type, reason as Reason FROM log ORDER BY id DESC LIMIT 20", readLogConnection);
                 adapter.SelectCommand = logTableCommand;
                 adapter.Fill(logTable);
-                if (logConnection.State == ConnectionState.Open) logConnection.Close();
+                if (readLogConnection.State == ConnectionState.Open) readLogConnection.Close();
                 int i = 0;
                 while (i < logTable.Rows.Count)
                 {
@@ -1202,9 +1328,9 @@ namespace EPGP
         {
             try
             {
-                if (connection.State == ConnectionState.Closed) connection.Open();
+                if (writeEPGPconnection.State == ConnectionState.Closed) writeEPGPconnection.Open();
 
-                MySqlCommand command = new MySqlCommand(s, connection);
+                MySqlCommand command = new MySqlCommand(s, writeEPGPconnection);
 
                 command.Prepare();
                 for (int i = 1; i <= param.Length; i++)
@@ -1223,7 +1349,7 @@ namespace EPGP
             }
             finally
             {
-                if (connection.State == ConnectionState.Open) connection.Close();
+                if (writeEPGPconnection.State == ConnectionState.Open) writeEPGPconnection.Close();
             }
         }
 
@@ -1323,11 +1449,11 @@ namespace EPGP
                         MessageBox.Show("Default reason used", "Reason");
                     }
                     string currentDate = DateTime.Today.Month.ToString() + "/" + DateTime.Today.Day.ToString() + "/" + DateTime.Today.Year.ToString();
-                    if (logConnection.State == ConnectionState.Closed) logConnection.Open();
-                    string logSQLstring = "INSERT INTO log (name, number, type, reason, date, officer) VALUES ('" + e.Row["Name"].ToString() + "', '" + ((double)e.ProposedValue - (double)e.Row[e.Column.Ordinal, DataRowVersion.Current]).ToString() + "', '" + e.Column.ColumnName.ToString() + "', '" + reason + "', '" + currentDate + "', '" + officerName + "')";
-                    MySqlCommand logCommand = new MySqlCommand(logSQLstring, logConnection);
+                    if (writeLogConnection.State == ConnectionState.Closed) writeLogConnection.Open();
+                    string logSQLstring = "INSERT INTO log (name, number, type, reason, date, officer) VALUES ('" + e.Row["Name"].ToString() + "', '" + ((double)e.ProposedValue - (double)e.Row[e.Column.Ordinal, DataRowVersion.Current]).ToString() + "', '" + e.Column.ColumnName.ToString() + "', '" + reason + "', '" + currentDate + "', '" + login_name + "')";
+                    MySqlCommand logCommand = new MySqlCommand(logSQLstring, writeLogConnection);
                     logCommand.ExecuteNonQuery();
-                    if (logConnection.State == ConnectionState.Open) logConnection.Close();
+                    if (writeLogConnection.State == ConnectionState.Open) writeLogConnection.Close();
                     // Update log table
                     updateLogTable();
                 }
@@ -1367,9 +1493,9 @@ namespace EPGP
         {
             try
             {
-                if (connection.State == ConnectionState.Closed) connection.Open();
+                if (readEPGPconnection.State == ConnectionState.Closed) readEPGPconnection.Open();
 
-                MySqlCommand command = connection.CreateCommand();
+                MySqlCommand command = readEPGPconnection.CreateCommand();
                 MySqlDataAdapter adapter = new MySqlDataAdapter();
                 MySql.Data.Types.MySqlDateTime sqlDt = new MySql.Data.Types.MySqlDateTime(tableModTime);
                 String sqlTimeStamp = "'" + sqlDt.Year + "-" + sqlDt.Month + "-" + sqlDt.Day + " " + sqlDt.Hour + ":" + sqlDt.Minute + ":" + sqlDt.Second + "'";
@@ -1412,7 +1538,7 @@ namespace EPGP
             }
             finally
             {
-                if (connection.State == ConnectionState.Open) connection.Close();
+                if (readEPGPconnection.State == ConnectionState.Open) readEPGPconnection.Close();
             }
         }
 
@@ -1428,9 +1554,9 @@ namespace EPGP
 
         private DateTime getTableLastModTime()
         {
-            if (connection.State == ConnectionState.Closed) connection.Open();
+            if (readEPGPconnection.State == ConnectionState.Closed) readEPGPconnection.Open();
 
-            MySqlCommand command = connection.CreateCommand();
+            MySqlCommand command = readEPGPconnection.CreateCommand();
 
             command.CommandText = "SELECT UPDATE_TIME FROM information_schema.tables WHERE TABLE_SCHEMA = 'persona_EPGP' AND TABLE_NAME = 'EPGP'";
 
@@ -1439,7 +1565,7 @@ namespace EPGP
             MySql.Data.Types.MySqlDateTime sqlDt = dr.GetMySqlDateTime("UPDATE_TIME");
 
             dr.Close();
-            connection.Close();
+            readEPGPconnection.Close();
 
             return sqlDt.GetDateTime();
         }
