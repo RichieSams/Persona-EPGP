@@ -26,7 +26,6 @@ namespace EPGP
         // Administrator
         private Boolean loggedIn;
         private String write_password;
-        private String guildID;
         private String login_name;
         private String login_pass;
 
@@ -62,6 +61,7 @@ namespace EPGP
         private String settingsRiftDir = "";
         Boolean overlayBorder = true;
         Boolean overlayToggle = false;
+        private String guildID = "10010001";
 
         // Player
         private string currentZone;
@@ -178,7 +178,7 @@ namespace EPGP
             try
             {
                 logWatcher = new FileSystemWatcher();
-                logWatcher.Path = this.settingsRiftDir;//"C:\\Program Files (x86)\\RIFT Game";
+                logWatcher.Path = this.settingsRiftDir;// "C:\\Program Files (x86)\\RIFT Game";
                 logWatcher.Filter = "Log.txt";
                 logWatcher.Changed += new FileSystemEventHandler(textLogParser);
                 logWatcher.Created += new FileSystemEventHandler(textLogParser);
@@ -355,8 +355,8 @@ namespace EPGP
 
                     // Try to grab lock
                     if (lockConnection.State == ConnectionState.Closed) lockConnection.Open();
-                    MySqlCommand checkCommand = new MySqlCommand("SELECT locked FROM locks WHERE GuildID='" + guildID + "' AND locked=0", lockConnection);
-                    MySqlCommand lockCommand = new MySqlCommand("UPDATE locks SET locked=1 WHERE guildID='" + guildID + "'", lockConnection);
+                    MySqlCommand checkCommand = new MySqlCommand("SELECT locked FROM guilds WHERE guildID='" + guildID + "' AND locked=0", lockConnection);
+                    MySqlCommand lockCommand = new MySqlCommand("UPDATE guilds SET locked=1 WHERE guildID='" + guildID + "'", lockConnection);
                     MySqlDataReader dataReader;
                     dataReader = checkCommand.ExecuteReader();
                     // If query doesn't return null, lock sql
@@ -928,6 +928,11 @@ namespace EPGP
                             {
                                 xml.Read();
                                 settingsRiftDir = xml.Value;
+                            }
+                            else if (xml.Name == "GuildID")
+                            {
+                                xml.Read();
+
                             }
 
                         }
@@ -1589,6 +1594,12 @@ namespace EPGP
                 // Didn't Work
                 ex.GetBaseException();
             }
+        }
+
+        private void testButton_Click(object sender, EventArgs e)
+        {
+            getGuild getGuildWindow = new getGuild();
+            getGuildWindow.Show();
         }
     }
 

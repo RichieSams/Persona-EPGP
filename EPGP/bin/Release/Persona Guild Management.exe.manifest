@@ -103,14 +103,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Persona Guild Management.exe" size="84480">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Persona Guild Management.exe" size="91136">
       <assemblyIdentity name="Persona Guild Management" version="1.0.8.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>P4Ufe6qJ/TuJRdKWuuxnWwR6ZWI=</dsig:DigestValue>
+        <dsig:DigestValue>i1SBHXJZpsAen/tQuJRJ7ISdZEU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

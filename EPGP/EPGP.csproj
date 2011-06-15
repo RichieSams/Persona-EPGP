@@ -126,6 +126,12 @@
     <Compile Include="EPGP.Designer.cs">
       <DependentUpon>EPGP.cs</DependentUpon>
     </Compile>
+    <Compile Include="getGuild.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="getGuild.Designer.cs">
+      <DependentUpon>getGuild.cs</DependentUpon>
+    </Compile>
     <Compile Include="overlay.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,6 +148,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EPGP.resx">
       <DependentUpon>EPGP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="getGuild.resx">
+      <DependentUpon>getGuild.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="overlay.resx">
       <DependentUpon>overlay.cs</DependentUpon>

@@ -74,6 +74,9 @@
             this.fiveEPbutton = new System.Windows.Forms.Button();
             this.txt_name = new System.Windows.Forms.TextBox();
             this.settingsTab = new System.Windows.Forms.TabPage();
+            this.lbl_currentGuildValue = new System.Windows.Forms.Label();
+            this.lbl_currentGuildTitle = new System.Windows.Forms.Label();
+            this.getGuildButton = new System.Windows.Forms.Button();
             this.lbl_currentDirValue = new System.Windows.Forms.Label();
             this.lbl_currentDirTitle = new System.Windows.Forms.Label();
             this.getDirButton = new System.Windows.Forms.Button();
@@ -97,6 +100,7 @@
             this.btn_refreshTbl = new System.Windows.Forms.Button();
             this.overlayReset = new System.Timers.Timer();
             this.LPRsortButton = new System.Windows.Forms.Button();
+            this.testButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.logWatch)).BeginInit();
             this.tabArea.SuspendLayout();
             this.infoTab.SuspendLayout();
@@ -592,6 +596,10 @@
             // 
             // settingsTab
             // 
+            this.settingsTab.Controls.Add(this.testButton);
+            this.settingsTab.Controls.Add(this.lbl_currentGuildValue);
+            this.settingsTab.Controls.Add(this.lbl_currentGuildTitle);
+            this.settingsTab.Controls.Add(this.getGuildButton);
             this.settingsTab.Controls.Add(this.lbl_currentDirValue);
             this.settingsTab.Controls.Add(this.lbl_currentDirTitle);
             this.settingsTab.Controls.Add(this.getDirButton);
@@ -608,6 +616,36 @@
             this.settingsTab.TabIndex = 2;
             this.settingsTab.Text = "Settings";
             this.settingsTab.UseVisualStyleBackColor = true;
+            // 
+            // lbl_currentGuildValue
+            // 
+            this.lbl_currentGuildValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_currentGuildValue.AutoSize = true;
+            this.lbl_currentGuildValue.Location = new System.Drawing.Point(92, 261);
+            this.lbl_currentGuildValue.Name = "lbl_currentGuildValue";
+            this.lbl_currentGuildValue.Size = new System.Drawing.Size(68, 13);
+            this.lbl_currentGuildValue.TabIndex = 31;
+            this.lbl_currentGuildValue.Text = "Display Guild";
+            this.lbl_currentGuildValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_currentGuildTitle
+            // 
+            this.lbl_currentGuildTitle.AutoSize = true;
+            this.lbl_currentGuildTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_currentGuildTitle.Location = new System.Drawing.Point(77, 241);
+            this.lbl_currentGuildTitle.Name = "lbl_currentGuildTitle";
+            this.lbl_currentGuildTitle.Size = new System.Drawing.Size(98, 13);
+            this.lbl_currentGuildTitle.TabIndex = 30;
+            this.lbl_currentGuildTitle.Text = "Current Guild is:";
+            // 
+            // getGuildButton
+            // 
+            this.getGuildButton.Location = new System.Drawing.Point(76, 283);
+            this.getGuildButton.Name = "getGuildButton";
+            this.getGuildButton.Size = new System.Drawing.Size(100, 30);
+            this.getGuildButton.TabIndex = 29;
+            this.getGuildButton.Text = "Change";
+            this.getGuildButton.UseVisualStyleBackColor = true;
             // 
             // lbl_currentDirValue
             // 
@@ -893,6 +931,16 @@
             this.LPRsortButton.UseVisualStyleBackColor = true;
             this.LPRsortButton.Click += new System.EventHandler(this.LPRsortButton_Click);
             // 
+            // testButton
+            // 
+            this.testButton.Location = new System.Drawing.Point(54, 409);
+            this.testButton.Name = "testButton";
+            this.testButton.Size = new System.Drawing.Size(151, 37);
+            this.testButton.TabIndex = 32;
+            this.testButton.Text = "test";
+            this.testButton.UseVisualStyleBackColor = true;
+            this.testButton.Click += new System.EventHandler(this.testButton_Click);
+            // 
             // guildManagement
             // 
             this.AllowDrop = true;
@@ -1000,6 +1048,10 @@
         private System.Windows.Forms.Label lbl_blueKey;
         private System.Windows.Forms.Label lbl_keyTitle;
         private System.Windows.Forms.Button LPRsortButton;
+        private System.Windows.Forms.Label lbl_currentGuildValue;
+        private System.Windows.Forms.Label lbl_currentGuildTitle;
+        private System.Windows.Forms.Button getGuildButton;
+        private System.Windows.Forms.Button testButton;
     }
 }
 
