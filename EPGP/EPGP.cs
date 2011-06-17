@@ -265,10 +265,28 @@ namespace EPGP
 
         #region Admin
 
+        private void registerButton_Click(object sender, EventArgs e)
+        {
+            createUser createUserPopup = new createUser();
+            var result = createUserPopup.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                createUserPopup.GetUserInfo(out login_name, out login_pass);
+                loginFunction();
+                return;
+            }
+            else
+            {
+                return;
+            }
+        }
+
         private void txt_pass_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
+                login_name = txt_name.Text;
+                login_pass = txt_pass.Text;
                 loginFunction();
                 e.SuppressKeyPress = true;
             }
@@ -276,14 +294,13 @@ namespace EPGP
 
         private void loginButton_Click(object sender, EventArgs e)
         {
+            login_name = txt_name.Text;
+            login_pass = txt_pass.Text;
             loginFunction();
         }
 
         private bool loginFunction()
         {
-            login_name = txt_name.Text;
-            login_pass = txt_pass.Text;
-
             // Hashing of password for security
             MD5 md5 = new MD5CryptoServiceProvider();
             byte[] interHash = md5.ComputeHash(System.Text.Encoding.Default.GetBytes(login_pass + login_name));
@@ -292,14 +309,14 @@ namespace EPGP
             {
                 sb.Append(interHash[i].ToString("x2"));
             }
-            string interStr = sb.ToString();
+            String interStr = sb.ToString();
             byte[] finalHash = md5.ComputeHash(System.Text.Encoding.Default.GetBytes(login_pass + interStr));
             sb.Clear();
             for (int i = 0; i < finalHash.Length; i++)
             {
                 sb.Append(finalHash[i].ToString("x2"));
             }
-            string passMD5 = sb.ToString();
+            String passMD5 = sb.ToString();
 
             // Set values to pass to php file
             NameValueCollection nvcLoginInfo = new NameValueCollection();
@@ -1687,11 +1704,6 @@ namespace EPGP
                 // Didn't Work
                 ex.GetBaseException();
             }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 

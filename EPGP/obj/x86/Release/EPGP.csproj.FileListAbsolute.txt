@@ -53,3 +53,4 @@ C:\Users\Adrian\Persona-EPGP\EPGP\obj\x86\Release\Persona Guild Management.appli
 C:\Users\Adrian\Persona-EPGP\EPGP\obj\x86\Release\Persona Guild Management.exe
 C:\Users\Adrian\Persona-EPGP\EPGP\obj\x86\Release\Persona Guild Management.pdb
 C:\Users\Adrian\Persona-EPGP\EPGP\obj\x86\Release\EPGP.getGuild.resources
+C:\Users\Adrian\Persona-EPGP\EPGP\obj\x86\Release\EPGP.createUser.resources

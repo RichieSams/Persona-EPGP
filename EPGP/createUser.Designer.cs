@@ -35,6 +35,7 @@
             this.txt_name = new System.Windows.Forms.TextBox();
             this.lbl_email = new System.Windows.Forms.Label();
             this.txt_email = new System.Windows.Forms.TextBox();
+            this.hiddenOKbutton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // createButton
@@ -45,6 +46,7 @@
             this.createButton.TabIndex = 3;
             this.createButton.Text = "Create";
             this.createButton.UseVisualStyleBackColor = true;
+            this.createButton.Click += new System.EventHandler(this.createButton_Click);
             // 
             // lbl_pass
             // 
@@ -98,11 +100,22 @@
             this.txt_email.Size = new System.Drawing.Size(135, 20);
             this.txt_email.TabIndex = 2;
             // 
+            // hiddenOKbutton
+            // 
+            this.hiddenOKbutton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.hiddenOKbutton.Location = new System.Drawing.Point(346, 27);
+            this.hiddenOKbutton.Name = "hiddenOKbutton";
+            this.hiddenOKbutton.Size = new System.Drawing.Size(30, 30);
+            this.hiddenOKbutton.TabIndex = 13;
+            this.hiddenOKbutton.Text = "OK";
+            this.hiddenOKbutton.UseVisualStyleBackColor = true;
+            // 
             // createUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(274, 182);
+            this.Controls.Add(this.hiddenOKbutton);
             this.Controls.Add(this.lbl_email);
             this.Controls.Add(this.txt_email);
             this.Controls.Add(this.createButton);
@@ -126,5 +139,6 @@
         private System.Windows.Forms.TextBox txt_name;
         private System.Windows.Forms.Label lbl_email;
         private System.Windows.Forms.TextBox txt_email;
+        private System.Windows.Forms.Button hiddenOKbutton;
     }
 }

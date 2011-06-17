@@ -54,7 +54,7 @@
             this.lbl_itemCostNames = new System.Windows.Forms.Label();
             this.lbl_itemCostTitle = new System.Windows.Forms.Label();
             this.adminTab = new System.Windows.Forms.TabPage();
-            this.button1 = new System.Windows.Forms.Button();
+            this.registerButton = new System.Windows.Forms.Button();
             this.raiderStatusButton = new System.Windows.Forms.Button();
             this.onTimeButton = new System.Windows.Forms.Button();
             this.undoButton = new System.Windows.Forms.Button();
@@ -370,7 +370,7 @@
             // 
             // adminTab
             // 
-            this.adminTab.Controls.Add(this.button1);
+            this.adminTab.Controls.Add(this.registerButton);
             this.adminTab.Controls.Add(this.raiderStatusButton);
             this.adminTab.Controls.Add(this.onTimeButton);
             this.adminTab.Controls.Add(this.undoButton);
@@ -397,15 +397,15 @@
             this.adminTab.Text = "Admin";
             this.adminTab.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // registerButton
             // 
-            this.button1.Location = new System.Drawing.Point(177, 92);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(65, 22);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Register";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.registerButton.Location = new System.Drawing.Point(177, 92);
+            this.registerButton.Name = "registerButton";
+            this.registerButton.Size = new System.Drawing.Size(65, 22);
+            this.registerButton.TabIndex = 4;
+            this.registerButton.Text = "Register";
+            this.registerButton.UseVisualStyleBackColor = true;
+            this.registerButton.Click += new System.EventHandler(this.registerButton_Click);
             // 
             // raiderStatusButton
             // 
@@ -1052,7 +1052,7 @@
         private System.Windows.Forms.Label lbl_currentGuildValue;
         private System.Windows.Forms.Label lbl_currentGuildTitle;
         private System.Windows.Forms.Button getGuildButton;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button registerButton;
     }
 }
 
