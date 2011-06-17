@@ -8,4 +8,9 @@
     <Toggle>False</Toggle>
   </Overlay>
   <RiftDirectory>C:\Program Files (x86)\RIFT Game</RiftDirectory>
+  <Guild>
+    <Name>Persona</Name>
+    <ShardID>1027</ShardID>
+    <GuildID>1</GuildID>
+  </Guild>
 </EPGPTool>

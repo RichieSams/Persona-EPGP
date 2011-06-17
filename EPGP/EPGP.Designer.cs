@@ -54,6 +54,7 @@
             this.lbl_itemCostNames = new System.Windows.Forms.Label();
             this.lbl_itemCostTitle = new System.Windows.Forms.Label();
             this.adminTab = new System.Windows.Forms.TabPage();
+            this.button1 = new System.Windows.Forms.Button();
             this.raiderStatusButton = new System.Windows.Forms.Button();
             this.onTimeButton = new System.Windows.Forms.Button();
             this.undoButton = new System.Windows.Forms.Button();
@@ -100,7 +101,6 @@
             this.btn_refreshTbl = new System.Windows.Forms.Button();
             this.overlayReset = new System.Timers.Timer();
             this.LPRsortButton = new System.Windows.Forms.Button();
-            this.testButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.logWatch)).BeginInit();
             this.tabArea.SuspendLayout();
             this.infoTab.SuspendLayout();
@@ -370,6 +370,7 @@
             // 
             // adminTab
             // 
+            this.adminTab.Controls.Add(this.button1);
             this.adminTab.Controls.Add(this.raiderStatusButton);
             this.adminTab.Controls.Add(this.onTimeButton);
             this.adminTab.Controls.Add(this.undoButton);
@@ -396,9 +397,18 @@
             this.adminTab.Text = "Admin";
             this.adminTab.UseVisualStyleBackColor = true;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(177, 92);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(65, 22);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Register";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // raiderStatusButton
             // 
-            this.raiderStatusButton.Location = new System.Drawing.Point(69, 396);
+            this.raiderStatusButton.Location = new System.Drawing.Point(69, 398);
             this.raiderStatusButton.Name = "raiderStatusButton";
             this.raiderStatusButton.Size = new System.Drawing.Size(115, 30);
             this.raiderStatusButton.TabIndex = 35;
@@ -409,7 +419,7 @@
             // 
             // onTimeButton
             // 
-            this.onTimeButton.Location = new System.Drawing.Point(132, 157);
+            this.onTimeButton.Location = new System.Drawing.Point(132, 159);
             this.onTimeButton.Name = "onTimeButton";
             this.onTimeButton.Size = new System.Drawing.Size(100, 30);
             this.onTimeButton.TabIndex = 34;
@@ -420,7 +430,7 @@
             // 
             // undoButton
             // 
-            this.undoButton.Location = new System.Drawing.Point(76, 288);
+            this.undoButton.Location = new System.Drawing.Point(76, 290);
             this.undoButton.Name = "undoButton";
             this.undoButton.Size = new System.Drawing.Size(100, 30);
             this.undoButton.TabIndex = 33;
@@ -433,7 +443,7 @@
             // 
             this.lbl_raidxmlDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_raidxmlDate.AutoSize = true;
-            this.lbl_raidxmlDate.Location = new System.Drawing.Point(54, 221);
+            this.lbl_raidxmlDate.Location = new System.Drawing.Point(54, 223);
             this.lbl_raidxmlDate.Name = "lbl_raidxmlDate";
             this.lbl_raidxmlDate.Size = new System.Drawing.Size(145, 13);
             this.lbl_raidxmlDate.TabIndex = 32;
@@ -445,7 +455,7 @@
             // 
             this.lbl_admin_users.AutoSize = true;
             this.lbl_admin_users.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_admin_users.Location = new System.Drawing.Point(14, 338);
+            this.lbl_admin_users.Location = new System.Drawing.Point(14, 340);
             this.lbl_admin_users.Name = "lbl_admin_users";
             this.lbl_admin_users.Size = new System.Drawing.Size(39, 13);
             this.lbl_admin_users.TabIndex = 31;
@@ -455,7 +465,7 @@
             // lbl_raidxmlTitle
             // 
             this.lbl_raidxmlTitle.AutoSize = true;
-            this.lbl_raidxmlTitle.Location = new System.Drawing.Point(61, 197);
+            this.lbl_raidxmlTitle.Location = new System.Drawing.Point(61, 199);
             this.lbl_raidxmlTitle.Name = "lbl_raidxmlTitle";
             this.lbl_raidxmlTitle.Size = new System.Drawing.Size(130, 13);
             this.lbl_raidxmlTitle.TabIndex = 30;
@@ -466,7 +476,7 @@
             // 
             this.lbl_admin_epfunc.AutoSize = true;
             this.lbl_admin_epfunc.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_admin_epfunc.Location = new System.Drawing.Point(14, 133);
+            this.lbl_admin_epfunc.Location = new System.Drawing.Point(14, 135);
             this.lbl_admin_epfunc.Name = "lbl_admin_epfunc";
             this.lbl_admin_epfunc.Size = new System.Drawing.Size(82, 13);
             this.lbl_admin_epfunc.TabIndex = 29;
@@ -485,7 +495,7 @@
             // 
             // deleteUserButton
             // 
-            this.deleteUserButton.Location = new System.Drawing.Point(132, 360);
+            this.deleteUserButton.Location = new System.Drawing.Point(132, 362);
             this.deleteUserButton.Name = "deleteUserButton";
             this.deleteUserButton.Size = new System.Drawing.Size(100, 30);
             this.deleteUserButton.TabIndex = 24;
@@ -496,7 +506,7 @@
             // 
             // addUserButton
             // 
-            this.addUserButton.Location = new System.Drawing.Point(21, 360);
+            this.addUserButton.Location = new System.Drawing.Point(21, 362);
             this.addUserButton.Name = "addUserButton";
             this.addUserButton.Size = new System.Drawing.Size(100, 30);
             this.addUserButton.TabIndex = 25;
@@ -509,7 +519,7 @@
             // 
             this.lbl_loggedIn.AutoSize = true;
             this.lbl_loggedIn.ForeColor = System.Drawing.Color.Red;
-            this.lbl_loggedIn.Location = new System.Drawing.Point(32, 95);
+            this.lbl_loggedIn.Location = new System.Drawing.Point(103, 11);
             this.lbl_loggedIn.Name = "lbl_loggedIn";
             this.lbl_loggedIn.Size = new System.Drawing.Size(75, 13);
             this.lbl_loggedIn.TabIndex = 10;
@@ -517,7 +527,7 @@
             // 
             // loginButton
             // 
-            this.loginButton.Location = new System.Drawing.Point(169, 90);
+            this.loginButton.Location = new System.Drawing.Point(106, 92);
             this.loginButton.Name = "loginButton";
             this.loginButton.Size = new System.Drawing.Size(65, 22);
             this.loginButton.TabIndex = 3;
@@ -527,10 +537,10 @@
             // 
             // attendanceButton
             // 
-            this.attendanceButton.Location = new System.Drawing.Point(21, 157);
+            this.attendanceButton.Location = new System.Drawing.Point(21, 159);
             this.attendanceButton.Name = "attendanceButton";
             this.attendanceButton.Size = new System.Drawing.Size(100, 30);
-            this.attendanceButton.TabIndex = 9;
+            this.attendanceButton.TabIndex = 35;
             this.attendanceButton.Text = "Attendance";
             this.attendanceButton.UseVisualStyleBackColor = true;
             this.attendanceButton.Visible = false;
@@ -548,9 +558,9 @@
             // txt_pass
             // 
             this.txt_pass.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_pass.Location = new System.Drawing.Point(114, 62);
+            this.txt_pass.Location = new System.Drawing.Point(106, 62);
             this.txt_pass.Name = "txt_pass";
-            this.txt_pass.Size = new System.Drawing.Size(120, 20);
+            this.txt_pass.Size = new System.Drawing.Size(135, 20);
             this.txt_pass.TabIndex = 2;
             this.txt_pass.UseSystemPasswordChar = true;
             this.txt_pass.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_pass_KeyDown);
@@ -566,7 +576,7 @@
             // 
             // tenEPbutton
             // 
-            this.tenEPbutton.Location = new System.Drawing.Point(132, 252);
+            this.tenEPbutton.Location = new System.Drawing.Point(132, 254);
             this.tenEPbutton.Name = "tenEPbutton";
             this.tenEPbutton.Size = new System.Drawing.Size(100, 30);
             this.tenEPbutton.TabIndex = 8;
@@ -577,7 +587,7 @@
             // 
             // fiveEPbutton
             // 
-            this.fiveEPbutton.Location = new System.Drawing.Point(21, 252);
+            this.fiveEPbutton.Location = new System.Drawing.Point(21, 254);
             this.fiveEPbutton.Name = "fiveEPbutton";
             this.fiveEPbutton.Size = new System.Drawing.Size(100, 30);
             this.fiveEPbutton.TabIndex = 7;
@@ -589,14 +599,13 @@
             // txt_name
             // 
             this.txt_name.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_name.Location = new System.Drawing.Point(114, 32);
+            this.txt_name.Location = new System.Drawing.Point(106, 32);
             this.txt_name.Name = "txt_name";
-            this.txt_name.Size = new System.Drawing.Size(120, 20);
+            this.txt_name.Size = new System.Drawing.Size(135, 20);
             this.txt_name.TabIndex = 1;
             // 
             // settingsTab
             // 
-            this.settingsTab.Controls.Add(this.testButton);
             this.settingsTab.Controls.Add(this.lbl_currentGuildValue);
             this.settingsTab.Controls.Add(this.lbl_currentGuildTitle);
             this.settingsTab.Controls.Add(this.getGuildButton);
@@ -646,6 +655,7 @@
             this.getGuildButton.TabIndex = 29;
             this.getGuildButton.Text = "Change";
             this.getGuildButton.UseVisualStyleBackColor = true;
+            this.getGuildButton.Click += new System.EventHandler(this.getGuildButton_Click);
             // 
             // lbl_currentDirValue
             // 
@@ -931,16 +941,6 @@
             this.LPRsortButton.UseVisualStyleBackColor = true;
             this.LPRsortButton.Click += new System.EventHandler(this.LPRsortButton_Click);
             // 
-            // testButton
-            // 
-            this.testButton.Location = new System.Drawing.Point(54, 409);
-            this.testButton.Name = "testButton";
-            this.testButton.Size = new System.Drawing.Size(151, 37);
-            this.testButton.TabIndex = 32;
-            this.testButton.Text = "test";
-            this.testButton.UseVisualStyleBackColor = true;
-            this.testButton.Click += new System.EventHandler(this.testButton_Click);
-            // 
             // guildManagement
             // 
             this.AllowDrop = true;
@@ -1051,7 +1051,7 @@
         private System.Windows.Forms.Label lbl_currentGuildValue;
         private System.Windows.Forms.Label lbl_currentGuildTitle;
         private System.Windows.Forms.Button getGuildButton;
-        private System.Windows.Forms.Button testButton;
+        private System.Windows.Forms.Button button1;
     }
 }
 

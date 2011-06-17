@@ -61,7 +61,9 @@ namespace EPGP
         private String settingsRiftDir = "";
         Boolean overlayBorder = true;
         Boolean overlayToggle = false;
-        private String guildID = "10010001";
+        private String guildName = "";
+        private String shardID = "";
+        private String guildID = "";
 
         // Player
         private string currentZone;
@@ -87,7 +89,7 @@ namespace EPGP
             if (loggedIn)
             {
                 if (lockConnection.State == ConnectionState.Closed) lockConnection.Open();
-                MySqlCommand unlockCommand = new MySqlCommand("UPDATE locks SET locked=0 WHERE guildID='" + guildID + "'", lockConnection);
+                MySqlCommand unlockCommand = new MySqlCommand("UPDATE guilds SET locked=0 WHERE shardID='" + shardID + "' AND guildID='" + guildID + "'", lockConnection);
                 unlockCommand.ExecuteNonQuery();
                 lockConnection.Close();
             }
@@ -160,7 +162,6 @@ namespace EPGP
                 });
             refreshThread.Start();
 
-            // This currently throws a SQL error when not on our computers
             // Fill log table for the first time 
             updateLogTable();
 
@@ -336,10 +337,7 @@ namespace EPGP
                             {
                                 using (var sr = new StreamReader(cs))
                                 {
-                                    String decryptedStr = sr.ReadLine();
-                                    String[] splitDecStr = decryptedStr.Split(',');
-                                    write_password = splitDecStr[0];
-                                    guildID = splitDecStr[1];
+                                    write_password = sr.ReadLine();
                                 }
                             }
                         }
@@ -355,8 +353,8 @@ namespace EPGP
 
                     // Try to grab lock
                     if (lockConnection.State == ConnectionState.Closed) lockConnection.Open();
-                    MySqlCommand checkCommand = new MySqlCommand("SELECT locked FROM guilds WHERE guildID='" + guildID + "' AND locked=0", lockConnection);
-                    MySqlCommand lockCommand = new MySqlCommand("UPDATE guilds SET locked=1 WHERE guildID='" + guildID + "'", lockConnection);
+                    MySqlCommand checkCommand = new MySqlCommand("SELECT locked FROM guilds WHERE shardID='" + shardID + "' AND guildID='" + guildID + "' AND locked=0", lockConnection);
+                    MySqlCommand lockCommand = new MySqlCommand("UPDATE guilds SET locked=1 WHERE shardID='" + shardID + "' AND guildID='" + guildID + "'", lockConnection);
                     MySqlDataReader dataReader;
                     dataReader = checkCommand.ExecuteReader();
                     // If query doesn't return null, lock sql
@@ -756,6 +754,13 @@ namespace EPGP
 
         #region Settings
 
+        private void getGuildButton_Click(object sender, EventArgs e)
+        {
+            getGuildInfo();
+            lbl_currentGuildValue.Text = guildName;
+            lbl_currentGuildValue.Left = (this.settingsTab.Width / 2) - (lbl_currentGuildValue.Width / 2);
+        }
+
         private void getDirButton_Click(object sender, EventArgs e)
         {
             getRiftDir();
@@ -840,6 +845,38 @@ namespace EPGP
                         {
                             xml.WriteWhitespace("");
                         }
+                    xml.WriteEndElement();
+                    xml.WriteStartElement("Guild");
+                        xml.WriteStartElement("Name");
+                            if (guildName != "")
+                            {
+                                xml.WriteString(guildName);
+                            }
+                            else
+                            {
+                                xml.WriteWhitespace("");
+                            }
+                        xml.WriteEndElement();
+                        xml.WriteStartElement("ShardID");
+                            if (guildName != "")
+                            {
+                                xml.WriteString(shardID);
+                            }
+                            else
+                            {
+                                xml.WriteWhitespace("");
+                            }
+                        xml.WriteEndElement();
+                        xml.WriteStartElement("GuildID");
+                            if (guildName != "")
+                            {
+                                xml.WriteString(guildID);
+                            }
+                            else
+                            {
+                                xml.WriteWhitespace("");
+                            }
+                        xml.WriteEndElement();
                     xml.WriteEndElement();
                 xml.WriteEndElement();
             xml.WriteEndDocument();
@@ -929,10 +966,35 @@ namespace EPGP
                                 xml.Read();
                                 settingsRiftDir = xml.Value;
                             }
-                            else if (xml.Name == "GuildID")
+                            else if (xml.Name == "Guild")
                             {
-                                xml.Read();
-
+                                while (xml.Read() && !(xml.NodeType == XmlNodeType.EndElement && xml.Name == "Guild"))
+                                {
+                                    if (xml.NodeType == XmlNodeType.Element)
+                                    {
+                                        if (xml.Name == "Name")
+                                        {
+                                            if (xml.Read())
+                                            {
+                                                guildName = xml.Value;
+                                            }
+                                        }
+                                        if (xml.Name == "ShardID")
+                                        {
+                                            if (xml.Read())
+                                            {
+                                                shardID = xml.Value;
+                                            }
+                                        }
+                                        if (xml.Name == "GuildID")
+                                        {
+                                            if (xml.Read())
+                                            {
+                                                guildID = xml.Value;
+                                            }
+                                        }
+                                    }
+                                }
                             }
 
                         }
@@ -954,10 +1016,18 @@ namespace EPGP
                     if (getRiftDir())
                         saveSettings();
                 }
+
+                // No guild loaded make them pick again
+                if ((guildName == "") || (guildID == "") || (shardID == ""))
+                {
+                    if (getGuildInfo())
+                        saveSettings();
+                }
             }
             else
             {
                 getRiftDir();
+                getGuildInfo();
                 // Save Defaults
                 saveSettings();
             }
@@ -985,7 +1055,15 @@ namespace EPGP
                 overlayForm.Hide();
             }
 
-            // Remove Text
+            // Set current directory text
+            lbl_currentDirValue.Text = settingsRiftDir;
+            lbl_currentDirValue.Left = (this.settingsTab.Width / 2) - (lbl_currentDirValue.Width / 2);
+
+            // Set current guild text
+            lbl_currentGuildValue.Text = guildName;
+            lbl_currentGuildValue.Left = (this.settingsTab.Width / 2) - (lbl_currentGuildValue.Width / 2);
+
+            // Remove Overlay Text
             overlayForm.lbl_overlayName.Text = "";
             overlayForm.lbl_overlayPR.Text = "";
 
@@ -1020,6 +1098,21 @@ namespace EPGP
             else
             {
                 MessageBox.Show(this, "EPGPTool will not function correctly until you choose the correct RIFT directory.\nGo to the settings tab to change rift directory.", "RIFT Directory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+        }
+
+        private Boolean getGuildInfo()
+        {
+            getGuild getGuildPopup = new getGuild();
+            var result = getGuildPopup.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                getGuildPopup.GetGuildInfo(out guildName, out shardID, out guildID);
+                return true;
+            }
+            else
+            {
                 return false;
             }
         }
@@ -1594,12 +1687,6 @@ namespace EPGP
                 // Didn't Work
                 ex.GetBaseException();
             }
-        }
-
-        private void testButton_Click(object sender, EventArgs e)
-        {
-            getGuild getGuildWindow = new getGuild();
-            getGuildWindow.Show();
         }
     }
 
