@@ -122,6 +122,12 @@
     <Compile Include="changeReasonMessage.Designer.cs">
       <DependentUpon>changeReasonMessage.cs</DependentUpon>
     </Compile>
+    <Compile Include="createUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="createUser.Designer.cs">
+      <DependentUpon>createUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="EPGP.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -147,6 +153,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="changeReasonMessage.resx">
       <DependentUpon>changeReasonMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="createUser.resx">
+      <DependentUpon>createUser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EPGP.resx">
       <DependentUpon>EPGP.cs</DependentUpon>
