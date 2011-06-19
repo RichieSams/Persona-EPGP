@@ -140,6 +140,12 @@
     <Compile Include="getGuild.Designer.cs">
       <DependentUpon>getGuild.cs</DependentUpon>
     </Compile>
+    <Compile Include="login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="login.Designer.cs">
+      <DependentUpon>login.cs</DependentUpon>
+    </Compile>
     <Compile Include="overlay.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -162,6 +168,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="getGuild.resx">
       <DependentUpon>getGuild.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="login.resx">
+      <DependentUpon>login.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="overlay.resx">
       <DependentUpon>overlay.cs</DependentUpon>

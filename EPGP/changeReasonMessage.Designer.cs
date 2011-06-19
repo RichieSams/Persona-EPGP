@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(changeReasonMessage));
             this.lbl_changeReason = new System.Windows.Forms.Label();
             this.reasonOkButton = new System.Windows.Forms.Button();
             this.txt_changeReason = new System.Windows.Forms.TextBox();
@@ -69,6 +70,9 @@
             this.Controls.Add(this.reasonOkButton);
             this.Controls.Add(this.txt_changeReason);
             this.Controls.Add(this.lbl_changeReason);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "changeReasonMessage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Reason for Change";

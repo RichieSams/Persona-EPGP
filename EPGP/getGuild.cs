@@ -22,12 +22,40 @@ namespace EPGP
         private String selectedShardID = string.Empty;
         private String selectedGuildID = string.Empty;
         private Boolean creating = false;
+        private String login_name;
+
+        private guildManagement gm;
 
         #endregion // Variables
 
-        public getGuild()
+        public getGuild(String mode, guildManagement gm, String name)
         {
             InitializeComponent();
+
+            this.gm = gm;
+            login_name = name;
+
+            switch (mode)
+            {
+                case "ViewFind":
+                    cb_guild.Show();
+                    selectGuildButton.Show();
+                    createGuildPopupButton.Show();
+                    break;
+                
+                case "ModFind":
+                    cb_guild.Show();
+                    askAdminButton.Show();
+                    createGuildPopupButton.Show();
+                    break;
+
+                case "Create":
+                    txt_createGuildName.Show();
+                    createGuildButton.Show();
+                    creating = true;
+                    this.Text = "Create guild";
+                    break;
+            }
         }
 
         private void getGuild_Load(object sender, EventArgs e)
@@ -135,32 +163,32 @@ namespace EPGP
             {
                 if (selectedGuildName != string.Empty)
                 {
-                    if (selectedGuildName.Length > 25)
+                    if (selectedGuildName.Length < 26)
                     {
                         if (selectedGuildName.All(c => Char.IsLetterOrDigit(c) || c == ' '))
                         {
-                            // Get the shardID of the selected shard
-                            MySqlDataAdapter adapter = new MySqlDataAdapter();
-                            guildConnection.Open();
-                            MySqlCommand findShardIDcommand = new MySqlCommand("SELECT shardID FROM shards WHERE shardName='" + cb_shard.SelectedItem.ToString() + "'", guildConnection);
-                            adapter.SelectCommand = findShardIDcommand;
-                            adapter.Fill(table);
-                            selectedShardID = table.Rows[0]["shardID"].ToString();
-                            // Create the guild
-                            MySqlCommand createGuildEntryCommand = new MySqlCommand("INSERT INTO guilds (guildName, shardID) VALUES ('" + selectedGuildName + "', '" + selectedShardID + "')", guildConnection);
-                            createGuildEntryCommand.ExecuteNonQuery();
-                            table.Clear();
-                            // Get the guildID of the new guild
-                            MySqlCommand findGuildIDcommand = new MySqlCommand("SELECT guildID FROM guilds WHERE guildName='" + selectedGuildName + "'", guildConnection);
-                            adapter.SelectCommand = findGuildIDcommand;
-                            adapter.Fill(table);
-                            selectedGuildID = table.Rows[0]["guildID"].ToString();
-                            // Create a database for the guild
-                            MySqlCommand createGuildTableCommand = new MySqlCommand("CREATE TABLE EPGP_" + selectedShardID + selectedGuildID + " LIKE EPGP_template", guildConnection);
-                            createGuildTableCommand.ExecuteNonQuery();
-                            guildConnection.Close();
-                            // Return to the main app
-                            hiddenOKbutton.PerformClick();
+                                // Get the shardID of the selected shard
+                                MySqlDataAdapter adapter = new MySqlDataAdapter();
+                                guildConnection.Open();
+                                MySqlCommand findShardIDcommand = new MySqlCommand("SELECT shardID FROM shards WHERE shardName='" + cb_shard.SelectedItem.ToString() + "'", guildConnection);
+                                adapter.SelectCommand = findShardIDcommand;
+                                adapter.Fill(table);
+                                selectedShardID = table.Rows[0]["shardID"].ToString();
+                                // Create the guild
+                                MySqlCommand createGuildEntryCommand = new MySqlCommand("INSERT INTO guilds (guildName, shardID, admin) VALUES ('" + selectedGuildName + "', '" + selectedShardID + "', '" + login_name + "')", guildConnection);
+                                createGuildEntryCommand.ExecuteNonQuery();
+                                table.Clear();
+                                // Get the guildID of the new guild
+                                MySqlCommand findGuildIDcommand = new MySqlCommand("SELECT guildID FROM guilds WHERE guildName='" + selectedGuildName + "'", guildConnection);
+                                adapter.SelectCommand = findGuildIDcommand;
+                                adapter.Fill(table);
+                                selectedGuildID = table.Rows[0]["guildID"].ToString();
+                                // Create a database for the guild
+                                MySqlCommand createGuildTableCommand = new MySqlCommand("CREATE TABLE EPGP_" + selectedShardID + selectedGuildID + " LIKE EPGP_template", guildConnection);
+                                createGuildTableCommand.ExecuteNonQuery();
+                                guildConnection.Close();
+                                // Return to the main app
+                                hiddenOKbutton.PerformClick();
                         }
                         else
                         {

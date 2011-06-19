@@ -37,6 +37,7 @@
             this.txt_createGuildName = new System.Windows.Forms.TextBox();
             this.createGuildButton = new System.Windows.Forms.Button();
             this.hiddenOKbutton = new System.Windows.Forms.Button();
+            this.askAdminButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // cb_usOrEuro
@@ -70,6 +71,7 @@
             this.cb_guild.Size = new System.Drawing.Size(135, 21);
             this.cb_guild.TabIndex = 2;
             this.cb_guild.Text = "Guild";
+            this.cb_guild.Visible = false;
             this.cb_guild.SelectedIndexChanged += new System.EventHandler(this.cb_guild_SelectedIndexChanged);
             // 
             // selectGuildButton
@@ -80,6 +82,7 @@
             this.selectGuildButton.TabIndex = 3;
             this.selectGuildButton.Text = "Select guild";
             this.selectGuildButton.UseVisualStyleBackColor = true;
+            this.selectGuildButton.Visible = false;
             this.selectGuildButton.Click += new System.EventHandler(this.selectGuildButton_Click);
             // 
             // createGuildPopupButton
@@ -90,6 +93,7 @@
             this.createGuildPopupButton.TabIndex = 4;
             this.createGuildPopupButton.Text = "Create new guild";
             this.createGuildPopupButton.UseVisualStyleBackColor = true;
+            this.createGuildPopupButton.Visible = false;
             this.createGuildPopupButton.Click += new System.EventHandler(this.createGuildPopupButton_Click);
             // 
             // txt_createGuildName
@@ -122,11 +126,22 @@
             this.hiddenOKbutton.Text = "OK";
             this.hiddenOKbutton.UseVisualStyleBackColor = true;
             // 
+            // askAdminButton
+            // 
+            this.askAdminButton.Location = new System.Drawing.Point(13, 158);
+            this.askAdminButton.Name = "askAdminButton";
+            this.askAdminButton.Size = new System.Drawing.Size(105, 25);
+            this.askAdminButton.TabIndex = 3;
+            this.askAdminButton.Text = "Ask guild admin";
+            this.askAdminButton.UseVisualStyleBackColor = true;
+            this.askAdminButton.Visible = false;
+            // 
             // getGuild
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(259, 212);
+            this.Controls.Add(this.askAdminButton);
             this.Controls.Add(this.hiddenOKbutton);
             this.Controls.Add(this.createGuildButton);
             this.Controls.Add(this.txt_createGuildName);
@@ -135,6 +150,7 @@
             this.Controls.Add(this.cb_guild);
             this.Controls.Add(this.cb_shard);
             this.Controls.Add(this.cb_usOrEuro);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "getGuild";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -155,5 +171,6 @@
         private System.Windows.Forms.TextBox txt_createGuildName;
         private System.Windows.Forms.Button createGuildButton;
         private System.Windows.Forms.Button hiddenOKbutton;
+        private System.Windows.Forms.Button askAdminButton;
     }
 }

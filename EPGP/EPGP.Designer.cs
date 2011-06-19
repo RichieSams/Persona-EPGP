@@ -54,7 +54,11 @@
             this.lbl_itemCostNames = new System.Windows.Forms.Label();
             this.lbl_itemCostTitle = new System.Windows.Forms.Label();
             this.adminTab = new System.Windows.Forms.TabPage();
-            this.registerButton = new System.Windows.Forms.Button();
+            this.loginButton = new System.Windows.Forms.Button();
+            this.lbl_modAlreadyLogged = new System.Windows.Forms.Label();
+            this.createGuildButton = new System.Windows.Forms.Button();
+            this.lbl_userNotAmod = new System.Windows.Forms.Label();
+            this.joinGuildButton = new System.Windows.Forms.Button();
             this.raiderStatusButton = new System.Windows.Forms.Button();
             this.onTimeButton = new System.Windows.Forms.Button();
             this.undoButton = new System.Windows.Forms.Button();
@@ -62,18 +66,12 @@
             this.lbl_admin_users = new System.Windows.Forms.Label();
             this.lbl_raidxmlTitle = new System.Windows.Forms.Label();
             this.lbl_admin_epfunc = new System.Windows.Forms.Label();
-            this.lbl_admin_login = new System.Windows.Forms.Label();
             this.deleteUserButton = new System.Windows.Forms.Button();
             this.addUserButton = new System.Windows.Forms.Button();
             this.lbl_loggedIn = new System.Windows.Forms.Label();
-            this.loginButton = new System.Windows.Forms.Button();
             this.attendanceButton = new System.Windows.Forms.Button();
-            this.lbl_pass = new System.Windows.Forms.Label();
-            this.txt_pass = new System.Windows.Forms.TextBox();
-            this.lbl_name = new System.Windows.Forms.Label();
             this.tenEPbutton = new System.Windows.Forms.Button();
             this.fiveEPbutton = new System.Windows.Forms.Button();
-            this.txt_name = new System.Windows.Forms.TextBox();
             this.settingsTab = new System.Windows.Forms.TabPage();
             this.lbl_currentGuildValue = new System.Windows.Forms.Label();
             this.lbl_currentGuildTitle = new System.Windows.Forms.Label();
@@ -370,7 +368,11 @@
             // 
             // adminTab
             // 
-            this.adminTab.Controls.Add(this.registerButton);
+            this.adminTab.Controls.Add(this.loginButton);
+            this.adminTab.Controls.Add(this.lbl_modAlreadyLogged);
+            this.adminTab.Controls.Add(this.createGuildButton);
+            this.adminTab.Controls.Add(this.lbl_userNotAmod);
+            this.adminTab.Controls.Add(this.joinGuildButton);
             this.adminTab.Controls.Add(this.raiderStatusButton);
             this.adminTab.Controls.Add(this.onTimeButton);
             this.adminTab.Controls.Add(this.undoButton);
@@ -378,18 +380,12 @@
             this.adminTab.Controls.Add(this.lbl_admin_users);
             this.adminTab.Controls.Add(this.lbl_raidxmlTitle);
             this.adminTab.Controls.Add(this.lbl_admin_epfunc);
-            this.adminTab.Controls.Add(this.lbl_admin_login);
             this.adminTab.Controls.Add(this.deleteUserButton);
             this.adminTab.Controls.Add(this.addUserButton);
             this.adminTab.Controls.Add(this.lbl_loggedIn);
-            this.adminTab.Controls.Add(this.loginButton);
             this.adminTab.Controls.Add(this.attendanceButton);
-            this.adminTab.Controls.Add(this.lbl_pass);
-            this.adminTab.Controls.Add(this.txt_pass);
-            this.adminTab.Controls.Add(this.lbl_name);
             this.adminTab.Controls.Add(this.tenEPbutton);
             this.adminTab.Controls.Add(this.fiveEPbutton);
-            this.adminTab.Controls.Add(this.txt_name);
             this.adminTab.Location = new System.Drawing.Point(4, 22);
             this.adminTab.Name = "adminTab";
             this.adminTab.Size = new System.Drawing.Size(252, 577);
@@ -397,19 +393,64 @@
             this.adminTab.Text = "Admin";
             this.adminTab.UseVisualStyleBackColor = true;
             // 
-            // registerButton
+            // loginButton
             // 
-            this.registerButton.Location = new System.Drawing.Point(177, 92);
-            this.registerButton.Name = "registerButton";
-            this.registerButton.Size = new System.Drawing.Size(65, 22);
-            this.registerButton.TabIndex = 4;
-            this.registerButton.Text = "Register";
-            this.registerButton.UseVisualStyleBackColor = true;
-            this.registerButton.Click += new System.EventHandler(this.registerButton_Click);
+            this.loginButton.Location = new System.Drawing.Point(69, 119);
+            this.loginButton.Name = "loginButton";
+            this.loginButton.Size = new System.Drawing.Size(100, 30);
+            this.loginButton.TabIndex = 41;
+            this.loginButton.Text = "Login";
+            this.loginButton.UseVisualStyleBackColor = true;
+            this.loginButton.Visible = false;
+            this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
+            // 
+            // lbl_modAlreadyLogged
+            // 
+            this.lbl_modAlreadyLogged.AutoSize = true;
+            this.lbl_modAlreadyLogged.Location = new System.Drawing.Point(10, 40);
+            this.lbl_modAlreadyLogged.Name = "lbl_modAlreadyLogged";
+            this.lbl_modAlreadyLogged.Size = new System.Drawing.Size(233, 65);
+            this.lbl_modAlreadyLogged.TabIndex = 40;
+            this.lbl_modAlreadyLogged.Text = "A guilld moderator is already logged in.\r\nTo prevent simultaneous data changes,\r\n" +
+                "you are locked from data entry until they log out.\r\n\r\nLog in again when they log" +
+                " out.";
+            this.lbl_modAlreadyLogged.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_modAlreadyLogged.Visible = false;
+            // 
+            // createGuildButton
+            // 
+            this.createGuildButton.Location = new System.Drawing.Point(132, 87);
+            this.createGuildButton.Name = "createGuildButton";
+            this.createGuildButton.Size = new System.Drawing.Size(100, 30);
+            this.createGuildButton.TabIndex = 39;
+            this.createGuildButton.Text = "Create a Guild";
+            this.createGuildButton.UseVisualStyleBackColor = true;
+            this.createGuildButton.Visible = false;
+            // 
+            // lbl_userNotAmod
+            // 
+            this.lbl_userNotAmod.AutoSize = true;
+            this.lbl_userNotAmod.Location = new System.Drawing.Point(19, 40);
+            this.lbl_userNotAmod.Name = "lbl_userNotAmod";
+            this.lbl_userNotAmod.Size = new System.Drawing.Size(214, 26);
+            this.lbl_userNotAmod.TabIndex = 38;
+            this.lbl_userNotAmod.Text = "You aren\'t a moderator of a guild.\r\nYou can ask a guild admin or create a guild.";
+            this.lbl_userNotAmod.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_userNotAmod.Visible = false;
+            // 
+            // joinGuildButton
+            // 
+            this.joinGuildButton.Location = new System.Drawing.Point(21, 87);
+            this.joinGuildButton.Name = "joinGuildButton";
+            this.joinGuildButton.Size = new System.Drawing.Size(100, 30);
+            this.joinGuildButton.TabIndex = 37;
+            this.joinGuildButton.Text = "Join a Guild";
+            this.joinGuildButton.UseVisualStyleBackColor = true;
+            this.joinGuildButton.Visible = false;
             // 
             // raiderStatusButton
             // 
-            this.raiderStatusButton.Location = new System.Drawing.Point(69, 398);
+            this.raiderStatusButton.Location = new System.Drawing.Point(69, 303);
             this.raiderStatusButton.Name = "raiderStatusButton";
             this.raiderStatusButton.Size = new System.Drawing.Size(115, 30);
             this.raiderStatusButton.TabIndex = 35;
@@ -420,7 +461,7 @@
             // 
             // onTimeButton
             // 
-            this.onTimeButton.Location = new System.Drawing.Point(132, 159);
+            this.onTimeButton.Location = new System.Drawing.Point(132, 64);
             this.onTimeButton.Name = "onTimeButton";
             this.onTimeButton.Size = new System.Drawing.Size(100, 30);
             this.onTimeButton.TabIndex = 34;
@@ -431,7 +472,7 @@
             // 
             // undoButton
             // 
-            this.undoButton.Location = new System.Drawing.Point(76, 290);
+            this.undoButton.Location = new System.Drawing.Point(76, 195);
             this.undoButton.Name = "undoButton";
             this.undoButton.Size = new System.Drawing.Size(100, 30);
             this.undoButton.TabIndex = 33;
@@ -444,7 +485,7 @@
             // 
             this.lbl_raidxmlDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_raidxmlDate.AutoSize = true;
-            this.lbl_raidxmlDate.Location = new System.Drawing.Point(54, 223);
+            this.lbl_raidxmlDate.Location = new System.Drawing.Point(54, 128);
             this.lbl_raidxmlDate.Name = "lbl_raidxmlDate";
             this.lbl_raidxmlDate.Size = new System.Drawing.Size(145, 13);
             this.lbl_raidxmlDate.TabIndex = 32;
@@ -456,7 +497,7 @@
             // 
             this.lbl_admin_users.AutoSize = true;
             this.lbl_admin_users.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_admin_users.Location = new System.Drawing.Point(14, 340);
+            this.lbl_admin_users.Location = new System.Drawing.Point(14, 245);
             this.lbl_admin_users.Name = "lbl_admin_users";
             this.lbl_admin_users.Size = new System.Drawing.Size(39, 13);
             this.lbl_admin_users.TabIndex = 31;
@@ -466,7 +507,7 @@
             // lbl_raidxmlTitle
             // 
             this.lbl_raidxmlTitle.AutoSize = true;
-            this.lbl_raidxmlTitle.Location = new System.Drawing.Point(61, 199);
+            this.lbl_raidxmlTitle.Location = new System.Drawing.Point(61, 104);
             this.lbl_raidxmlTitle.Name = "lbl_raidxmlTitle";
             this.lbl_raidxmlTitle.Size = new System.Drawing.Size(130, 13);
             this.lbl_raidxmlTitle.TabIndex = 30;
@@ -477,26 +518,16 @@
             // 
             this.lbl_admin_epfunc.AutoSize = true;
             this.lbl_admin_epfunc.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_admin_epfunc.Location = new System.Drawing.Point(14, 135);
+            this.lbl_admin_epfunc.Location = new System.Drawing.Point(14, 40);
             this.lbl_admin_epfunc.Name = "lbl_admin_epfunc";
             this.lbl_admin_epfunc.Size = new System.Drawing.Size(82, 13);
             this.lbl_admin_epfunc.TabIndex = 29;
             this.lbl_admin_epfunc.Text = "EP Functions";
             this.lbl_admin_epfunc.Visible = false;
             // 
-            // lbl_admin_login
-            // 
-            this.lbl_admin_login.AutoSize = true;
-            this.lbl_admin_login.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_admin_login.Location = new System.Drawing.Point(14, 11);
-            this.lbl_admin_login.Name = "lbl_admin_login";
-            this.lbl_admin_login.Size = new System.Drawing.Size(38, 13);
-            this.lbl_admin_login.TabIndex = 28;
-            this.lbl_admin_login.Text = "Login";
-            // 
             // deleteUserButton
             // 
-            this.deleteUserButton.Location = new System.Drawing.Point(132, 362);
+            this.deleteUserButton.Location = new System.Drawing.Point(132, 267);
             this.deleteUserButton.Name = "deleteUserButton";
             this.deleteUserButton.Size = new System.Drawing.Size(100, 30);
             this.deleteUserButton.TabIndex = 24;
@@ -507,7 +538,7 @@
             // 
             // addUserButton
             // 
-            this.addUserButton.Location = new System.Drawing.Point(21, 362);
+            this.addUserButton.Location = new System.Drawing.Point(21, 267);
             this.addUserButton.Name = "addUserButton";
             this.addUserButton.Size = new System.Drawing.Size(100, 30);
             this.addUserButton.TabIndex = 25;
@@ -520,25 +551,15 @@
             // 
             this.lbl_loggedIn.AutoSize = true;
             this.lbl_loggedIn.ForeColor = System.Drawing.Color.Red;
-            this.lbl_loggedIn.Location = new System.Drawing.Point(103, 11);
+            this.lbl_loggedIn.Location = new System.Drawing.Point(89, 11);
             this.lbl_loggedIn.Name = "lbl_loggedIn";
             this.lbl_loggedIn.Size = new System.Drawing.Size(75, 13);
             this.lbl_loggedIn.TabIndex = 10;
             this.lbl_loggedIn.Text = "Not Logged In";
             // 
-            // loginButton
-            // 
-            this.loginButton.Location = new System.Drawing.Point(106, 92);
-            this.loginButton.Name = "loginButton";
-            this.loginButton.Size = new System.Drawing.Size(65, 22);
-            this.loginButton.TabIndex = 3;
-            this.loginButton.Text = "Login";
-            this.loginButton.UseVisualStyleBackColor = true;
-            this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
-            // 
             // attendanceButton
             // 
-            this.attendanceButton.Location = new System.Drawing.Point(21, 159);
+            this.attendanceButton.Location = new System.Drawing.Point(21, 64);
             this.attendanceButton.Name = "attendanceButton";
             this.attendanceButton.Size = new System.Drawing.Size(100, 30);
             this.attendanceButton.TabIndex = 35;
@@ -547,37 +568,9 @@
             this.attendanceButton.Visible = false;
             this.attendanceButton.Click += new System.EventHandler(this.attendanceButton_Click);
             // 
-            // lbl_pass
-            // 
-            this.lbl_pass.AutoSize = true;
-            this.lbl_pass.Location = new System.Drawing.Point(20, 64);
-            this.lbl_pass.Name = "lbl_pass";
-            this.lbl_pass.Size = new System.Drawing.Size(56, 13);
-            this.lbl_pass.TabIndex = 3;
-            this.lbl_pass.Text = "Password:";
-            // 
-            // txt_pass
-            // 
-            this.txt_pass.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_pass.Location = new System.Drawing.Point(106, 62);
-            this.txt_pass.Name = "txt_pass";
-            this.txt_pass.Size = new System.Drawing.Size(135, 20);
-            this.txt_pass.TabIndex = 2;
-            this.txt_pass.UseSystemPasswordChar = true;
-            this.txt_pass.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_pass_KeyDown);
-            // 
-            // lbl_name
-            // 
-            this.lbl_name.AutoSize = true;
-            this.lbl_name.Location = new System.Drawing.Point(20, 34);
-            this.lbl_name.Name = "lbl_name";
-            this.lbl_name.Size = new System.Drawing.Size(58, 13);
-            this.lbl_name.TabIndex = 4;
-            this.lbl_name.Text = "Username:";
-            // 
             // tenEPbutton
             // 
-            this.tenEPbutton.Location = new System.Drawing.Point(132, 254);
+            this.tenEPbutton.Location = new System.Drawing.Point(132, 159);
             this.tenEPbutton.Name = "tenEPbutton";
             this.tenEPbutton.Size = new System.Drawing.Size(100, 30);
             this.tenEPbutton.TabIndex = 8;
@@ -588,7 +581,7 @@
             // 
             // fiveEPbutton
             // 
-            this.fiveEPbutton.Location = new System.Drawing.Point(21, 254);
+            this.fiveEPbutton.Location = new System.Drawing.Point(21, 159);
             this.fiveEPbutton.Name = "fiveEPbutton";
             this.fiveEPbutton.Size = new System.Drawing.Size(100, 30);
             this.fiveEPbutton.TabIndex = 7;
@@ -596,14 +589,6 @@
             this.fiveEPbutton.UseVisualStyleBackColor = true;
             this.fiveEPbutton.Visible = false;
             this.fiveEPbutton.Click += new System.EventHandler(this.fiveEPbutton_Click);
-            // 
-            // txt_name
-            // 
-            this.txt_name.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_name.Location = new System.Drawing.Point(106, 32);
-            this.txt_name.Name = "txt_name";
-            this.txt_name.Size = new System.Drawing.Size(135, 20);
-            this.txt_name.TabIndex = 1;
             // 
             // settingsTab
             // 
@@ -642,11 +627,11 @@
             // 
             this.lbl_currentGuildTitle.AutoSize = true;
             this.lbl_currentGuildTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_currentGuildTitle.Location = new System.Drawing.Point(77, 241);
+            this.lbl_currentGuildTitle.Location = new System.Drawing.Point(55, 241);
             this.lbl_currentGuildTitle.Name = "lbl_currentGuildTitle";
-            this.lbl_currentGuildTitle.Size = new System.Drawing.Size(98, 13);
+            this.lbl_currentGuildTitle.Size = new System.Drawing.Size(143, 13);
             this.lbl_currentGuildTitle.TabIndex = 30;
-            this.lbl_currentGuildTitle.Text = "Current Guild is:";
+            this.lbl_currentGuildTitle.Text = "Current guild displaying:";
             // 
             // getGuildButton
             // 
@@ -955,6 +940,7 @@
             this.Controls.Add(this.alphaSortButton);
             this.Controls.Add(this.lbl_sort1);
             this.Controls.Add(this.EPGPspreadsheet);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "guildManagement";
             this.Text = "Persona Guild Management";
@@ -985,11 +971,6 @@
         private System.Windows.Forms.TabControl tabArea;
         private System.Windows.Forms.TabPage infoTab;
         private System.Windows.Forms.DataGridView EPGPspreadsheet;
-        private System.Windows.Forms.TextBox txt_name;
-        private System.Windows.Forms.TextBox txt_pass;
-        private System.Windows.Forms.Label lbl_pass;
-        private System.Windows.Forms.Label lbl_name;
-        private System.Windows.Forms.Button loginButton;
         private System.Windows.Forms.Label lbl_itemCostNames;
         private System.Windows.Forms.Label lbl_itemCostTitle;
         private System.Windows.Forms.Label lbl_itemCostValues;
@@ -1026,7 +1007,6 @@
         private System.Windows.Forms.Label lbl_admin_users;
         private System.Windows.Forms.Label lbl_raidxmlTitle;
         private System.Windows.Forms.Label lbl_admin_epfunc;
-        private System.Windows.Forms.Label lbl_admin_login;
         private System.Windows.Forms.Label lbl_raidxmlDate;
         private System.Windows.Forms.Button undoButton;
         private System.Windows.Forms.TabPage logTab;
@@ -1052,7 +1032,11 @@
         private System.Windows.Forms.Label lbl_currentGuildValue;
         private System.Windows.Forms.Label lbl_currentGuildTitle;
         private System.Windows.Forms.Button getGuildButton;
-        private System.Windows.Forms.Button registerButton;
+        private System.Windows.Forms.Button createGuildButton;
+        private System.Windows.Forms.Label lbl_userNotAmod;
+        private System.Windows.Forms.Button joinGuildButton;
+        private System.Windows.Forms.Label lbl_modAlreadyLogged;
+        private System.Windows.Forms.Button loginButton;
     }
 }
 

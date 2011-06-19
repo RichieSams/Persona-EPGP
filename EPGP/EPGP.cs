@@ -24,10 +24,12 @@ namespace EPGP
         #region Variables
 
         // Administrator
-        private Boolean loggedIn;
-        private String write_password;
-        private String login_name;
-        private String login_pass;
+        private Boolean modLoggedIn = false;
+        private String write_password = string.Empty;
+        private String login_name = string.Empty;
+        private String login_pass = string.Empty;
+        private String modShardID = string.Empty;
+        private String modGuildID = string.Empty;
 
         // Web Client
         private WebClient client = new WebClient();
@@ -42,6 +44,7 @@ namespace EPGP
         private MySqlConnection writeLogConnection;
         
         // Tables
+        private Boolean autoTblRefresh = true;
         public delegate void refreshNew();
         public refreshNew refreshDelegate;
         private Thread refreshThread;
@@ -79,14 +82,12 @@ namespace EPGP
         {
             InitializeComponent();
 
-            loggedIn = false;
-
             tableModTime = DateTime.MinValue;
         }
 
         private void guildManagement_Close(object sender, FormClosedEventArgs e)
         {
-            if (loggedIn)
+            if (modLoggedIn)
             {
                 if (lockConnection.State == ConnectionState.Closed) lockConnection.Open();
                 MySqlCommand unlockCommand = new MySqlCommand("UPDATE guilds SET locked=0 WHERE shardID='" + shardID + "' AND guildID='" + guildID + "'", lockConnection);
@@ -100,6 +101,16 @@ namespace EPGP
 
         private void guildManagement_Load(object sender, EventArgs e)
         {
+            // Log in
+            login loginPopup = new login(this);
+            var result = loginPopup.ShowDialog(this);
+            // Close the application if user doesn't log in
+            if (result != DialogResult.OK)
+            {
+                Environment.Exit(0);
+                return;
+            }
+
             // Set up general connections to pull EPGP and log tables
             string readEPGPConString = "server=personaguild.com; User Id=persona_read; database=persona_EPGP; Password=kr7OI=&J&,!F2BrHsC";
             string readLogConString = "server=personaguild.com; User Id=persona_read; database=persona_log; Password=kr7OI=&J&,!F2BrHsC";
@@ -150,17 +161,20 @@ namespace EPGP
             // Highlight name on cell click
             EPGPspreadsheet.CellClick += Cell_Clicked;
 
-            // Link
-            lbl_webLink.Links[0].LinkData = lbl_webLink.Text;
-
-            // Refresh Table Timer
-            refreshDelegate = new refreshNew(refreshNewerTable);
-            refreshTable refreshTbl = new refreshTable();
-            refreshThread = new Thread(delegate()
+            if (autoTblRefresh)
+            {
+                // Create Table Refresh Timer
+                refreshDelegate = new refreshNew(refreshNewerTable);
+                refreshTable refreshTbl = new refreshTable();
+                refreshThread = new Thread(delegate()
                 {
                     refreshTbl.refresh(this);
                 });
-            refreshThread.Start();
+                refreshThread.Start();
+            }
+
+            // Link
+            lbl_webLink.Links[0].LinkData = lbl_webLink.Text;
 
             // Fill log table for the first time 
             updateLogTable();
@@ -265,52 +279,32 @@ namespace EPGP
 
         #region Admin
 
-        private void registerButton_Click(object sender, EventArgs e)
-        {
-            createUser createUserPopup = new createUser();
-            var result = createUserPopup.ShowDialog(this);
-            if (result == DialogResult.OK)
-            {
-                createUserPopup.GetUserInfo(out login_name, out login_pass);
-                loginFunction();
-                return;
-            }
-            else
-            {
-                return;
-            }
-        }
-
-        private void txt_pass_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                login_name = txt_name.Text;
-                login_pass = txt_pass.Text;
-                loginFunction();
-                e.SuppressKeyPress = true;
-            }
-        }
-
         private void loginButton_Click(object sender, EventArgs e)
         {
-            login_name = txt_name.Text;
-            login_pass = txt_pass.Text;
-            loginFunction();
+            // Log in
+            lbl_modAlreadyLogged.Hide();
+            loginButton.Hide();
+            login loginPopup = new login(this);
+            var result = loginPopup.ShowDialog(this);
+            if (result != System.Windows.Forms.DialogResult.OK)
+            {
+                lbl_modAlreadyLogged.Show();
+                loginButton.Show();
+            }
         }
 
-        private bool loginFunction()
+        public bool loginFunction(String name, String pass)
         {
             // Hashing of password for security
             MD5 md5 = new MD5CryptoServiceProvider();
-            byte[] interHash = md5.ComputeHash(System.Text.Encoding.Default.GetBytes(login_pass + login_name));
+            byte[] interHash = md5.ComputeHash(System.Text.Encoding.Default.GetBytes(pass + name));
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < interHash.Length; i++)
             {
                 sb.Append(interHash[i].ToString("x2"));
             }
             String interStr = sb.ToString();
-            byte[] finalHash = md5.ComputeHash(System.Text.Encoding.Default.GetBytes(login_pass + interStr));
+            byte[] finalHash = md5.ComputeHash(System.Text.Encoding.Default.GetBytes(pass + interStr));
             sb.Clear();
             for (int i = 0; i < finalHash.Length; i++)
             {
@@ -320,7 +314,7 @@ namespace EPGP
 
             // Set values to pass to php file
             NameValueCollection nvcLoginInfo = new NameValueCollection();
-            nvcLoginInfo.Add("username", login_name);
+            nvcLoginInfo.Add("username", name);
             nvcLoginInfo.Add("pass", passMD5);
 
             // Call php
@@ -332,6 +326,10 @@ namespace EPGP
             switch (returnArgs[0])
             {
                 case "true":
+                    login_name = name;
+                    login_pass = pass;
+
+                    // Decrypt write pass and mod shardID/guildID
                     var enc_write_password = Convert.FromBase64String(returnArgs[1]);
 
                     var encoding = new UTF8Encoding();
@@ -354,7 +352,11 @@ namespace EPGP
                             {
                                 using (var sr = new StreamReader(cs))
                                 {
-                                    write_password = sr.ReadLine();
+                                    String decyrLine = sr.ReadLine();
+                                    String[] decyrLineArgs = decyrLine.Split(',');
+                                    write_password = decyrLineArgs[0];
+                                    modShardID = decyrLineArgs[1];
+                                    modGuildID = decyrLineArgs[2];
                                 }
                             }
                         }
@@ -364,61 +366,80 @@ namespace EPGP
                         }
                     }
 
-                    // Create Lock Connection
-                    string lockConString = "server=personaguild.com; User Id=persona_write; database=persona_pgm; Password=" + write_password;
-                    lockConnection = new MySqlConnection(lockConString);
-
-                    // Try to grab lock
-                    if (lockConnection.State == ConnectionState.Closed) lockConnection.Open();
-                    MySqlCommand checkCommand = new MySqlCommand("SELECT locked FROM guilds WHERE shardID='" + shardID + "' AND guildID='" + guildID + "' AND locked=0", lockConnection);
-                    MySqlCommand lockCommand = new MySqlCommand("UPDATE guilds SET locked=1 WHERE shardID='" + shardID + "' AND guildID='" + guildID + "'", lockConnection);
-                    MySqlDataReader dataReader;
-                    dataReader = checkCommand.ExecuteReader();
-                    // If query doesn't return null, lock sql
-                    if (dataReader.Read())
+                    // Check if the user is an admin of a guild
+                    if ((modShardID != "0") || (modGuildID != "0"))
                     {
-                        dataReader.Close();
-                        lockCommand.ExecuteNonQuery();
+                        // Create Lock Connection
+                        string lockConString = "server=personaguild.com; User Id=persona_write; database=persona_pgm; Password=" + write_password;
+                        lockConnection = new MySqlConnection(lockConString);
 
-                        // Show admin buttons, unlock editing of app table, and format logged in text
-                        lbl_admin_epfunc.Show();
-                        attendanceButton.Show();
-                        lbl_raidxmlTitle.Show();
-                        lbl_raidxmlDate.Show();
-                        fiveEPbutton.Show();
-                        tenEPbutton.Show();
-                        lbl_admin_users.Show();
-                        addUserButton.Show();
-                        deleteUserButton.Show();
-                        undoButton.Show();
-                        onTimeButton.Show();
-                        raiderStatusButton.Show();
-                        EPGPspreadsheet.ReadOnly = false;
-                        EPGPspreadsheet.Columns["Name"].ReadOnly = true;
-                        EPGPspreadsheet.Columns["PR"].ReadOnly = true;
-                        EPGPspreadsheet.Columns["LPR"].ReadOnly = true;
-                        EPGPspreadsheet.CellValidating += EPGPspreadsheet_CellValidating;
-                        lbl_loggedIn.Text = "Logged In as " + login_name;
-                        lbl_loggedIn.ForeColor = Color.Green;
-                        loggedIn = true;
+                        // Try to grab lock
+                        if (lockConnection.State == ConnectionState.Closed) lockConnection.Open();
+                        MySqlCommand checkCommand = new MySqlCommand("SELECT locked FROM guilds WHERE shardID='" + modShardID + "' AND guildID='" + modGuildID + "'", lockConnection);
+                        MySqlCommand lockCommand = new MySqlCommand("UPDATE guilds SET locked=1 WHERE shardID='" + modShardID + "' AND guildID='" + modGuildID + "'", lockConnection);
+                        MySqlDataReader dataReader;
+                        dataReader = checkCommand.ExecuteReader();
+                        // If query doesn't return null, lock sql
+                        dataReader.Read();
+                        if (!dataReader.GetBoolean(0))
+                        {
+                            dataReader.Close();
+                            lockCommand.ExecuteNonQuery();
+                            lockConnection.Close();
 
-                        // Set up write connections
-                        string writeEPGPconString = "server=personaguild.com; User Id=persona_write; database=persona_log; Password=" + write_password;
-                        string writeLogConString = "server=personaguild.com; User Id=persona_write; database=persona_log; Password=" + write_password;
-                        writeLogConnection = new MySqlConnection(writeLogConString);
-                        writeEPGPconnection = new MySqlConnection(writeEPGPconString);
+                            // Show admin buttons, unlock editing of app table, and format logged in text
+                            lbl_admin_epfunc.Show();
+                            attendanceButton.Show();
+                            lbl_raidxmlTitle.Show();
+                            lbl_raidxmlDate.Show();
+                            fiveEPbutton.Show();
+                            tenEPbutton.Show();
+                            lbl_admin_users.Show();
+                            addUserButton.Show();
+                            deleteUserButton.Show();
+                            undoButton.Show();
+                            onTimeButton.Show();
+                            raiderStatusButton.Show();
+                            EPGPspreadsheet.ReadOnly = false;
+                            EPGPspreadsheet.Columns["Name"].ReadOnly = true;
+                            EPGPspreadsheet.Columns["PR"].ReadOnly = true;
+                            EPGPspreadsheet.Columns["LPR"].ReadOnly = true;
+                            EPGPspreadsheet.CellValidating += EPGPspreadsheet_CellValidating;
+                            lbl_loggedIn.Text = "Logged In as " + login_name;
+                            lbl_loggedIn.ForeColor = Color.Green;
+                            modLoggedIn = true;
 
-                        // Stop Refreshing since we are the only ones editing
-                        refreshThread.Abort();
+                            // Set up write connections
+                            string writeEPGPconString = "server=personaguild.com; User Id=persona_write; database=persona_log; Password=" + write_password;
+                            string writeLogConString = "server=personaguild.com; User Id=persona_write; database=persona_log; Password=" + write_password;
+                            writeLogConnection = new MySqlConnection(writeLogConString);
+                            writeEPGPconnection = new MySqlConnection(writeEPGPconString);
+
+                            // Stop Refreshing since we are the only ones editing
+                            autoTblRefresh = false;
+                            if (refreshThread != null) refreshThread.Abort();
+                        }
+                        // Otherwise, show text about mod already logged in and login button
+                        else
+                        {
+                            dataReader.Close();
+                            lockConnection.Close();
+                            lbl_modAlreadyLogged.Show();
+                            loginButton.Show();
+                            lbl_loggedIn.Text = "Logged In as " + login_name;
+                            lbl_loggedIn.ForeColor = Color.Green;
+                        }
                     }
-                    // Otherwise, notify user and break
+                    // If they aren't an admin, show labels and buttons for them to get admin privledges
                     else
                     {
-                        MessageBox.Show("An officer is already logged in.", "Can't log in");
-                        login_name = string.Empty;
-                        login_pass = string.Empty;
-                        break;
+                        lbl_userNotAmod.Show();
+                        joinGuildButton.Show();
+                        createGuildButton.Show();
+                        lbl_loggedIn.Text = "Logged In as " + login_name;
+                        lbl_loggedIn.ForeColor = Color.Green;
                     }
+                    return true;
                     break;
 
                 case "false":
@@ -431,12 +452,8 @@ namespace EPGP
                     MessageBox.Show("login.php threw an error. Please contact an administrator with the circumstances that caused this error.", "PHP file error");
                     break;
             }
-           
-            // Clear login text boxes
-            txt_name.Text = "";
-            txt_pass.Text = "";
             
-            return loggedIn;
+            return false;
         }
 
         private void attendanceButton_Click(object sender, EventArgs e)
@@ -1121,7 +1138,7 @@ namespace EPGP
 
         private Boolean getGuildInfo()
         {
-            getGuild getGuildPopup = new getGuild();
+            getGuild getGuildPopup = new getGuild("ViewFind", this, login_name);
             var result = getGuildPopup.ShowDialog(this);
             if (result == DialogResult.OK)
             {
@@ -1660,7 +1677,7 @@ namespace EPGP
         private void resortTable(DataTable dt)
         {
             // Auto sort if not logged in
-            if (!loggedIn)
+            if (!modLoggedIn)
             {
                 BindingSource bs = (BindingSource)EPGPspreadsheet.DataSource;
                 bs.Sort = "Present DESC, Standby DESC, PR DESC, Name ASC";
